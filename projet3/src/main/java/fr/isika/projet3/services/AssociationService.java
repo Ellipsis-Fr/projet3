@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +32,7 @@ public class AssociationService implements IAssociationService {
 
 	@Override
 	public Association findOne(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findOne(id);
 	}
 
 	@Override
@@ -47,19 +47,48 @@ public class AssociationService implements IAssociationService {
 
 	@Override
 	public Association update(Association entity) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.update(entity);
+	}
+	
+	@Override
+	public Association updateByFields(Association associationUpdated, Association association) {
+		
+		if (associationUpdated.getName() != null && !associationUpdated.getName().isEmpty()) {
+			association.setName(associationUpdated.getName().trim());
+		}
+		
+		if (associationUpdated.getUrl() != null) {
+			association.setUrl(associationUpdated.getUrl().trim());
+		}
+		
+		if (associationUpdated.getPathLogo() != null && !associationUpdated.getPathLogo().isEmpty()) {
+			association.setPathLogo(associationUpdated.getPathLogo().trim());
+		}
+		
+		if (associationUpdated.getAddress() != null  && !associationUpdated.getAddress().isEmpty()) {
+			association.setAddress(associationUpdated.getAddress().trim());
+		}
+		
+		if (associationUpdated.getEmail() != null  && !associationUpdated.getEmail().isEmpty()) {
+			association.setEmail(associationUpdated.getEmail().trim());
+		}
+		
+		if (associationUpdated.getPassword() != null && !associationUpdated.getPassword().isEmpty()) {
+			association.setPassword(associationUpdated.getPassword().trim());
+		}
+		
+		return association;
 	}
 
 	@Override
 	public void delete(Association entity) {
-		// TODO Auto-generated method stub
+		dao.delete(entity);
 		
 	}
 
 	@Override
 	public void deleteById(long entityId) {
-		// TODO Auto-generated method stub
+		dao.deleteById(entityId);
 		
 	}
 	
@@ -74,7 +103,7 @@ public class AssociationService implements IAssociationService {
 			e.printStackTrace();
 		}
 	
-		return PATH_SERVER + newFolder.getFileName().toString() + "/";
+		return newFolder.getFileName().toString();
 	}
 	
 	@Override
@@ -82,12 +111,7 @@ public class AssociationService implements IAssociationService {
 		
 		String filename = file.getOriginalFilename().trim();
 		
-		Path pathFolder = Paths.get(folder);
-		Path pathServer = Paths.get(PATH_SERVER);
-		folder = pathServer.relativize(pathFolder).toString();
-		
 		File newFile = Paths.get(PATH_DISK, folder, filename).toFile();
-		System.out.println(newFile);
 
 		try (InputStream input = file.getInputStream();
 			BufferedInputStream bufferIn = new BufferedInputStream(input);
@@ -104,7 +128,7 @@ public class AssociationService implements IAssociationService {
 			e.printStackTrace();
 		}
 		
-		return  Paths.get(pathFolder.toString(),newFile.getName()).toString();
+		return  Paths.get(folder,newFile.getName()).toString();
 	}
 	
 	@Override
@@ -117,5 +141,25 @@ public class AssociationService implements IAssociationService {
 	public Association associationLogIn(String email, String password) {
 		String query = "FROM Association a WHERE a.email=? AND a.password=?";
 		return dao.findOneByParameters(query, email, password);
+	}
+	
+	@Override
+	public void deleteFolder(String pathFolder) {
+		try {
+			FileUtils.deleteDirectory(Paths.get(PATH_DISK, pathFolder).toFile());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void deleteFile(String pathLogo) {
+		try {
+			Files.delete(Paths.get(PATH_DISK, pathLogo));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

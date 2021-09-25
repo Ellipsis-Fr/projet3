@@ -15,6 +15,8 @@ public interface IAssociationService {
     void create(Association entity);
 
     Association update(Association entity);
+    
+    Association updateByFields(Association associationUpdated, Association association);
 
     void delete(Association entity);
 
@@ -27,4 +29,8 @@ public interface IAssociationService {
 	boolean checkDouble(String rna);
 	
 	Association associationLogIn(String email, String password);
+
+	void deleteFolder(String pathFolder);
+
+	void deleteFile(String pathLogo);
 }

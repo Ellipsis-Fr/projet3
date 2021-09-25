@@ -2,6 +2,7 @@ package fr.isika.projet3.config;
 
 import java.util.Properties;
 
+import javax.servlet.Filter;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+
+import fr.isika.projet3.filters.DashboardAssociationFilter;
 
 @Configuration
 @EnableWebMvc
@@ -92,6 +95,12 @@ public class AppConfig implements WebMvcConfigurer {
   		hibernateProperties.setProperty("hibernate.dialect", environment.getProperty("hibernate.dialect"));
   		hibernateProperties.setProperty("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
   		return hibernateProperties;
+ 	}
+ 	
+ 	@Bean
+ 	public Filter DashboardAssociationFilter() {
+ 	    DashboardAssociationFilter compressFilter = new DashboardAssociationFilter();
+ 	    return compressFilter;
  	}
  	
  	@Bean(name = "multipartResolver")

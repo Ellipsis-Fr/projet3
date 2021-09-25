@@ -13,4 +13,5 @@ public class AssociationDao extends AbstractJpaDao<Association> implements IAsso
 	public AssociationDao() {
 		setClazz(Association.class);
 	}	
+
 }

@@ -11,6 +11,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name="Associations")
 public class Association {
@@ -30,6 +33,7 @@ public class Association {
 	private String rna;
 	
 	@OneToMany(mappedBy="association", fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Photo> photos;
 	
 	@OneToOne(fetch = FetchType.EAGER)
@@ -144,6 +148,6 @@ public class Association {
 	@Override
 	public String toString() {
 		return "Association [id=" + id + ", name=" + name + ", address=" + address + ", email=" + email + ", password="
-				+ password + ", url=" + url + ", rna=" + rna + "]";
-	}	
+				+ password + ", rna=" + rna + ", event=" + event + ", eventInProgress=" + eventInProgress + "]";
+	}
 }
