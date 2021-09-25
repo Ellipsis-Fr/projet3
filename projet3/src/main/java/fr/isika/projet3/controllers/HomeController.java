@@ -19,7 +19,7 @@ public class HomeController {
 	@Autowired
 	IAssociationService associationService;
 	
-	@RequestMapping("/index")
+	@RequestMapping("index")
 	public ModelAndView home() {
 		//TODO: Remplacer par les collectes actives
 		System.out.println("là");

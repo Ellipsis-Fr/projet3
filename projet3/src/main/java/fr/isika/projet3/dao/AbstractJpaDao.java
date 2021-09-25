@@ -25,9 +25,7 @@ public abstract class AbstractJpaDao<T> {
     
     @SuppressWarnings("unchecked")
 	public T findOneByParameters(String queryString, Object... parameters) {
-    	System.out.println("j'arrive là");
     	Query query = entityManager.createQuery(queryString);
-    	System.out.println("j'arrive là aussi");
 
     	for (int i = 0; i < parameters.length; i++) {
     		query.setParameter(i, parameters[i]);
@@ -41,29 +39,6 @@ public abstract class AbstractJpaDao<T> {
         	return null;
         }	
 	}
-    
-    /**
-     * 
-     * @param queryString
-     * @param parameters
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public List<T> findListByParameters(String queryString, Object... parameters) {
-    	Query query = entityManager.createQuery(queryString);
-    	
-    	for (int i = 0; i < parameters.length; i++) {
-    		query.setParameter(i, parameters[i]);
-    	}
-    	
-    	try {
-			return (List<T>) query.getResultList();
-		} catch (NoResultException e) {
-            return null;
-        } catch  (NonUniqueResultException e) {
-        	return null;
-        }
-    }
 
     @SuppressWarnings("unchecked")
     public List<T> findAll() {

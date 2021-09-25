@@ -13,13 +13,12 @@ function selectForm(e) {
 }
 
 function inputsToCheck(formToCheck) {
-//	console.log(formToCheck);
+	
+	if (formToCheck.indexOf("#") != 0) formToCheck = "#" + formToCheck;
+	
 	let inputToCheck = Array.from($(formToCheck + " input")).filter(e => e.pattern);
-
-//	console.log(inputToCheck.length);
 	
 	for (input of inputToCheck) {
-		
 			
 	    $(this).change((e) => {
 			

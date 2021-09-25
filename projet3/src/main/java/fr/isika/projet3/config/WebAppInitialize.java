@@ -12,6 +12,9 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import fr.isika.projet3.filters.DashboardAssociationFilter;
+import fr.isika.projet3.filters.DashboardPartnerFilter;
+
 public class WebAppInitialize implements WebApplicationInitializer {
 //	private String TMP_FOLDER = "/tmp"; 
 //    private int MAX_UPLOAD_SIZE = 5 * 1024 * 1024; 
@@ -32,11 +35,16 @@ public class WebAppInitialize implements WebApplicationInitializer {
 //		servletContext.addListener(contextLoaderListener);
 //		
 		// Filter.
-		FilterRegistration.Dynamic fr = servletContext.addFilter("encodingFilter", CharacterEncodingFilter.class);
+		FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("encodingFilter", CharacterEncodingFilter.class);
+		encodingFilter.setInitParameter("encoding", "UTF-8");
+		encodingFilter.setInitParameter("forceEncoding", "true");
+		encodingFilter.addMappingForUrlPatterns(null, true, "/*");
 		
-		fr.setInitParameter("encoding", "UTF-8");
-		fr.setInitParameter("forceEncoding", "true");
-		fr.addMappingForUrlPatterns(null, true, "/*");
+		FilterRegistration.Dynamic dashboardAssociationFilter = servletContext.addFilter("dashboardAssociationFilter", DashboardAssociationFilter.class);
+		dashboardAssociationFilter.addMappingForUrlPatterns(null, true, "/dashboardAsso/*");
+		
+		FilterRegistration.Dynamic dashboardPartnerFilter = servletContext.addFilter("dashboardPartnerFilter", DashboardPartnerFilter.class);
+		dashboardPartnerFilter.addMappingForUrlPatterns(null, true, "/dashboardPartner/*");
 		
 //		// Gestion de fichiers
 //		MultipartConfigElement multipartConfigElement = new MultipartConfigElement(TMP_FOLDER, MAX_UPLOAD_SIZE, MAX_UPLOAD_SIZE * 2, MAX_UPLOAD_SIZE / 2);        

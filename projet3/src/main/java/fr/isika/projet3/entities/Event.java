@@ -1,12 +1,20 @@
 package fr.isika.projet3.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import fr.isika.projet3.enumerations.TypeEvent;
 
 @Entity
 @Table(name="Events")
@@ -18,7 +26,23 @@ public class Event {
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private TypeEvent typeEvent;
+	private String pathFolder;
 	
+	@OneToMany(mappedBy="event", fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Activity> activities;
+	
+	public Event() {
+		super();
+	}
+
+	public Event(LocalDate startDate, LocalDate endDate, TypeEvent typeEvent) {
+		super();
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.typeEvent = typeEvent;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -51,4 +75,19 @@ public class Event {
 		this.typeEvent = typeEvent;
 	}
 
+	public String getPathFolder() {
+		return pathFolder;
+	}
+
+	public void setPathFolder(String pathFolder) {
+		this.pathFolder = pathFolder;
+	}
+
+	@Override
+	public String toString() {
+		return "Event [id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", typeEvent=" + typeEvent
+				+ ", pathFolder=" + pathFolder + "]";
+	}
+
+	
 }
