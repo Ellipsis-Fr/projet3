@@ -1,4 +1,4 @@
-package fr.isika.projet3.entities;
+package fr.isika.projet3.enumerations;
 
 public enum TypeEvent {
 	fundraising,

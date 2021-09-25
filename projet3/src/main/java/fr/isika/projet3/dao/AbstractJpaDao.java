@@ -27,9 +27,7 @@ public abstract class AbstractJpaDao<T> {
     
     @SuppressWarnings("unchecked")
 	public T findOneByParameters(String queryString, Object... parameters) {
-    	System.out.println("j'arrive là");
     	Query query = entityManager.createQuery(queryString);
-    	System.out.println("j'arrive là aussi");
 
     	for (int i = 0; i < parameters.length; i++) {
     		query.setParameter(i, parameters[i]);
@@ -42,8 +40,6 @@ public abstract class AbstractJpaDao<T> {
         } catch  (NonUniqueResultException e) {
         	return null;
         }
-    	
-    	
 	}
 
     @SuppressWarnings("unchecked")

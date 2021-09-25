@@ -21,6 +21,7 @@ function checkDoubleAssociation(e) {
 }
 
 function resultCheckDoubleAssociation(result) {
+	
 	if (result == "not exists") $("#formAssociationRegistration #submit").prop("disabled", false);
 	else {
 		let indication = "RNA reconnu. Compte Existant";

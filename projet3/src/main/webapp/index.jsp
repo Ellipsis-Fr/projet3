@@ -47,6 +47,9 @@
 		<br />
 		<br />
 		<br />
+		<a class="btn btn-primary" href='<c:url value="/dashboardAsso/home.jsp"/>' role="button">Test fonctionnement filtre</a>
+		<a class="btn btn-primary" href='<c:url value="/dashboardAsso/home"/>' role="button">Test fonctionnement filtre</a>
+		<a class="btn btn-primary" href='<c:url value="dashboardAsso/home"/>' role="button">Test fonctionnement filtre</a>
 		
 		<c:choose>
 			<c:when test="${!empty requestScope.associations}">

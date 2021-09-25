@@ -78,8 +78,8 @@
                             </div>
 	                        
 	                        <div class="form-submit">
-	                            <input type="reset" value="Reset All" class="submit" name="reset" id="reset" />
-	                            <input type="submit" value="Submit Form" class="submit" name="submit" id="submit" />
+	                            <input type="reset" value="Réinitialiser" class="submit" name="Reset All" id="reset" />
+	                            <input type="submit" value="Valider" class="submit" name="submit" id="submit" />
 	                        </div>
 	                    </form:form>
 	                </div>
