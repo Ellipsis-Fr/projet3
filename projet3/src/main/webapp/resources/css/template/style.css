@@ -749,6 +749,10 @@ ul.tabs-nav .tab-nav.active {
     padding: 96px 0;
 }
 
+.event-page-icon-boxes {
+    padding: 40px 0 40px 0;
+}
+
 /*
 # Welcome
 --------------------------------*/
@@ -988,7 +992,7 @@ ul.tabs-nav .tab-nav.active {
 .our-causes {
     position: relative;
     padding: 96px 0;
-    background: url("images/cause-bg.jpg") no-repeat center;
+    background: url("../../images/template/cause-bg.jpg") no-repeat center;
     background-size: cover;
     z-index: 99;
 }
@@ -1158,7 +1162,7 @@ ul.tabs-nav .tab-nav.active {
 }
 
 .about-page .page-header {
-    background: url(images/about-bg.jpg) no-repeat center;
+    background: url(../../images/template/about-bg.jpg) no-repeat center;
 }
 
 .about-page .welcome-wrap {
@@ -1288,7 +1292,7 @@ ul.tabs-nav .tab-nav.active {
 # Causes
 --------------------------------------------------------------*/
 .causes-page .page-header {
-    background: url(images/causes-bg.jpg) no-repeat center;
+    background: url(../../images/template/causes-bg.jpg) no-repeat center;
 }
 
 .causes-page .featured-cause {
@@ -1367,7 +1371,7 @@ ul.tabs-nav .tab-nav.active {
 # Single Cause
 --------------------------------------------------------------*/
 .single-cause .page-header {
-    background: url(images/single-cause-bg.jpg) no-repeat center;
+    background: url(../../images/template/single-cause-bg.jpg) no-repeat center;
 }
 
 .single-cause .highlighted-cause {
@@ -1524,7 +1528,7 @@ ul.tabs-nav .tab-nav.active {
 # Portfolio
 --------------------------------------------------------------*/
 .portfolio .page-header {
-    background: url(images/portfolio-bg.jpg) no-repeat center;
+    background: url(../../images/template/portfolio-bg.jpg) no-repeat center;
 }
 
 .portfolio-wrap {
@@ -1577,7 +1581,7 @@ ul.tabs-nav .tab-nav.active {
 # News
 --------------------------------------------------------------*/
 .news-page .page-header {
-    background: url(images/news-bg.jpg) no-repeat center;
+    background: url(../../images/template/news-bg.jpg) no-repeat center;
 }
 
 .news-wrap {
@@ -1878,7 +1882,7 @@ ul.tabs-nav .tab-nav.active {
 # Contact Page
 --------------------------------------------------------------*/
 .contact-page .page-header {
-    background: url(images/contact-bg.jpg) no-repeat center;
+    background: url(../../images/template/contact-bg.jpg) no-repeat center;
 }
 
 .contact-page-wrap {
@@ -1989,7 +1993,7 @@ ul.tabs-nav .tab-nav.active {
 # Contact Page
 --------------------------------------------------------------*/
 .elements-page .page-header {
-    background: url(images/elements-bg.jpg) no-repeat center;
+    background: url(../../images/template/elements-bg.jpg) no-repeat center;
 }
 
 /*--------------------------------------------------------------
@@ -2000,7 +2004,7 @@ ul.tabs-nav .tab-nav.active {
     padding: 96px 0 90px;
     font-weight: 500;
     color: #929191;
-    background: url("images/foot-bg.jpg") no-repeat center;
+    background: url("../../images/template/foot-bg.jpg") no-repeat center;
     background-size: cover;
     z-index: 99;
 }
@@ -2138,4 +2142,78 @@ ul.tabs-nav .tab-nav.active {
 .error {
 	font-size: 12px;
     color: red;
+}
+
+#forms input[type="submit"] {
+    width: fit-content;
+    padding: 12px;
+    border: 0;
+/*     font-size: 12px; */
+/*     line-height: 1; */
+/*     text-transform: uppercase; */
+/*     background: #ff5a00; */
+/*     color: #fff; */
+    cursor: pointer;
+    outline: none;
+}
+
+
+
+/*
+# event-page Icon-boxes Cards
+----------------------------------*/
+.event-page-icon-boxes .card {
+    padding: 40px;
+    border-radius: 24px;
+    background: #ecf2f5;
+    text-align: center;
+    transition: all .35s;
+}
+
+.event-page-icon-boxes .card:hover {
+    border: 0;
+    background: linear-gradient(270deg, rgba(255,90,0,1) 0%, rgba(255,54,0,1) 100%); /* w3c */
+    color: #fff;
+}
+
+.event-page-icon-boxes .card figure img:nth-of-type(1) {
+    display: block;
+}
+
+.event-page-icon-boxes .card figure img:nth-of-type(2) {
+    display: none;
+}
+
+.event-page-icon-boxes .card:hover figure img:nth-of-type(1) {
+    display: none;
+}
+
+.event-page-icon-boxes .card:hover figure img:nth-of-type(2) {
+    display: block;
+}
+
+.event-page-icon-boxes .card .card-title {
+    margin-top: 28px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #262626;
+}
+
+.event-page-icon-boxes .card:hover .card-title,
+.icon-box.active .entry-title {
+    color: #fff;
+}
+
+.event-page-icon-boxes .card .card-text {
+    margin-top: 24px;
+}
+
+.event-page-icon-boxes .card .card-text p {
+    margin: 0;
+    font-size: 14px;
+    color: #595858;
+}
+
+.event-page-icon-boxes .card:hover .card-text p {
+    color: #fff;
 }

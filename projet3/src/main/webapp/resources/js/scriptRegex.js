@@ -1,14 +1,11 @@
-/**TODO
- * Ajouter la vérification de tailles des fichiers
- */
-
 $("button").click(selectForm);
+$(".event-page-icon-boxes a").click(selectForm);
 
 function selectForm(e) {
 	
-	if ($(this).attr("id") == "btnBenevole") inputsToCheck("#formBenevoleInscription");// Volunteer
-	else if ($(this).attr("id") == "btnDon") inputsToCheck("#formDon"); //Donation
-	else if ($(this).attr("id") == "btnPartenaire") inputsToCheck("#formPartenaireInscription"); // Partner
+	if ($(this).attr("id") == "btnVolunteer") inputsToCheck("#formVolunteerRegistration");
+	else if ($(this).attr("id") == "btnDonation") inputsToCheck("#formDonation"); 
+	else if ($(this).attr("id") == "btnPartner") inputsToCheck("#formPartnerRegistration"); 
 	else if ($(this).attr("id") == "btnAssociationRegistration") inputsToCheck("#formAssociationRegistration");
 }
 
