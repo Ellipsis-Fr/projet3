@@ -8,8 +8,6 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import fr.isika.projet3.entities.Association;
-
 public abstract class AbstractJpaDao<T> {
 
     private Class<T> clazz;
@@ -39,7 +37,7 @@ public abstract class AbstractJpaDao<T> {
             return null;
         } catch  (NonUniqueResultException e) {
         	return null;
-        }
+        }	
 	}
 
     @SuppressWarnings("unchecked")
