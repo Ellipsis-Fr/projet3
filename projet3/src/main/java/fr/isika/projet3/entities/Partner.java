@@ -26,8 +26,8 @@ public class Partner {
 	private Long id;
 	private String description;
 	private Statut statut;
-	private String email;
 	private String password;
+	
 	@OneToMany(mappedBy="partner", fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Finance> finances;
@@ -36,12 +36,13 @@ public class Partner {
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Activity> activities;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	private UserSociety userSociety;
+//	@OneToOne(fetch = FetchType.EAGER)
+//	private UserSociety userSociety;
 
 	public Partner() {
 		super();
 		activities = new ArrayList<>();
+		finances = new ArrayList<>();
 	}
 	
 	public Long getId() {
@@ -68,14 +69,6 @@ public class Partner {
 		this.statut = statut;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getPassword() {
 		return password;
 	}
@@ -99,13 +92,13 @@ public class Partner {
 	public void setActivities(List<Activity> activities) {
 		this.activities = activities;
 	}
-
-	public UserSociety getUserSociety() {
-		return userSociety;
-	}
-
-	public void setUserSociety(UserSociety userSociety) {
-		this.userSociety = userSociety;
-	}
+	
+//	public UserSociety getUserSociety() {
+//		return userSociety;
+//	}
+//
+//	public void setUserSociety(UserSociety userSociety) {
+//		this.userSociety = userSociety;
+//	}
 
 }

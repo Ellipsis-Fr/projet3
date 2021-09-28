@@ -10,19 +10,19 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- Bootstrap CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/bootstrap.min.css"/>'> --%>
+	    <link rel="stylesheet" href='<c:url value="resources/css/template/bootstrap.min.css"/>'>
 
 <!-- FontAwesome CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/font-awesome.min.css"/>'> --%>
+	    <link rel="stylesheet" href='<c:url value="resources/css/template/font-awesome.min.css"/>'>
 
 <!-- ElegantFonts CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/elegant-fonts.css"/>'> --%>
+	    <link rel="stylesheet" href='<c:url value="resources/css/template/elegant-fonts.css"/>'>
 
 <!-- themify-icons CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/themify-icons.css"/>'> --%>
+	    <link rel="stylesheet" href='<c:url value="resources/css/template/themify-icons.css"/>'>
 
 <!-- Swiper CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/swiper.min.css"/>'> --%>
+	    <link rel="stylesheet" href='<c:url value="resources/css/template/swiper.min.css"/>'>
 
 <!-- Styles -->
 <link rel="stylesheet"

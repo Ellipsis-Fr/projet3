@@ -26,8 +26,7 @@ public class UserService implements IUserService {
 
 	@Override
 	public User findOne(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findOne(id);
 	}
 
 	@Override

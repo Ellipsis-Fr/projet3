@@ -2,6 +2,8 @@ package fr.isika.projet3.services;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import fr.isika.projet3.entities.Volunteer;
 
 public interface IVolunteerService {
@@ -9,6 +11,8 @@ public interface IVolunteerService {
 	Volunteer findOne(long id);
 
     List<Volunteer> findAll();
+    
+    Volunteer init(HttpServletRequest req);
 
     void create(Volunteer entity);
 

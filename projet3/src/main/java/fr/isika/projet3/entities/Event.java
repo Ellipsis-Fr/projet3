@@ -43,10 +43,19 @@ public class Event {
 	@Transient
 	private int sumDonations;
 	
-	/*
-	 * Event disposera des listes activités, dons, bénévoles, participant et partenaires
-	 * Association disposera de la liste des utilisateurs
-	 */
+//	@OneToMany(mappedBy="event", fetch = FetchType.EAGER)
+//	@Fetch(value = FetchMode.SUBSELECT)
+//	private List<Volunteer> volunteers;
+//	
+//	@OneToMany(mappedBy="event", fetch = FetchType.EAGER)
+//	@Fetch(value = FetchMode.SUBSELECT)
+//	private List<Participant> participants;
+//	
+//	@OneToMany(mappedBy="event", fetch = FetchType.EAGER)
+//	@Fetch(value = FetchMode.SUBSELECT)
+//	private List<Partner> partners;
+
+	
 	public Event() { 
 		super();
 		activities = new ArrayList<>();
@@ -117,6 +126,30 @@ public class Event {
 	public void setSumDonations(int sumDonations) {
 		this.sumDonations = sumDonations;
 	}
+	
+//	public List<Volunteer> getVolunteers() {
+//	return volunteers;
+//}
+//
+//public void setVolunteers(List<Volunteer> volunteers) {
+//	this.volunteers = volunteers;
+//}
+//
+//public List<Participant> getParticipants() {
+//	return participants;
+//}
+//
+//public void setParticipants(List<Participant> participants) {
+//	this.participants = participants;
+//}
+//
+//public List<Partner> getPartners() {
+//	return partners;
+//}
+//
+//public void setPartners(List<Partner> partners) {
+//	this.partners = partners;
+//}
 	
 	public int getCompletionPercentage () {
 		Instant instantStartDate = startDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
