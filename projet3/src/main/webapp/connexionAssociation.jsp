@@ -7,27 +7,15 @@
 		<!-- Required meta tags -->
 	    <meta charset="utf-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		
-		
-		
-<!-- 	    FontAwesome CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/font-awesome.min.css"/>'> --%>
-	
-<!-- 	    ElegantFonts CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/elegant-fonts.css"/>'> --%>
-	
-<!-- 	    themify-icons CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/themify-icons.css"/>'> --%>
-	
-<!-- 	    Swiper CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/swiper.min.css"/>'> --%>
 	
 		<!-- Styles -->
-	    <link rel="stylesheet" href="<c:out value="resources/css/template/style.css"/>">
+	    <link rel="stylesheet" href="<c:url value="resources/css/template/style.css"/>">
 	    
 	    <!-- bootstrap CSS -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-   
+   		
+   		<!-- Include Plugin CSS file -->
+        <link href="<c:url value="resources/css/alert-nice-toast/dist/css/nice-toast-js.min.css"/>" rel="stylesheet" />
 	</head>
 	<body>
 		<!-- header -->
@@ -42,14 +30,14 @@
 				</div>
 				<div class="card-body">
 				<span class="error">${result}</span><br />
-				<form method="post" action="connexionAssociation">
+				<form method="post" action="connexionAssociation" class="connexion-form">
 					<div class="form-floating mb-3">
-						<input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required><label for="floatingInput">Email address</label>
+						<input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required><label for="floatingInput">Adresse Email</label>
 					</div>
 					<div class="form-floating mb-3">
-						<input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required> <label for="floatingPassword">Password</label>
+						<input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required> <label for="floatingPassword">Mot de Passe</label>
 					</div>
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<button type="submit" class="btn btn-primary" id="btnConnexionAssociation">Connexion</button>
 				</form>
 				</div>
 				<div class="card-footer">
@@ -80,16 +68,19 @@
 		
 		<!-- Lien Jquery et js bootstrap -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	    <script type='text/javascript' src='resources/js/template/jquery.collapsible.min.js'></script>
-	    <script type='text/javascript' src='resources/js/template/swiper.min.js'></script>
-	    <script type='text/javascript' src='resources/js/template/jquery.countdown.min.js'></script>
-	    <script type='text/javascript' src='resources/js/template/circle-progress.min.js'></script>
-	    <script type='text/javascript' src='resources/js/template/jquery.countTo.min.js'></script>
-	    <script type='text/javascript' src='resources/js/template/jquery.barfiller.js'></script>
-	    <script type='text/javascript' src='resources/js/template/custom.js'></script>
+		<script type='text/javascript' src='<c:url value="resources/js/template/jquery.collapsible.min.js"/>'></script>
+	    <script type='text/javascript' src='<c:url value="resources/js/template/swiper.min.js"/>'></script>
+	    <script type='text/javascript' src='<c:url value="resources/js/template/jquery.countdown.min.js"/>'></script>
+	    <script type='text/javascript' src='<c:url value="resources/js/template/circle-progress.min.js"/>'></script>
+	    <script type='text/javascript' src='<c:url value="resources/js/template/jquery.countTo.min.js"/>'></script>
+	    <script type='text/javascript' src='<c:url value="resources/js/template/jquery.barfiller.js"/>'></script>
+	    <script type='text/javascript' src='<c:url value="resources/js/template/custom.js"/>'></script>
 	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-	    <script type="text/javascript" src="<c:out value="resources/js/scriptAjax.js"/>"></script>
-	    <script type="text/javascript" src="<c:out value="resources/js/scriptRegex.js"/>"></script>
+	    <script type="text/javascript" src="<c:url value="resources/js/scriptFiles.js"/>"></script>
+	    <script type="text/javascript" src="<c:url value="resources/js/scriptAjax.js"/>"></script>
+	    <script type="text/javascript" src="<c:url value="resources/js/scriptRegex.js"/>"></script>
+	    <script src="<c:url value="resources/css/alert-nice-toast/dist/js/nice-toast-js.min.js"/>"></script>
+	    
 	</body>
 </html>
 

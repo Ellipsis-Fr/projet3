@@ -1,5 +1,6 @@
 package fr.isika.projet3.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -41,6 +42,16 @@ public class Association {
 	
 	private boolean eventInProgress;
 	
+	@OneToMany(mappedBy="association", fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<User> users;
+	
+	public Association() {
+		super();
+		photos = new ArrayList<>();
+		users = new ArrayList<>();
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -143,6 +154,14 @@ public class Association {
 
 	public void setEventInProgress(boolean eventInProgress) {
 		this.eventInProgress = eventInProgress;
+	}
+	
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 	@Override

@@ -1,8 +1,13 @@
 package fr.isika.projet3.entities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import fr.isika.projet3.enumerations.Category;
 import fr.isika.projet3.enumerations.Statut;
@@ -33,8 +38,18 @@ public class Activity {
 	@ManyToOne
 	private Event event;
 	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Participant> participants;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Volunteer> volunteers;
+	
 	public Activity() {
 		super();
+		participants = new ArrayList<>();
+		volunteers = new ArrayList<>();
 	}
 	
 	public Long getId() {

@@ -1,6 +1,9 @@
 package fr.isika.projet3.entities;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -32,15 +36,22 @@ public class Event {
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Activity> activities;
 	
-	public Event() {
+	@OneToMany(mappedBy="event", fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Donation> donations;
+	
+	@Transient
+	private int sumDonations;
+	
+	/*
+	 * Event disposera des listes activités, dons, bénévoles, participant et partenaires
+	 * Association disposera de la liste des utilisateurs
+	 */
+	public Event() { 
 		super();
-	}
-
-	public Event(LocalDate startDate, LocalDate endDate, TypeEvent typeEvent) {
-		super();
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.typeEvent = typeEvent;
+		activities = new ArrayList<>();
+		donations = new ArrayList<>();
+		sumDonations = 0;
 	}
 
 	public Long getId() {
@@ -83,11 +94,42 @@ public class Event {
 		this.pathFolder = pathFolder;
 	}
 
+	public List<Activity> getActivities() {
+		return activities;
+	}
+
+	public void setActivities(List<Activity> activities) {
+		this.activities = activities;
+	}
+
+	public List<Donation> getDonations() {
+		return donations;
+	}
+
+	public void setDonations(List<Donation> donations) {
+		this.donations = donations;
+	}
+
+	public int getSumDonations() {
+		return sumDonations;
+	}
+
+	public void setSumDonations(int sumDonations) {
+		this.sumDonations = sumDonations;
+	}
+	
+	public int getCompletionPercentage () {
+		Instant instantStartDate = startDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+		Instant instantEndDate = endDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+		Instant instantToday = (LocalDate.now()).atStartOfDay(ZoneId.systemDefault()).toInstant();
+		
+		return (int) (((double)instantToday.toEpochMilli() - (double)instantStartDate.toEpochMilli()) / ((double)instantEndDate.toEpochMilli() - (double)instantStartDate.toEpochMilli()) * 100);
+	}
+
 	@Override
 	public String toString() {
 		return "Event [id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", typeEvent=" + typeEvent
-				+ ", pathFolder=" + pathFolder + "]";
+				+ ", pathFolder=" + pathFolder + ", sumDonations=" + sumDonations + "]";
 	}
-
 	
 }

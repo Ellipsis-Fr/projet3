@@ -1,5 +1,6 @@
 package fr.isika.projet3.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
@@ -34,8 +36,20 @@ public class Partner {
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Activity> activities;
 
+	@OneToOne(fetch = FetchType.EAGER)
+	private UserSociety userSociety;
+
 	public Partner() {
 		super();
+		activities = new ArrayList<>();
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getDescription() {
@@ -84,6 +98,14 @@ public class Partner {
 
 	public void setActivities(List<Activity> activities) {
 		this.activities = activities;
+	}
+
+	public UserSociety getUserSociety() {
+		return userSociety;
+	}
+
+	public void setUserSociety(UserSociety userSociety) {
+		this.userSociety = userSociety;
 	}
 
 }

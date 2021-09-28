@@ -2,6 +2,8 @@ package fr.isika.projet3.services;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import fr.isika.projet3.entities.Activity;
@@ -26,4 +28,5 @@ public interface IActivityService {
 	
 	boolean checkDouble(String name);
 
+	Activity init(HttpServletRequest req);
 }
