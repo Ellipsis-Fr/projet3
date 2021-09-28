@@ -107,7 +107,7 @@ public class AssociationController {
 		return "redirect: dashboardAsso/home";
 	}
 	
-	@RequestMapping("dashboardAsso/logout")  
+	@RequestMapping({"dashboardAsso/logout", "logout"})  
     public String logoutPage(HttpServletRequest request) {  
 		HttpSession session = request.getSession();
 		session.invalidate();
@@ -117,6 +117,13 @@ public class AssociationController {
 	
 	@RequestMapping({"/homeDashboardAssociation", "dashboardAsso/home","home"})
 	public String homeDashboardAssociation(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+
+		System.out.println("Session association " + session.getAttribute("sessionAssociation"));
+		System.out.println("Session event " + session.getAttribute("sessionEvent"));
+//		Event event2 = eventService.findOne(event.getId());
+
+//		System.out.println(event2);
 		return "/dashboardAsso/home";
 	}
 	
