@@ -211,6 +211,27 @@ $("form[name='formDonation']").on('submit', (e) => {
 	sendForm(formData, "newDonation");
 });
 
+// ======== VOLUNTEER FORM ========
+
+$("form[name='formVolunteerRegistration']").on('submit', (e) => {
+	e.preventDefault();
+	let targetedForm = e.target;
+	let formData = new FormData(targetedForm);
+	sendForm(formData, "newVolunteer");
+});
+
+
+// ======== PARTNER FORM ========
+
+$("form[name='formPartnerRegistration']").on('submit', (e) => {
+	e.preventDefault();
+	let targetedForm = e.target;
+	let formData = new FormData(targetedForm);
+	sendForm(formData, "newPartner");
+});
+
+
+
 
 // ======== GENERIC METHOD TO FORM : DONATION AND REGISTRATION  ========
 
@@ -233,29 +254,58 @@ function sendForm(formData, typeForm) {
 }
 
 function returnForm(result) {	
-	$('.collapse').collapse('hide');
-	
-	for (let i = 0; i < document.forms.length; i++) {
-		document.forms[i].reset();
-	}
-	
+	let success = false;
+	let text = "";
+
 	let resultNumber = "";
 	
 	try {
 		resultNumber = parseInt(result)
 	} catch (error) {
-		console.log(error)
 	}
 	
 	if (!isNaN(resultNumber)) {
-		console.log(resultNumber)
+		success = true;
 		$("#sumDonations").html(resultNumber);
-
+		text = "Don enregistré. Merci pour Votre générosité !";
 	}
 	
-	$.niceToast.setup({
+	if (result == "Inscription Bénévole confirmé") {
+		success = true;
+		text = result + ", Merci pour votre aide.";
+	}
+	
+	if (result == "Inscription Participant confirmé") {
+		success = true;
+		text = result + ".";
+	}
+	
+	if (result == "Inscription Partenaire confirmé") {
+		success = true;
+		text = result + ", Merci pour votre aide.";
+	}
+	
+	
+	if (success) {
+		$.niceToast.setup({
 	            timeout: 5000,
 	            progressBar: false
 		        });
-    $.niceToast.success('Don enregistré. Merci pour Votre générosité !');
+	    $.niceToast.success(text);
+	    
+	    
+	    $('.collapse').collapse('hide');
+		
+		for (let i = 0; i < document.forms.length; i++) {
+			document.forms[i].reset();
+		}
+	} else {
+		$.niceToast.setup({
+	            timeout: 5000,
+	            progressBar: false
+		        });
+	    $.niceToast.error(result);
+	}
+	
+	
 }

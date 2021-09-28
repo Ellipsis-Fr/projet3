@@ -25,8 +25,8 @@ public class Volunteer {
 	
 	private String password;
 	
-	@OneToOne(fetch = FetchType.EAGER)
-	private User user;
+//	@OneToOne(fetch = FetchType.EAGER)
+//	private User user;
 	
 	@ManyToMany(mappedBy="volunteers", fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
@@ -53,13 +53,13 @@ public class Volunteer {
 		this.password = password;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 
 	public List<Activity> getActivities() {
 		return activities;

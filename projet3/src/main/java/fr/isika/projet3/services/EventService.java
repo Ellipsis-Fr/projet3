@@ -22,7 +22,7 @@ import fr.isika.projet3.enumerations.TypeEvent;
 @Service
 @Transactional
 public class EventService implements IEventService {
-	private static final String PATH_DISK ="C:/Users/micka/Documents/workspace-spring-tool-suite-4-4.11.1.RELEASE/Isika_projet3/projet3/src/main/webapp/";
+	private static final String PATH_DISK ="D:/Developpement/Environnement_et_Outils/Git/GitRepositories/ISIKA/projet3/projet3/src/main/webapp/";
 	
 	private static final String FIELD_START_DATE = "startDate";
 	private static final String FIELD_END_DATE = "endDate";
@@ -98,7 +98,6 @@ public class EventService implements IEventService {
 		try {
 			newFolder = Files.createDirectory(Paths.get(PATH_DISK, pathFolder, "event"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -110,7 +109,6 @@ public class EventService implements IEventService {
 		try {
 			FileUtils.deleteDirectory(Paths.get(PATH_DISK, pathFolder).toFile());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

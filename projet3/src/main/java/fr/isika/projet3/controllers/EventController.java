@@ -24,14 +24,19 @@ import org.springframework.web.multipart.MultipartFile;
 import fr.isika.projet3.entities.Association;
 import fr.isika.projet3.entities.Donation;
 import fr.isika.projet3.entities.Event;
+import fr.isika.projet3.entities.Partner;
 import fr.isika.projet3.entities.User;
 import fr.isika.projet3.entities.UserSociety;
+import fr.isika.projet3.entities.Volunteer;
 import fr.isika.projet3.enumerations.TypeEvent;
 import fr.isika.projet3.services.IAssociationService;
 import fr.isika.projet3.services.IDonationService;
 import fr.isika.projet3.services.IEventService;
+import fr.isika.projet3.services.IParticipantService;
+import fr.isika.projet3.services.IPartnerService;
 import fr.isika.projet3.services.IUserService;
 import fr.isika.projet3.services.IUserSocietyService;
+import fr.isika.projet3.services.IVolunteerService;
 
 @Controller
 @Transactional
@@ -53,11 +58,20 @@ public class EventController {
 	IEventService eventService;
 	
 	@Autowired
-	IAssociationService associationService;
-	
-	@Autowired
 	IDonationService donationService;
 	
+	@Autowired
+	IVolunteerService volunteerService;
+	
+	@Autowired
+	IPartnerService partnerService;
+	
+	@Autowired
+	IParticipantService participantService;
+	
+	@Autowired
+	IAssociationService associationService;
+		
 	@Autowired
 	IUserService userService;
 	
@@ -129,15 +143,15 @@ public class EventController {
 	}
 	
 	
-	@PostMapping({"event/newDonation", "/newDonation", "newDonation"})
+	@PostMapping("newDonation")
 	public @ResponseBody String newDonation(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		Association associationVisited = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED);
 		Event eventVisited = (Event) session.getAttribute(ATT_SESSION_EVENT_VISITED);
 		
 		// Reload ours objects save in session
-		associationService.findOne(associationVisited.getId());
-		eventService.findOne(eventVisited.getId());
+		associationVisited = associationService.findOne(associationVisited.getId());
+		eventVisited = eventService.findOne(eventVisited.getId());
 		
 		boolean isUserSociety = req.getParameter(FIELD_CHECK_TYPE_USER) != null;
 		String siret = req.getParameter(FIELD_SIRET);
@@ -153,9 +167,83 @@ public class EventController {
 		donation.setEvent(eventVisited);
 		donationService.create(donation);
 		
-		eventVisited.setSumDonations(eventVisited.getSumDonations() + donation.getAmount());
+		int sumDonations = getTotalDonationAmount(eventVisited);
+		eventVisited.setSumDonations(sumDonations + donation.getAmount());
 
 		return eventVisited.getSumDonations() + "";
+	}
+	
+	@PostMapping("newVolunteer")
+	public @ResponseBody String newVolunteer(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		Association associationVisited = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED);
+		Event eventVisited = (Event) session.getAttribute(ATT_SESSION_EVENT_VISITED);
+		
+		// Reload ours objects save in session
+		associationVisited = associationService.findOne(associationVisited.getId());
+		eventVisited = eventService.findOne(eventVisited.getId());
+
+		String email = req.getParameter(FIELD_EMAIL);
+		
+		User user = getUser(associationVisited, false, null, email);
+		
+		if (user == null) user = newUser(req, associationVisited, false);
+		else {
+			String role = isAlreadyEngaged(user);
+			if (role != null) return role;
+			
+			user = updateUser(req, user, false);
+		}
+		
+		Volunteer volunteer = volunteerService.init(req);
+		volunteerService.create(volunteer);
+		user.setVolunteer(volunteer);
+		userService.update(user);		
+		
+		return "Inscription Bénévole confirmé";
+	}
+	
+	@PostMapping("newPartner")
+	public @ResponseBody String newPartner(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		Association associationVisited = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED);
+		Event eventVisited = (Event) session.getAttribute(ATT_SESSION_EVENT_VISITED);
+		
+		// Reload ours objects save in session
+		associationVisited = associationService.findOne(associationVisited.getId());
+		eventVisited = eventService.findOne(eventVisited.getId());
+
+		String siret = req.getParameter(FIELD_SIRET);
+		
+		UserSociety user = (UserSociety) getUser(associationVisited, true, siret, null);
+		
+		if (user == null) user = (UserSociety) newUser(req, associationVisited, true);
+		else {
+			String role = isAlreadyEngaged(user);
+			if (role != null) return role;
+			
+			user = (UserSociety) updateUser(req, user, true);
+		}
+		
+		Partner partner = partnerService.init(req);
+		partnerService.create(partner);
+		user.setPartner(partner);
+		userService.update(user);		
+		
+		return "Inscription Partenaire confirmé";
+	}
+	
+	private String isAlreadyEngaged(User user) {
+		
+		if (user instanceof UserSociety) {
+			UserSociety userSociety = (UserSociety) user;
+			if (userSociety.getPartner() != null) return "Compte Partenaire existant.";
+		} else {
+			if (user.getVolunteer() != null) return "Compte Bénévole existant.";
+			if (user.getParticipant() != null) return "Compte Participant existant.";
+		}
+		
+		return null;
 	}
 
 	private User getUser(Association associationVisited, boolean isUserSociety, String siret, String email) {

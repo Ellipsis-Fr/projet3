@@ -158,7 +158,7 @@
 					
 							<div class="col-md-6">
 								<label for="password" class="form-label">Mot de passe </label>
-								<input type="text" class="form-control" id="password" name="password" pattern=".{8,}" maxlength="30" required/>
+								<input type="password" class="form-control" id="password" name="password" pattern=".{8,}" maxlength="30" required/>
 								<span class="error"></span>
 							</div>
 							
@@ -183,7 +183,7 @@
 							
 							<div class="col-md-6">
 								<label for="password" class="form-label">Mot de passe </label>
-								<input type="text" class="form-control" id="password" name="password" pattern=".{8,}" maxlength="30" required/>
+								<input type="password" class="form-control" id="password" name="password" pattern=".{8,}" maxlength="30" required/>
 								<span class="error"></span>
 							</div>
 							
@@ -273,7 +273,7 @@
 						
 							<div class="col-md-6">
 								<label for="password" class="form-label">Mot de passe </label>
-								<input type="text" class="form-control" id="password" name="password" pattern=".{8,}" maxlength="30" required/>
+								<input type="password" class="form-control" id="password" name="password" pattern=".{8,}" maxlength="30" required/>
 								<span class="error"></span>
 							</div>
 							
@@ -303,7 +303,7 @@
 							
 							<div class="col-md-6">
 								<label for="password" class="form-label">Mot de passe </label>
-								<input type="text" class="form-control" id="password" name="password" pattern=".{8,}" maxlength="30" required/>
+								<input type="password" class="form-control" id="password" name="password" pattern=".{8,}" maxlength="30" required/>
 								<span class="error"></span>
 							</div>
 							
