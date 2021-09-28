@@ -1,5 +1,7 @@
 package fr.isika.projet3.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,11 @@ public class FinanceService implements IFinanceService {
 	@Override
 	public void create(Finance finance) {
 		iFinanceDao.create(finance);		
+	}
+
+	@Override
+	public List<Finance> findAll() {
+		return iFinanceDao.findAll();
 	}
 
 }

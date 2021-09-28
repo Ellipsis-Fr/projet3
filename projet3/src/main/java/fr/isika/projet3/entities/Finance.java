@@ -3,6 +3,7 @@ package fr.isika.projet3.entities;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,9 +20,8 @@ public class Finance {
 	
 	private Double amount;
 	private Date financingDate;
-	private String projectToFinance;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Partner partner;
 
 	public Finance() {
@@ -50,14 +50,6 @@ public class Finance {
 
 	public void setFinancingDate(Date financingDate) {
 		this.financingDate = financingDate;
-	}
-
-	public String getProjectToFinance() {
-		return projectToFinance;
-	}
-
-	public void setProjectToFinance(String projectToFinance) {
-		this.projectToFinance = projectToFinance;
 	}
 
 	public Partner getPartner() {

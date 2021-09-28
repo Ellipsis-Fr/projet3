@@ -27,6 +27,7 @@ public class Partner {
 	private String email;
 	private String password;
 	@OneToMany(mappedBy="partner", fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Finance> finances;
 	
 	@OneToMany(mappedBy="partner", fetch = FetchType.EAGER)
