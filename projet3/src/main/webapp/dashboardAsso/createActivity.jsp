@@ -66,7 +66,7 @@
 							<label for="necessaryFunding">Fond nécessaire <span
 									style="color: red">*</span>
 							</label>
-							<input type="text" name="necessaryFunding" pattern="\d{1,3}$"
+							<input type="text" name="necessaryFunding" pattern="^\d+$"
 								required="required" />
 						</div>
 
@@ -74,7 +74,7 @@
 							<label for="volunteerNeeded">Bénévole nécessaire <span
 									style="color: red">*</span>
 							</label>
-							<input type="text" name="volunteerNeeded" pattern="\d{1,2}$"
+							<input type="text" name="volunteerNeeded" pattern="^\d+$"
 								required="required" />
 							<span class="error"></span>
 						</div>

@@ -18,15 +18,15 @@
 						<div class="col">
 							<div class="form-check form-check-inline">
 								<input class="form-check-input" type="radio" name="typeEvent" id="funndraising" value="0" required>
-								<label for="funndraising">Collecte</label>
+								<label class="form-check-label" for="funndraising">Collecte</label>
 							</div>
 							<div class="form-check form-check-inline">
 								<input class="form-check-input" type="radio" name="typeEvent" id="funndraisingAndActivities" value="1" required>
-								<label for="funndraisingAndActivities">Collecte et Activités</label>
+								<label class="form-check-label" for="funndraisingAndActivities">Collecte et Activités</label>
 							</div>
 							<div class="form-check form-check-inline">
 								<input class="form-check-input" type="radio" name="typeEvent" id="raffle" value="2" required>
-								<label for="raffle">Tombolla</label>
+								<label class="form-check-label" for="raffle">Tombolla</label>
 							</div>
 						</div>
 					</div>

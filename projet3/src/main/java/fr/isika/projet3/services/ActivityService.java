@@ -28,8 +28,7 @@ import fr.isika.projet3.enumerations.Statut;
 @Service
 @Transactional
 public class ActivityService implements IActivityService {
-	private static final String PATH_DISK ="C:/Users/micka/Documents/workspace-spring-tool-suite-4-4.11.1.RELEASE/Isika_projet3/projet3/src/main/webapp/ServerContent/associations/*/activities/";
-	private static final String PATH_SERVER ="ServerContent/associations/*/activities/";
+	private static final String PATH_DISK ="C:/Users/micka/Documents/workspace-spring-tool-suite-4-4.11.1.RELEASE/Isika_projet3/projet3/src/main/webapp/";
 	private static final int SIZE_BUFFER = 10240;
 	
 	private static final String NAME = "name";
@@ -114,13 +113,13 @@ public class ActivityService implements IActivityService {
 		Path newFolder = null;
 		
 		try {
-			newFolder = Files.createDirectory(Paths.get(PATH_DISK, folder));
+			newFolder = Files.createDirectory(Paths.get(PATH_DISK, folder, "activity"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
-		return PATH_SERVER + newFolder.getFileName().toString() + "/";
+		return folder + "/" + newFolder.getFileName().toString();
 	}
 	
 	@Override
@@ -129,21 +128,11 @@ public class ActivityService implements IActivityService {
 		String filename = file.getOriginalFilename().trim();
 		
 		String shortNameFile = filename.substring(0, filename.lastIndexOf("."));
-		System.out.println("je récupère le nom du fichier");
-		
 		String extensionFile = filename.substring(filename.lastIndexOf("."));
-		System.out.println("je récupère l'extension du fichier");
-		
 		Date date = new Date();
 		String formattedDateTime = date.getTime() + "";
-		System.out.println("je formates la date du fichier");
 		
 		String fileNameString = shortNameFile + formattedDateTime + extensionFile;
-		System.out.println("je récupère le nom du fichier en entier");
-		
-		Path pathFolder = Paths.get(folder);
-		Path pathServer = Paths.get(PATH_SERVER);
-		folder = pathServer.relativize(pathFolder).toString();
 		
 		File newFile = Paths.get(PATH_DISK, folder, filename).toFile();
 		System.out.println(newFile);
@@ -163,7 +152,8 @@ public class ActivityService implements IActivityService {
 			e.printStackTrace();
 		}
 		
-		return  Paths.get(pathFolder.toString(),newFile.getName()).toString();
+		return  folder + "/" + newFile.getName();
+//		return  Paths.get(pathFolder.toString(),newFile.getName()).toString();
 	}
 	
 	@Override
