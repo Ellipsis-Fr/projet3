@@ -1,6 +1,6 @@
 // ==== apparition formulaire sans connexion ====
 
-$("button").click(apparitionForm);
+$("a").click(apparitionForm);
 
 function apparitionForm(e) {
 	/* TODO
@@ -9,55 +9,72 @@ function apparitionForm(e) {
 	 * supprimer le contenu des remarques de non respect des patterns
 	*/
 	
-	initForms();
 	
-	if ($(this).attr("id") == "btnBenevole") {
-		$("#formBenevole").toggle();
-		$("#formBenevoleConnexion").hide();
+	initForms();
+	$('.collapse').collapse('hide');
+	
+	if ($(this).attr("id") == "btnVolunteer") {
+//		$("#formVolunteer").toggle();
+		$("#formVolunteerToLogin").hide();
 		
-		$("#formDon").hide();
-		$("#formPartenaire").hide();
+//		$("#formDonation").hide();
+//		$("#formPartner").hide();
+
+//		var bsCollapse = new bootstrap.Collapse($("#formDonation"), {
+//		  hide: true
+//		})
+//		bsCollapse.hide
+
 		
-		$("#seConnecterBenevole").prop("disabled", false);
-		$("#formBenevoleInscription input").prop("disabled", false);
+		$("#loginVolunteer").prop("disabled", false);
+		$("#formVolunteerRegistration input").prop("disabled", false);
 	}
-	else if ($(this).attr("id") == "btnDon") {
-		$("#formDon").toggle();
+	else if ($(this).attr("id") == "btnDonation") {
+//		$("#formDonation").toggle();
 		
-		$("#formBenevole").hide();
-		$("#formPartenaire").hide();
+//		$("#formVolunteer").hide();
+//		$("#formPartner").hide();
+
+		$("#paymentCb").hide();
+		$("#paymentCb input").prop("disabled", true);
 		
-		$("#formDon input").prop("disabled", false);
-		$("#champsSociete input").prop("disabled", true);
+		$("#formDonation input").prop("disabled", false);
+		$("#fieldsSociety input").prop("disabled", true);
 	}
-	else if ($(this).attr("id") == "btnPartenaire") {
-		$("#formPartenaire").toggle();
-		$("#formPartenaireConnexion").hide();
+	else if ($(this).attr("id") == "btnPartner") {
+		console.log("click sur btnPartner")
+//		$("#formPartner").toggle();
+		$("#formPartnerToLogin").hide();
 		
-		$("#formBenevole").hide();
-		$("#formDon").hide();
+//		$("#formVolunteer").hide();
+//		$("#formDonation").hide();
 		
-		$("#seConnecterPartenaire").prop("disabled", false);
-		$("#formPartenaireInscription input").prop("disabled", false);
+		$("#loginPartner").prop("disabled", false);
+		$("#formPartnerRegistration input").prop("disabled", false);
 	}
 }
 
 function initForms() {
-	$("#seConnecterBenevole").prop("checked", false);
-	$("#formBenevoleInscription").show();
+	console.log("je suis dans init forms")
 	
-	$("#seConnecterPartenaire").prop("checked", false);
-	$("#formPartenaireInscription").show();
+	$("#loginVolunteer").prop("checked", false);
+	$("#formVolunteerRegistration").show();
 	
-	$("#typeContact").prop("checked", false);
-	$("#champsSociete").hide();
-	$("#champsSociete input").prop("disabled", true);
+	$("#loginPartner").prop("checked", false);
+	$("#formPartnerRegistration").show();
 	
-	$("#formBenevole .erreur").text("");
-	$("#formDon .erreur").text("");
-	$("#formPartenaire .erreur").text("");
+	$("#userType").prop("checked", false);
+	$("#fieldsSociety").hide();
+	$("#fieldsSociety input").prop("disabled", true);
+	$("#paymentCb").hide();
+	$("#paymentCb input").prop("disabled", true);
+	$(".formDonation input[type='radio']").prop("checked", false);
 	
-	$("#formulaires input").prop("disabled", true);
+	$("#formVolunteer .error").text("");
+	$("#formDonation .error").text("");
+	$("#formPartner .error").text("");
+	
+	$("#formz input").prop("disabled", true);
 	
 	for (let i = 0; i < document.forms.length; i++) {
 		document.forms[i].reset();
@@ -74,62 +91,61 @@ $(".switch").change((e) => {
 	 * A généraliser pour les autres types de compte (utiliser une classe pour le chexbox et l'id pour définir le type de compte)
 	*/
 
-	if (e.target.id == "seConnecterBenevole") {
+	if (e.target.id == "loginVolunteer") {
 		if (e.target.checked) {
-			$("#formBenevoleInscription").hide();
-			$("#formBenevoleConnexion").show();
+			$("#formVolunteerRegistration").hide();
+			$("#formVolunteerToLogin").show();
 			
-			$("#formBenevoleInscription input").prop("disabled", true);
-			$("#formBenevoleConnexion input").prop("disabled", false);
+			$("#formVolunteerRegistration input").prop("disabled", true);
+			$("#formVolunteerToLogin input").prop("disabled", false);
 		}
 		else {
-			$("#formBenevoleConnexion").hide();
-			$("#formBenevoleInscription").show();
+			$("#formVolunteerToLogin").hide();
+			$("#formVolunteerRegistration").show();
 			
-			$("#formBenevoleInscription input").prop("disabled", false);
-			$("#formBenevoleConnexion input").prop("disabled", true);
+			$("#formVolunteerRegistration input").prop("disabled", false);
+			$("#formVolunteerToLogin input").prop("disabled", true);
 		}
-	} else if (e.target.id == "seConnecterPartenaire") {
+	} else if (e.target.id == "loginPartner") {
 		if (e.target.checked) {
-			$("#formPartenaireInscription").hide();
-			$("#formPartenaireConnexion").show();
+			$("#formPartnerRegistration").hide();
+			$("#formPartnerToLogin").show();
 			
-			$("#formPartenaireInscription input").prop("disabled", true);
-			$("#formPartenaireConnexion input").prop("disabled", false);
+			$("#formPartnerRegistration input").prop("disabled", true);
+			$("#formPartnerToLogin input").prop("disabled", false);
 		}
 		else {
-			$("#formPartenaireConnexion").hide();
-			$("#formPartenaireInscription").show();
+			$("#formPartnerToLogin").hide();
+			$("#formPartnerRegistration").show();
 			
-			$("#formPartenaireInscription input").prop("disabled", false);
-			$("#formPartenaireConnexion input").prop("disabled", true);
+			$("#formPartnerRegistration input").prop("disabled", false);
+			$("#formPartnerToLogin input").prop("disabled", true);
 		}
-	} else if (e.target.id == "typeContact") {
+	} else if (e.target.id == "userType") {
 		if (e.target.checked) {
-			$("#champsSociete").show();
-			$("#champsSociete input").prop("disabled", false);
+			$("#fieldsSociety").show();
+			$("#fieldsSociety input").prop("disabled", false);
 		}
 		else {
-			$("#champsSociete").hide();
-			$("#champsSociete input").prop("disabled", true);
+			$("#fieldsSociety").hide();
+			$("#fieldsSociety input").prop("disabled", true);
 		}
 	}
 });
 
 
+// ==== apparition formulaire de paiement ====
 
-
-
-
-
-
-
-
-
-
-
-
-
+$("#formDonation input[type='radio']").change(e => {
+	console.log("là")
+	if (e.target.id == "paymentMethodCb") {
+		$("#paymentCb").show();
+		$("#paymentCb input").prop("disabled", false);
+	} else {
+		$("#paymentCb").hide();
+		$("#paymentCb input").prop("disabled", true);
+	}
+})
 
 
 

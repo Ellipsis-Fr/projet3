@@ -27,6 +27,7 @@
                     <div class="col">
                         <label for="logo">Logo </label>
                         <input type="file" name="logo" id="logo" accept=".jpg,.jpeg,.png"/>
+                        <span class="error" id="errorFile"></span>
                     </div>
                 </div>
                 
@@ -103,7 +104,9 @@
 	    <script type='text/javascript' src='../resources/js/template/jquery.barfiller.js'></script>
 	    <script type='text/javascript' src='../resources/js/template/custom.js'></script>
 	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-	    <script type="text/javascript" src="<c:out value="../resources/js/scriptRegex.js"/>"></script>
+<%-- 	    <script type="text/javascript" src="<c:out value="../resources/js/scriptRegex.js"/>"></script> --%>
+		<script type="text/javascript" src="<c:url value="/resources/js/scriptFiles.js"/>"></script>
+	    <script type="text/javascript" src="<c:url value="/resources/js/scriptRegex.js"/>"></script>
 	
 	</body>
 </html>

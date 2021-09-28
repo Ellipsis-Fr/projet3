@@ -22,8 +22,7 @@ import fr.isika.projet3.enumerations.TypeEvent;
 @Service
 @Transactional
 public class EventService implements IEventService {
-	private static final String PATH_DISK ="D:/Developpement/Environnement_et_Outils/Git/GitRepositories/ISIKA/projet3/projet3/src/main/webapp/ServerContent/associations/";
-	private static final String PATH_SERVER ="ServerContent/associations/";
+	private static final String PATH_DISK ="D:/Developpement/Environnement_et_Outils/Git/GitRepositories/ISIKA/projet3/projet3/src/main/webapp/";
 	
 	private static final String FIELD_START_DATE = "startDate";
 	private static final String FIELD_END_DATE = "endDate";
@@ -61,8 +60,13 @@ public class EventService implements IEventService {
 				typeEvent = TypeEvent.raffle;
 				break;
 		}
+		
+		Event event = new Event();
+		event.setStartDate(startDate);
+		event.setEndDate(endDate);
+		event.setTypeEvent(typeEvent);
 
-		return new Event(startDate, endDate, typeEvent);	
+		return event;	
 	}
 
 	@Override
@@ -90,15 +94,15 @@ public class EventService implements IEventService {
 	@Override
 	public String createNewFolder(String pathFolder) {
 		Path newFolder = null;
-		
+
 		try {
 			newFolder = Files.createDirectory(Paths.get(PATH_DISK, pathFolder, "event"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
-		return Paths.get(pathFolder, newFolder.getFileName().toString()).toString();
+
+		return pathFolder + "/" + newFolder.getFileName().toString();
 	}
 	
 	@Override
