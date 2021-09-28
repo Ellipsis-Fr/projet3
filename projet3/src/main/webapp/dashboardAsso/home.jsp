@@ -290,11 +290,11 @@
 
 					<!-- Modal CreateEvent -->
 					<div class="modal fade" id="createEvent" tabindex="-1" aria-labelledby="eventHandlerLabel" aria-hidden="false">
-						<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 									<h5 class="modal-title" id="exampleModalLabel">Création de l'événement</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal"	aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
 									<c:import url="/dashboardAsso/createEvent.jsp"></c:import>
@@ -308,13 +308,13 @@
 						<div class="modal-dialog modal-dialog-centered">
 							<div class="modal-content">
 								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 									<h5 class="modal-title" id="exampleModalLabel">Clotûre de l'événement</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal"	aria-label="Close"></button>
 								</div>
 								<div class="modal-body">Etes vous sûr de vouloir arrêter cet événement ?</div>
 								<div class="modal-footer">
 									<a class="btn btn-primary" href='<c:url value="closeEvent"/>' role="button">Oui</a>
-									<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Non</button>
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Non</button>
 								</div>
 							</div>
 						</div>

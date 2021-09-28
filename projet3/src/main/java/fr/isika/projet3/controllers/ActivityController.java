@@ -60,17 +60,6 @@ public class ActivityController {
 		activity.setPathPhoto(activityService.saveFile(photo, event.getPathFolder()));
 		activityService.create(activity);
 		
-//		List<Activity> activities = event.getActivities();
-//		System.out.println("liste activité : " + activities);
-//		
-//		activities.add(activity);
-//		
-//		event.setActivities(activities);
-//		
-////		//event = eventService.update(event);
-////		
-//		session.setAttribute(ATT_SESSION_EVENT, event);
-//		
 		return "redirect: home";
 	}
 	
