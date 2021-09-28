@@ -104,7 +104,7 @@
 													<header
 														class="entry-header d-flex flex-wrap align-items-center">
 														<h3 class="entry-title w-100 m-0">
-															<li><a href=>${association.name}</a></li>
+															<a href='<c:url value="event?id=${association.id}"/>'>${association.name}</a></h3>
 													</header>
 													<!-- .entry-header -->
 
