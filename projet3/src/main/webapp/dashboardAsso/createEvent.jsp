@@ -5,7 +5,7 @@
     <div class="main">
 	        <div class="container">
 				<form method="POST" id="formCreateEvent" action="createEvent">
-              		<h2>Lancement Collecte</h2>
+              		<h2 style="color: black">Lancement Collecte</h2>
 					<div class="row">
 						<div class="col">
 							<input name="startDate" type="date" class="form-control" placeholder="date de début" required="required"/>
@@ -18,15 +18,15 @@
 						<div class="col">
 							<div class="form-check form-check-inline">
 								<input class="form-check-input" type="radio" name="typeEvent" id="funndraising" value="0" required>
-								<label class="form-check-label" for="funndraising">Collecte</label>
+								<label class="form-check-label" for="funndraising" style="color: black">Collecte</label>
 							</div>
 							<div class="form-check form-check-inline">
 								<input class="form-check-input" type="radio" name="typeEvent" id="funndraisingAndActivities" value="1" required>
-								<label class="form-check-label" for="funndraisingAndActivities">Collecte et Activités</label>
+								<label class="form-check-label" for="funndraisingAndActivities" style="color: black">Collecte et Activités</label>
 							</div>
 							<div class="form-check form-check-inline">
 								<input class="form-check-input" type="radio" name="typeEvent" id="raffle" value="2" required>
-								<label class="form-check-label" for="raffle">Tombolla</label>
+								<label class="form-check-label" for="raffle" style="color: black">Tombolla</label>
 							</div>
 						</div>
 					</div>

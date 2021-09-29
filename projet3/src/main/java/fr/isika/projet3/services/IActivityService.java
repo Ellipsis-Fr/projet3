@@ -29,4 +29,6 @@ public interface IActivityService {
 	boolean checkDouble(String name);
 
 	Activity init(HttpServletRequest req);
+
+	void deleteFile(String pathPhoto);
 }

@@ -36,7 +36,8 @@ public class ActivityController {
 	
 	@RequestMapping("dashboardAsso/listActivities")
 	public String activityForm(Model model) {
-		model.addAttribute("activity", new Activity());
+		List<Activity> activities = activityService.findAll();
+		model.addAttribute("listActivities", activities);
 		
 		return "listActivities";
 	}

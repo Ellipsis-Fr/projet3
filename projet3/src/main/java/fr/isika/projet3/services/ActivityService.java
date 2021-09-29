@@ -95,17 +95,17 @@ public class ActivityService implements IActivityService {
 	
 	@Override
 	public Activity update(Activity entity) {
-		return null;
+		return dao.update(entity);
 	}
 
 	@Override
 	public void delete(Activity entity) {
-		// TODO Auto-generated method stub	
+		dao.delete(entity);		
 	}
 
 	@Override
 	public void deleteById(long entityId) {
-		// TODO Auto-generated method stub	
+		dao.deleteById(entityId);
 	}
 
 	@Override
@@ -134,7 +134,7 @@ public class ActivityService implements IActivityService {
 		
 		String fileNameString = shortNameFile + formattedDateTime + extensionFile;
 		
-		File newFile = Paths.get(PATH_DISK, folder, filename).toFile();
+		File newFile = Paths.get(PATH_DISK, folder, fileNameString).toFile();
 		System.out.println(newFile);
 
 		try (InputStream input = file.getInputStream();
@@ -160,6 +160,15 @@ public class ActivityService implements IActivityService {
 	public boolean checkDouble(String name) {
 		String query = "FROM Activity a WHERE a.name=?"; //à modifier pour verifier pas deux dans la même asso 
 		return dao.findOneByParameters(query, name) != null ? true : false;
+	}
+	
+	@Override
+	public void deleteFile(String pathPhoto) {
+		try {
+			Files.delete(Paths.get(PATH_DISK, pathPhoto));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
