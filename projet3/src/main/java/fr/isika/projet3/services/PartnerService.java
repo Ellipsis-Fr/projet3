@@ -62,14 +62,6 @@ public class PartnerService implements IPartnerService	{
 		// TODO Auto-generated method stub
 		
 	}
-
-
-	@Override
-	public  Partner partnerLogIn(String email, String password) {
-		String query = "FROM Partner a WHERE a.email=? AND a.password=?";
-		return partnerDao.findOneByParameters(query, email, password);
-	}
-
 }
 
 

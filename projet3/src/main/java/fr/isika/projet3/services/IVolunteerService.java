@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import fr.isika.projet3.entities.Association;
+import fr.isika.projet3.entities.IRole;
 import fr.isika.projet3.entities.Volunteer;
 
 public interface IVolunteerService {

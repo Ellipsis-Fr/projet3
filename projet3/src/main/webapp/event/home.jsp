@@ -32,12 +32,26 @@
         <link href="<c:url value="/resources/css/alert-nice-toast/dist/css/nice-toast-js.min.css"/>" rel="stylesheet" />  
         
 	</head>
-	<body>
+	<body id="event">
 			
 		<!-- header -->
 		<c:import url="/WEB-INF/shared/header.jsp"></c:import>
 		
-		<div class="container">
+		<span id="roleUserLogged" hidden='hidden'>${sessionScope.sessionRoleLogged.ROLE}</span> <!-- Use to know in scriptForms if an user is logged or not and what's his role -->
+		<span id="stateConnexionUser" hidden='hidden'>${connexionUser}</span> <!-- Use to lauch alert after a connexion -->
+
+		<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+			<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<button type="button" class="btn-close" data-bs-dismiss="toast"	aria-label="Close"></button>
+				</div>
+				<div class="toast-body">
+					${connexionUser}
+				</div>
+			</div>
+		</div>
+
+	<div class="container">
 			<div class="row mt-3">
 				<div class="col mx-auto">
 					<img src="<c:out value="/${sessionScope.sessionAssociationVisited.pathLogo}"/>" alt="logo">
@@ -75,24 +89,33 @@
 		<div class="event-page-icon-boxes">
 			<div class="container">
 				<div class="row">
-					<div class="col-12 col-md-6 col-lg-4 mt-4 mt-lg-0">
-						<div class="card">
-							<div class="card-body">
-								<figure class="d-flex justify-content-center">
-									<img src="<c:url value="/resources/images/template/hands-gray.png"/>" alt="">
-									<img src="<c:url value="/resources/images/template/hands-white.png"/>" alt="">
-								</figure>
-							
-								<h3 class="card-title">Bénévolat</h3>
+				<c:choose>
+					<c:when test="${empty sessionScope.sessionUserLogged}">
+						<div class="col-12 col-md-6 col-lg-4 mt-4 mt-lg-0">
+							<div class="card">
+								<div class="card-body">
+									<figure class="d-flex justify-content-center">
+										<img src="<c:url value="/resources/images/template/hands-gray.png"/>" alt="">
+										<img src="<c:url value="/resources/images/template/hands-white.png"/>" alt="">
+									</figure>
 								
-								<div class="card-text">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. </p>
-									<a class="stretched-link" id="btnVolunteer" data-bs-toggle="collapse"  href="#formVolunteer" role="button" aria-expanded="false" aria-controls="formVolunteer"></a>
+									<h3 class="card-title">Bénévolat</h3>
+									
+									<div class="card-text">
+										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. </p>
+										<a class="stretched-link" id="btnVolunteer" data-bs-toggle="collapse"  href="#formVolunteer" role="button" aria-expanded="false" aria-controls="formVolunteer"></a>
+									</div>
+									
 								</div>
-								
 							</div>
 						</div>
-					</div>
+					</c:when>
+					<c:otherwise>
+						<div class="col-12 col-md-6 col-lg-4 mt-4 mt-lg-0">
+						</div>
+					</c:otherwise>
+				</c:choose>
+					
 				
 					<div class="col-12 col-md-6 col-lg-4 mt-4 mt-lg-0">
 						<div class="card">
@@ -112,25 +135,32 @@
 							</div>
 						</div>
 					</div>
-					
-					<div class="col-12 col-md-6 col-lg-4 mt-4 mt-lg-0">
-							<div class="card">
-								<div class="card-body">
-									<figure class="d-flex justify-content-center">
-										<img src="<c:url value="/resources/images/template/charity-gray.png"/>" alt="">
-										<img src="<c:url value="/resources/images/template/charity-white.png"/>" alt="">
-									</figure>
-								
-									<h3 class="card-title">Partenariat</h3>
+					<c:choose>
+						<c:when test="${empty sessionScope.sessionUserLogged}">
+							<div class="col-12 col-md-6 col-lg-4 mt-4 mt-lg-0">
+								<div class="card">
+									<div class="card-body">
+										<figure class="d-flex justify-content-center">
+											<img src="<c:url value="/resources/images/template/charity-gray.png"/>" alt="">
+											<img src="<c:url value="/resources/images/template/charity-white.png"/>" alt="">
+										</figure>
 									
-									<div class="card-text">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. </p>
+										<h3 class="card-title">Partenariat</h3>
 										
+										<div class="card-text">
+											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. </p>
+											
+										</div>
+										<a class="stretched-link"  id="btnPartner" data-bs-toggle="collapse" href="#formPartner" role="button" aria-expanded="false" aria-controls="formPartner"></a>
 									</div>
-									<a class="stretched-link"  id="btnPartner" data-bs-toggle="collapse" href="#formPartner" role="button" aria-expanded="false" aria-controls="formPartner"></a>
 								</div>
 							</div>
-					</div>
+						</c:when>
+						<c:otherwise>
+							<div class="col-12 col-md-6 col-lg-4 mt-4 mt-lg-0">
+							</div>
+						</c:otherwise>
+					</c:choose>
 				</div><!-- .row -->
 			</div><!-- .container -->
 		</div><!-- .home-page-icon-boxes -->
@@ -173,19 +203,21 @@
 						</form>
 					</div>
 					<div id="formVolunteerToLogin" class="collapse">
-						<form class="row g-3" method="post" name="formVolunteerToLogin">
+						<form class="row g-3" method="post" name="formVolunteerToLogin" action="connexion">
 							
 							<div class="col-md-6">
 								<label for="email" class="form-label">Email </label>
-								<input type="email" class="form-control" id="email" name="email" pattern="^(([a-z0-9!\#$%&\\\'*+/=?^_`{|}~-]+\.?)*[a-z0-9!\#$%&\\\'*+/=?^_`{|}~-]+)@(([a-z0-9-_]+\.?)*[a-z0-9-_]+)\.[a-z]{2,}$" size="20" maxlength="60" required/>
+								<input type="email" class="form-control" id="email" name="email" maxlength="60" required/>
 								<span class="error"></span>
 							</div>
 							
 							<div class="col-md-6">
 								<label for="password" class="form-label">Mot de passe </label>
-								<input type="password" class="form-control" id="password" name="password" pattern=".{8,}" maxlength="30" required/>
+								<input type="password" class="form-control" id="password" name="password" maxlength="30" required/>
 								<span class="error"></span>
 							</div>
+							
+							<input type="hidden" id="role" name="role" value="volunteer">
 							
 							<div class="col-12">
 								<input type="submit" class="btn btn-primary" id="submitFormVolunteerToLogin" />
@@ -251,8 +283,8 @@
 
 						
 						<div class="col-12">
-							<input type="checkbox" name="contact" id="contact"/>
-							<label for="contact">Souhaitez vous être recontactés lors de nouvelles collectes lancées par notre association ?</label>
+							<input type="checkbox" name="contact" id="contact2"/>
+							<label for="contact2">Souhaitez vous être recontactés lors de nouvelles collectes lancées par notre association ?</label>
 						</div>
 						<div class="col-12">
 							<input type="submit" class="btn btn-primary" id="submitFormDonation" value="Valider" />
@@ -283,8 +315,8 @@
 							</div>
 							
 							<div class="col-12">
-								<input type="checkbox" name="contact" id="contact"/>
-								<label for="contact">Souhaitez vous être recontactés lors de nouvelles collectes lancées par notre association ?</label>						
+								<input type="checkbox" name="contact" id="contact3"/>
+								<label for="contact3">Souhaitez vous être recontactés lors de nouvelles collectes lancées par notre association ?</label>						
 							</div>	
 							
 							<div class="col-12">
@@ -293,19 +325,21 @@
 						</form>
 					</div>
 					<div id="formPartnerToLogin" class="collapse">
-						<form class="row g-3" method="post" name="formPartnerToLogin">
+						<form class="row g-3" method="post" name="formPartnerToLogin" action="connexion">
 							
 							<div class="col-md-6">
 								<label for="email" class="form-label">Email </label>
-								<input type="email" class="form-control" id="email" name="email" pattern="^(([a-z0-9!\#$%&\\\'*+/=?^_`{|}~-]+\.?)*[a-z0-9!\#$%&\\\'*+/=?^_`{|}~-]+)@(([a-z0-9-_]+\.?)*[a-z0-9-_]+)\.[a-z]{2,}$" size="20" maxlength="60" required/>
+								<input type="email" class="form-control" id="email" name="email" maxlength="60" required/>
 								<span class="error"></span>
 							</div>
 							
 							<div class="col-md-6">
 								<label for="password" class="form-label">Mot de passe </label>
-								<input type="password" class="form-control" id="password" name="password" pattern=".{8,}" maxlength="30" required/>
+								<input type="password" class="form-control" id="password" name="password" maxlength="30" required/>
 								<span class="error"></span>
 							</div>
+							
+							<input type="hidden" id="role" name="role" value="partner">
 							
 							<div class="col-12">
 								<input type="submit" class="btn btn-primary" id="submitFormPartnerToLogin" value="Valider" />

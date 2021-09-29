@@ -2,42 +2,45 @@
 <%-- 	pageEncoding="UTF-8"%> --%>
 <!DOCTYPE html>
 <html>
-<head>
-<title>Accueil</title>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<!-- Bootstrap CSS -->
+	<head>
+		<title>Accueil</title>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+		<!-- Bootstrap CSS -->
 	    <link rel="stylesheet" href='<c:url value="resources/css/template/bootstrap.min.css"/>'>
-
-<!-- FontAwesome CSS -->
+	
+		<!-- FontAwesome CSS -->
 	    <link rel="stylesheet" href='<c:url value="resources/css/template/font-awesome.min.css"/>'>
-
-<!-- ElegantFonts CSS -->
+	
+		<!-- ElegantFonts CSS -->
 	    <link rel="stylesheet" href='<c:url value="resources/css/template/elegant-fonts.css"/>'>
-
-<!-- themify-icons CSS -->
+	
+		<!-- themify-icons CSS -->
 	    <link rel="stylesheet" href='<c:url value="resources/css/template/themify-icons.css"/>'>
-
-<!-- Swiper CSS -->
+	
+		<!-- Swiper CSS -->
 	    <link rel="stylesheet" href='<c:url value="resources/css/template/swiper.min.css"/>'>
+	
+		<!-- Styles -->
+		<link rel="stylesheet"
+		href="<c:url value="resources/css/template/style.css"/>">
+	
+		<!-- bootstrap CSS -->
+		<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+		crossorigin="anonymous">
+	
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+	        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+	        crossorigin="" />
+	    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 
-<!-- Styles -->
-<link rel="stylesheet"
-	href="<c:url value="resources/css/template/style.css"/>">
-
-<!-- bootstrap CSS -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
-	crossorigin="anonymous">
-
-
-</head>
-<body>
+	</head>
+<body id="index">
 
 	<!-- header -->
 	<c:import url="/WEB-INF/shared/header.jsp"></c:import>
@@ -123,7 +126,7 @@
 															<span class="fill"
 																data-percentage="${association.event.completionPercentage}"></span>
 														</div>
-														<!-- .fund-raised-bar -->
+														.fund-raised-bar
 
 														<div
 															class="fund-raised-details d-flex flex-wrap justify-content-between align-items-center">
@@ -175,6 +178,23 @@
 			<!-- .our-causes -->
 		</c:otherwise>
 	</c:choose>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h1 id="mapLeafset">Map avec Leafset</h1>
+			    <div id="mapid" style="margin-left:15px; width: 500px; height: 300px;"></div>
+			
+			    <input type="text" id="address" placeholder="Entrez votre adresse" required/>
+			    <button id="entry">Valider</button>
+			</div>
+		</div>
+	</div>
+	
+	<div id="test0">
+	</div>
+	
+	
 
 	<!-- footer -->
 	<c:import url="/WEB-INF/shared/footer.jsp"></c:import>
@@ -200,6 +220,11 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
 		crossorigin="anonymous"></script>
+		<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    	integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    	crossorigin=""></script>
+    	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    	<script type="text/javascript" src="<c:url value="resources/js/scriptAjax.js"/>"></script>
 </body>
 </html>
 

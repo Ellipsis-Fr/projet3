@@ -2,6 +2,7 @@ package fr.isika.projet3.services;
 
 import java.util.List;
 
+import fr.isika.projet3.entities.IRole;
 import fr.isika.projet3.entities.Participant;
 
 public interface IParticipantService {
@@ -17,4 +18,5 @@ public interface IParticipantService {
     void delete(Participant entity);
 
     void deleteById(long entityId);
+    
 }

@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -19,7 +20,7 @@ import fr.isika.projet3.enumerations.Statut;
 
 @Entity	
 @Table(name="Partners")
-public class Partner {
+public class Partner implements IRole {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,6 +39,9 @@ public class Partner {
 
 //	@OneToOne(fetch = FetchType.EAGER)
 //	private UserSociety userSociety;
+	
+	@Transient
+	private static final String ROLE = "partner";
 
 	public Partner() {
 		super();
@@ -92,6 +96,10 @@ public class Partner {
 	public void setActivities(List<Activity> activities) {
 		this.activities = activities;
 	}
+
+	public static String getRole() {
+		return ROLE;
+	}
 	
 //	public UserSociety getUserSociety() {
 //		return userSociety;
@@ -101,4 +109,5 @@ public class Partner {
 //		this.userSociety = userSociety;
 //	}
 
+	
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import fr.isika.projet3.entities.Activity;
+import fr.isika.projet3.entities.IRole;
 import fr.isika.projet3.entities.Partner;
 
 public interface IPartnerService {
@@ -23,10 +24,7 @@ public interface IPartnerService {
 
     void delete(Partner partner);
 
-    void deleteById(long entityId);
-    
-	Partner partnerLogIn(String email, String password);
-	
+    void deleteById(long entityId);	
 }
 
 

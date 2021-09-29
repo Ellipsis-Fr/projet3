@@ -3,6 +3,7 @@ package fr.isika.projet3.services;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -138,7 +139,7 @@ public class AssociationService implements IAssociationService {
 	}
 
 	@Override
-	public Association associationLogIn(String email, String password) {
+	public Association logIn(String email, String password) {
 		String query = "FROM Association a WHERE a.email=? AND a.password=?";
 		return dao.findOneByParameters(query, email, password);
 	}
@@ -163,3 +164,7 @@ public class AssociationService implements IAssociationService {
 		}
 	}
 }
+
+
+
+

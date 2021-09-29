@@ -30,7 +30,7 @@
 				</div>
 				<div class="card-body">
 				<span class="error">${result}</span><br />
-				<form method="post" action="connexionAssociation" class="connexion-form">
+				<form method="post" action="connexionAssociation" class="connexion-form" name="formAssociationToLogin">
 					<div class="form-floating mb-3">
 						<input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required><label for="floatingInput">Adresse Email</label>
 					</div>
