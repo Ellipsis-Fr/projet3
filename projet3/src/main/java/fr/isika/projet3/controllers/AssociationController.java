@@ -87,7 +87,7 @@ public class AssociationController {
 	@PostMapping("/checkEmailPasswordAssociation")
 	public @ResponseBody String checkEmailPasswordAssociation(@RequestParam("email") String email, @RequestParam("password") String password) {
 		System.out.println("dans controller " + email + " " + password);
-		Association association = associationService.associationLogIn(email, password);
+		Association association = associationService.logIn(email, password);
 		
 		if (association == null) {
 			return "not Match";
@@ -97,7 +97,8 @@ public class AssociationController {
 	@PostMapping("/connexionAssociation")
 	public String connexion(@RequestParam("email") String email, @RequestParam("password") String password, HttpServletRequest req) {
 				
-		Association association = associationService.associationLogIn(email, password);
+		Association association = associationService.logIn(email, password);
+		if (association == null) return "connexionAssociation";
 		
 		HttpSession session = req.getSession();
 		

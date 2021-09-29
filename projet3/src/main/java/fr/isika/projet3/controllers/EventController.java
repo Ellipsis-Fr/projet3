@@ -24,10 +24,13 @@ import org.springframework.web.multipart.MultipartFile;
 import fr.isika.projet3.entities.Association;
 import fr.isika.projet3.entities.Donation;
 import fr.isika.projet3.entities.Event;
+import fr.isika.projet3.entities.IRole;
+import fr.isika.projet3.entities.Participant;
 import fr.isika.projet3.entities.Partner;
 import fr.isika.projet3.entities.User;
 import fr.isika.projet3.entities.UserSociety;
 import fr.isika.projet3.entities.Volunteer;
+import fr.isika.projet3.enumerations.Statut;
 import fr.isika.projet3.enumerations.TypeEvent;
 import fr.isika.projet3.services.IAssociationService;
 import fr.isika.projet3.services.IDonationService;
@@ -49,6 +52,8 @@ public class EventController {
 	// keeps the information of the association's event visited
 	private static final String ATT_SESSION_ASSOCIATION_EVENT_VISITED = "sessionAssociationVisited"; //Utiliser pour CRUD sur l'association en cours de visualisation
 	private static final String ATT_SESSION_EVENT_VISITED = "sessionEventVisited"; //Utiliser pour CRUD sur l'evenement en cours de visualisation
+	private static final String ATT_SESSION_USER_LOGGED = "sessionUserLogged";
+	private static final String ATT_SESSION_ROLE_LOGGED = "sessionRoleLogged";
 	
 	private static final String FIELD_CHECK_TYPE_USER = "userType";
 	private static final String FIELD_SIRET = "siret";
@@ -119,22 +124,27 @@ public class EventController {
 	
 	@GetMapping("event")
 	public String eventAccess(@RequestParam("id") String id, HttpServletRequest req) {
-		//TODO: Remplacer la fonction de redirection vers l'index par un filtre menant à une page spécifique précisant qu'il n'y a plus d'évent
-		HttpSession session = req.getSession();
 		
-		if (session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED) != null) { // TODO: Faire une comparaison entre l'associaiton en session et l'association obtenu avec l'id. si égaux alors cela signifie que nous venons d'une méthode/action initiée sur cet event_visited. Donc nous devons conserver les session (association_v, event_v, et compte utilisateur)
-			session.invalidate();
-			session = req.getSession();
-		}
+		HttpSession session = req.getSession();
 		
 		Association association  = associationService.findOne(Long.parseLong(id));
 		
-		if (association == null) return "redirect: index";
+		if (association == null) { //TODO: Remplacer la fonction de redirection vers l'index par un filtre menant à une page spécifique précisant qu'il n'y a plus d'évent
+			session.invalidate();
+			return "redirect: index";
+		}
 		
+		Association associationEventVisited = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED);
+		
+		if (associationEventVisited != null && associationEventVisited.getId() != Long.parseLong(id)) { 
+			// TODO: Faire une comparaison entre l'associaiton en session et l'association obtenu avec l'id. si égaux alors cela signifie que nous venons d'une méthode/action initiée sur cet event_visited. Donc nous devons conserver les session (association_v, event_v, et compte utilisateur)
+			session.invalidate();
+			session = req.getSession();
+		}
+
 		Event event = eventService.findOne(association.getEvent().getId());
 		
-		int sumDonations = getTotalDonationAmount(event);
-		event.setSumDonations(sumDonations);
+		event.setSumDonations(getTotalDonationAmount(event));
 		
 		session.setAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED, association);
 		session.setAttribute(ATT_SESSION_EVENT_VISITED, event);
@@ -266,6 +276,16 @@ public class EventController {
 		return null;
 	}
 	
+	private User getUser(Association associationVisited, String email) {
+		List<User> users = associationVisited.getUsers();
+		
+		for (User user : users) {
+			if (user.getEmail().equalsIgnoreCase(email)) return user;					
+		}
+		
+		return null;
+	}
+	
 	private User newUser(HttpServletRequest req, Association associationVisited, boolean isUserSociety){
 		if (isUserSociety) {
 			UserSociety user = userSocietyService.init(req);
@@ -300,11 +320,79 @@ public class EventController {
 	private int getTotalDonationAmount(Event eventVisited) {
 		return eventVisited.getDonations().stream().map(x -> x.getAmount()).mapToInt(Integer::intValue).sum();
 	}
+
+	@PostMapping("connexion")
+	public String connexionUser(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("role") String role, HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		Association associationVisited = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED);
+		Event eventVisited = (Event) session.getAttribute(ATT_SESSION_EVENT_VISITED);
+		
+		// Reload ours objects save in session
+		associationVisited = associationService.findOne(associationVisited.getId());
+		eventVisited = eventService.findOne(eventVisited.getId());
+		
+		User user = getUser(associationVisited, email);
+		
+		if (user == null | checkEmailPassword(user, password, role).equals("not Match")) {
+			model.addAttribute("connexionUser", "Email et/ou Mot de passe incorrect(s)");
+			return "event/home";
+		}
+
+		switch(role) {
+			case "volunteer":
+				Volunteer volunteer = user.getVolunteer();
+				session.setAttribute(ATT_SESSION_USER_LOGGED, user);
+				session.setAttribute(ATT_SESSION_ROLE_LOGGED, volunteer);
+				break;
+			case "participant":
+				Participant participant = user.getParticipant();
+				session.setAttribute(ATT_SESSION_USER_LOGGED, user);
+				session.setAttribute(ATT_SESSION_ROLE_LOGGED, participant);
+				break;
+			case "partner":
+				UserSociety userSociety = (UserSociety) user;
+				Partner partner = userSociety.getPartner();
+				
+				if (partner.getStatut() == Statut.PENDING) {
+					model.addAttribute("connexionUser", "Email et/ou Mot de passe incorrect(s)");
+					return "event/home";
+				}
+				
+				session.setAttribute(ATT_SESSION_USER_LOGGED, userSociety);
+				session.setAttribute(ATT_SESSION_ROLE_LOGGED, partner);
+		}
+		
+		model.addAttribute("connexionUser", "Connexion Réussie !");
+		return "event/home";
+	}
 	
-	
-	
-	
-	
+	private String checkEmailPassword(User user, String password, String role) {
+		
+		switch(role) {
+			case "volunteer":
+				Volunteer volunteer = user.getVolunteer();
+				if (volunteer == null) return "not Match";
+				return volunteer.getPassword().equals(password) ? "Match" : "not Match";
+			case "participant":
+				Participant participant = user.getParticipant();
+				if (participant == null) return "not Match";
+				return participant.getPassword().equals(password) ? "Match" : "not Match";
+			case "partner":
+				UserSociety userSociety = null;
+				
+				try {
+					userSociety = (UserSociety) user;
+				} catch (ClassCastException e) {
+					break;
+				}
+				
+				Partner partner = userSociety.getPartner();
+				if (partner == null) return "not Match";
+				return partner.getPassword().equals(password) ? "Match" : "not Match";	
+		}
+		
+		return "not Match";
+	}
 	
 	
 	

@@ -58,23 +58,23 @@ public class PartnerController {
 	 * @param password
 	 * @return
 	 */
-	@PostMapping("/connexionPartner")
-	public ModelAndView add(@RequestParam("email") String email, @RequestParam("password") String password) {
-		
-		System.out.println("email : " + email + ", password : " + password);
-		
-		ModelAndView mv = new ModelAndView();
-		Partner partner = partnerService.partnerLogIn(email, password);
-		if (partner == null) {
-			mv.setViewName("connexionPartner");
-			mv.addObject("result", "email et/ou mot de passe non reconnu");
-			mv.addObject("partner", new Partner());
-		} else {
-			mv.setViewName("/WEB-INF/dashboardPartner/home");
-			mv.addObject("result", "tu es connecté");
-			mv.addObject("partner", partner);
-		}
-		return mv;
-	}
+//	@PostMapping("/connexionPartner")
+//	public ModelAndView add(@RequestParam("email") String email, @RequestParam("password") String password) {
+//		
+//		System.out.println("email : " + email + ", password : " + password);
+//		
+//		ModelAndView mv = new ModelAndView();
+//		Partner partner = partnerService.partnerLogIn(email, password);
+//		if (partner == null) {
+//			mv.setViewName("connexionPartner");
+//			mv.addObject("result", "email et/ou mot de passe non reconnu");
+//			mv.addObject("partner", new Partner());
+//		} else {
+//			mv.setViewName("/WEB-INF/dashboardPartner/home");
+//			mv.addObject("result", "tu es connecté");
+//			mv.addObject("partner", partner);
+//		}
+//		return mv;
+//	}
 		
 }

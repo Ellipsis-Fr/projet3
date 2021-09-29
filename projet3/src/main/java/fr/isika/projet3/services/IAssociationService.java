@@ -28,7 +28,7 @@ public interface IAssociationService {
 	
 	boolean checkDouble(String rna);
 	
-	Association associationLogIn(String email, String password);
+	Association logIn(String email, String password);
 
 	void deleteFolder(String pathFolder);
 

@@ -17,7 +17,7 @@ import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="Associations")
-public class Association {
+public class Association implements IRole {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -11,13 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="Volunteers")
-public class Volunteer {
+public class Volunteer implements IRole {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,6 +32,9 @@ public class Volunteer {
 	@ManyToMany(mappedBy="volunteers", fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Activity> activities;
+	
+	@Transient
+	private static final String ROLE = "volunteer";
 
 	public Volunteer() {
 		super();
@@ -68,4 +72,10 @@ public class Volunteer {
 	public void setActivities(List<Activity> activities) {
 		this.activities = activities;
 	}
+
+	public static String getRole() {
+		return ROLE;
+	}
+	
+	
 }

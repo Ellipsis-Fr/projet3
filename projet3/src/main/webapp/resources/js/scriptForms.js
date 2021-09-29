@@ -150,17 +150,23 @@ $("#formDonation input[type='radio']").change(e => {
 
 
 
+// ==== Validation Connexion ====
 
-//$("input[type='radio']").change((e) => {
-//	if (e.target.value == "non") {
-//		$("#clientForm").hide();
-//		$("#clientForm input").prop("disabled", true);
-//		$("#clientSelect").show();
-//		$("#clientSelect select").prop("disabled", false);
-//	} else {
-//		$("#clientSelect").hide();
-//		$("#clientSelect select").prop("disabled", true);
-//		$("#clientForm").show();
-//		$("#clientForm input").prop("disabled", false);
-//	}
-//})
+$(document).ready(start);
+
+function start() {
+	console.log($("#event").length);
+	console.log($("#event").length == 0);
+	if ($("#event").length == 0) return;
+	
+	let connexion = $("#stateConnexionUser").text();
+	console.log(connexion);
+
+	if (connexion.length > 1) {	
+	    var toast = new bootstrap.Toast($('#liveToast'));
+	    toast.show();
+	}
+		
+}
+
+
