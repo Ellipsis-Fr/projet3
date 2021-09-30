@@ -66,12 +66,12 @@
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                        Dons
+                                        Don
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                             <a class="nav-link" href='<c:url value="listDonations"/>'>Liste des dons</a>
+                                            <a class="nav-link" href='<c:url value="listDonations"/>'>Liste des dons</a>
                                             <a class="nav-link" href="register.html">Register</a>
                                             <a class="nav-link" href="password.html">Forgot Password</a>
                                         </nav>
@@ -109,11 +109,10 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Activités</h1>
+                        <h1 class="mt-4">Dons</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Activités en cours</li>
-                            <li class="breadcrumb-item active">Activités en attente</li>
-                            <li class="breadcrumb-item active">Activités refusées</li>
+                            <li class="breadcrumb-item active">Liste des dons</li>
+                            
                         </ol>
                 	
 					</div>
@@ -121,24 +120,38 @@
 						<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th>Nom de l'activité</th>
-								<th>Adresse</th>
-								<th>Description</th>
-								<th>Edit</th>
-								<th>Delete</th>
+<!-- 								<th>Nom</th> -->
+<!-- 								<th>Prénom</th> -->
+<!-- 								<th>Adresse</th> -->
+<!-- 								<th>Telephone</th> -->
+<!-- 								<th>Email</th> -->
+<!-- 								<th>Montant</th> -->
+								
+								<th>Id</th>
+								<th>Amount</th>
+								<th>Date</th>
+								<th>Statut</th>
+								<th>User_Id</th>
+								<th>Event_Id</th>
 							</tr>
 						</thead>
 				
 						<tbody>
-							<c:forEach var="activity" items="${listActivities}">
+							<c:forEach var="donation" items="${listDonations}">
 								<tr>
-									<td>${activity.name}</td>
-									<td>${activity.address}</td>
-									<td>${activity.description}</td>
-									<td><a
-										href="${pageContext.request.contextPath}/editActivity?id=${activity.id}">Edit</a></td>
-									<td><a
-										href="${pageContext.request.contextPath}/deleteActivity?id=${activity.id}">Delete</a></td>
+<%-- 									<td>${user.LastName}</td> --%>
+<%-- 									<td>${user.firstName}</td> --%>
+<%-- 									<td>${user.address}</td> --%>
+<%-- 									<td>${user.telephone}</td> --%>
+<%-- 									<td>${user.email}</td> --%>
+<%-- 									<td>${user.montant}</td> --%>
+									
+									<td>${donation.id}</td>
+									<td>${doantion.amount}</td>
+									<td>${donation.date}</td>
+									<td>${donation.statut}</td>
+									<td>${donation.user_id}</td>
+									<td>${donation.event_id}</td>
 								</tr>
 							</c:forEach>
 						</tbody>
