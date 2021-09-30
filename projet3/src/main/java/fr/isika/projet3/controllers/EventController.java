@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import fr.isika.projet3.entities.Association;
 import fr.isika.projet3.entities.Donation;
@@ -123,7 +124,7 @@ public class EventController {
 	}
 	
 	@GetMapping("event")
-	public String eventAccess(@RequestParam("id") String id, HttpServletRequest req) {
+	public String eventAccess(@RequestParam("id") String id, HttpServletRequest req, Model model) {
 		
 		HttpSession session = req.getSession();
 		
@@ -141,6 +142,9 @@ public class EventController {
 			session.invalidate();
 			session = req.getSession();
 		}
+		
+		if (req.getParameter("connexionUser") != null) model.addAttribute("connexionUser", req.getParameter("connexionUser"));
+
 
 		Event event = eventService.findOne(association.getEvent().getId());
 		
@@ -322,7 +326,7 @@ public class EventController {
 	}
 
 	@PostMapping("connexion")
-	public String connexionUser(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("role") String role, HttpServletRequest req, Model model) {
+	public ModelAndView connexionUser(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("role") String role, HttpServletRequest req, Model model) {		
 		HttpSession session = req.getSession();
 		Association associationVisited = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED);
 		Event eventVisited = (Event) session.getAttribute(ATT_SESSION_EVENT_VISITED);
@@ -331,11 +335,18 @@ public class EventController {
 		associationVisited = associationService.findOne(associationVisited.getId());
 		eventVisited = eventService.findOne(eventVisited.getId());
 		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect: event?id=" + associationVisited.getId());
+		
 		User user = getUser(associationVisited, email);
 		
-		if (user == null | checkEmailPassword(user, password, role).equals("not Match")) {
-			model.addAttribute("connexionUser", "Email et/ou Mot de passe incorrect(s)");
-			return "event/home";
+		
+		if (user == null || checkEmailPassword(user, password, role).equals("not Match")) {
+//			model.addAttribute("connexionUser", "Email et/ou Mot de passe incorrect(s)");
+//			return "event/home";
+//			return "redirect: event?id=" + associationVisited.getId() + "connexionUser=Email+et%2Fou+Mot+de+passe+incorrect%28s%29";
+			mv.addObject("connexionUser", "Email et/ou Mot de passe incorrect(s)");
+			return mv;
 		}
 
 		switch(role) {
@@ -354,16 +365,22 @@ public class EventController {
 				Partner partner = userSociety.getPartner();
 				
 				if (partner.getStatut() == Statut.PENDING) {
-					model.addAttribute("connexionUser", "Email et/ou Mot de passe incorrect(s)");
-					return "event/home";
+//					model.addAttribute("connexionUser", "Compte en attente de Validation Administrateur");
+//					return "event/home";
+					
+					mv.addObject("connexionUser", "Compte en attente de Validation Administrateur");
+					return mv;
 				}
 				
 				session.setAttribute(ATT_SESSION_USER_LOGGED, userSociety);
 				session.setAttribute(ATT_SESSION_ROLE_LOGGED, partner);
 		}
 		
-		model.addAttribute("connexionUser", "Connexion Réussie !");
-		return "event/home";
+//		model.addAttribute("connexionUser", "Connexion Réussie !");
+//		return "event/home";
+		
+		mv.addObject("connexionUser", "Connexion Réussie !");
+		return mv;
 	}
 	
 	private String checkEmailPassword(User user, String password, String role) {

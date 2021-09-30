@@ -39,7 +39,39 @@ function apparitionForm(e) {
 		$("#paymentCb input").prop("disabled", true);
 		
 		$("#formDonation input").prop("disabled", false);
-		$("#fieldsSociety input").prop("disabled", true);
+//		$("#fieldsSociety input").prop("disabled", true);
+
+		$("form[name='formDonation'] input[name='companyName']").prop("disabled", true);
+		$("form[name='formDonation'] input[name='siret']").prop("disabled", true);
+		
+		if ($("#userLogged").text().length != 0) {
+			console.log("je suis connecté")
+			if($("#roleUserLogged").text() == 'partner') {
+				$("#userType").prop("checked", true);
+				
+				$("form[name='formDonation'] input[name='companyName']").prop("disabled", false);
+				$("form[name='formDonation'] input[name='companyName']").prop("readonly", true);
+				$("form[name='formDonation'] input[name='siret']").prop("disabled", false);
+				$("form[name='formDonation'] input[name='siret']").prop("readonly", true);
+				$("form[name='formDonation'] .fieldsSociety").hide();
+				
+//				$("#fieldsSociety").show();
+//				$("#fieldsSociety input").prop("disabled", false);
+//				$("#fieldsSociety input").prop("readonly", true);
+			}
+			
+			$("form[name='formDonation'] input[name='lastname']").prop("readonly", true);
+			$("form[name='formDonation'] input[name='firstname']").prop("readonly", true);
+			$("form[name='formDonation'] input[name='address']").prop("readonly", true);
+			$("form[name='formDonation'] input[name='telephone']").prop("readonly", true);
+			$("form[name='formDonation'] input[name='email']").prop("readonly", true);
+			$("form[name='formDonation'] .fieldsUsers").hide();
+
+			$("#userType").prop("readonly", true);
+			$("#userType").hide();
+			$("label[for='userType']").hide();
+		}
+
 	}
 	else if ($(this).attr("id") == "btnPartner") {
 		console.log("click sur btnPartner")
@@ -64,8 +96,15 @@ function initForms() {
 	$("#formPartnerRegistration").show();
 	
 	$("#userType").prop("checked", false);
-	$("#fieldsSociety").hide();
-	$("#fieldsSociety input").prop("disabled", true);
+	
+	
+//	$("#fieldsSociety").hide();
+//	$("#fieldsSociety input").prop("disabled", true);
+	
+	$("form[name='formDonation'] .fieldsSociety").hide()
+	$("form[name='formDonation'] input[name='companyName']").prop("disabled", true);
+	$("form[name='formDonation'] input[name='siret']").prop("disabled", true);
+	
 	$("#paymentCb").hide();
 	$("#paymentCb input").prop("disabled", true);
 	$(".formDonation input[type='radio']").prop("checked", false);
@@ -123,12 +162,20 @@ $(".switch").change((e) => {
 		}
 	} else if (e.target.id == "userType") {
 		if (e.target.checked) {
-			$("#fieldsSociety").show();
-			$("#fieldsSociety input").prop("disabled", false);
+//			$("#fieldsSociety").show();
+//			$("#fieldsSociety input").prop("disabled", false);
+
+			$("form[name='formDonation'] .fieldsSociety").show()
+			$("form[name='formDonation'] input[name='companyName']").prop("disabled", false);
+			$("form[name='formDonation'] input[name='siret']").prop("disabled", false);
 		}
 		else {
-			$("#fieldsSociety").hide();
-			$("#fieldsSociety input").prop("disabled", true);
+//			$("#fieldsSociety").hide();
+//			$("#fieldsSociety input").prop("disabled", true);
+			
+			$("form[name='formDonation'] .fieldsSociety").hide()
+			$("form[name='formDonation'] input[name='companyName']").prop("disabled", true);
+			$("form[name='formDonation'] input[name='siret']").prop("disabled", true);
 		}
 	}
 });
@@ -150,15 +197,15 @@ $("#formDonation input[type='radio']").change(e => {
 
 
 
-// ==== Validation Connexion ====
+// ==== Validation Connexion In Event ====
 
 $(document).ready(start);
 
 function start() {
-	console.log($("#event").length);
-	console.log($("#event").length == 0);
+	console.log($("#roleUserLogged").text());
+	console.log($("#userLogged").text());
 	if ($("#event").length == 0) return;
-	
+
 	let connexion = $("#stateConnexionUser").text();
 	console.log(connexion);
 
