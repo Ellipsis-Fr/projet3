@@ -35,8 +35,14 @@ public class ActivityController {
 	IEventService eventService;
 	
 	@RequestMapping("dashboardAsso/listActivities")
-	public String activityForm(Model model) {
-		List<Activity> activities = activityService.findAll();
+	public String activityForm(Model model, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		Event event = (Event) session.getAttribute(ATT_SESSION_EVENT);
+		
+		//reload object(event) save in session
+		event= eventService.findOne(event.getId());
+		
+		List<Activity> activities = event.getActivities();
 		model.addAttribute("listActivities", activities);
 		
 		return "listActivities";
