@@ -500,7 +500,10 @@ function returnForm(result) {
 
 // ======== MAP ASSOCIATIONS ========
 var map;
-var markers = [];
+var markersAsso = [];
+var markersUser = [];
+var mySwiper;
+var markersAsso = [];
 
 $(document).ready(start);
 
@@ -509,6 +512,24 @@ function start() {
 	initMapLeafset(46.50, 2.20); //lat et lng pour centrer sur la france
 	
 	$("#entry").click(localisation);
+	
+	mySwiper = new Swiper ('.swiper-container', {
+	  // Optional parameters
+	  direction: 'horizontal',
+	  loop: true,
+	  autoplay: true,
+	  speed: 60000,
+	  longSwipesMs: 60000,
+	  slidesPerView: 4,
+	  width: 1540,
+	  spaceBetween: 10,
+	  
+	  on: {
+	    slideChange: slideChange,
+	  }
+	})
+	
+
 }
 
 function initMapLeafset(latitude, longitude) {
@@ -536,8 +557,8 @@ function initMapLeafset(latitude, longitude) {
                     .addTo(map)
                     .openPopup();
 				console.log(marker);
-                markers.push(marker);
-                if (markers.length > 1) clearMarker();
+                markersUser.push(marker);
+                if (markersUser.length > 1) clearMarker();
             }
         });
     });
@@ -557,15 +578,45 @@ function localisation() {
                 .addTo(map)
                 .openPopup();
             
-	        if (marker) markers.push(marker);
+	        if (marker) markersUser.push(marker);
 	        console.log(marker);
-		    if (markers.length > 1) clearMarker();
+		    if (markersUser.length > 1) clearMarker();
         }
 
     });
 }
 
 function clearMarker() {
-	map.removeLayer(markers[0]);
-	markers.shift()
+	map.removeLayer(markersUser[0]);
+	markersUser.shift()
 }
+
+
+// ----------- Test
+//
+//console.log($(".swiper-container"))
+//
+function slideChange() {
+//	console.log(this.activeIndex)
+	
+	let index = this.activeIndex;
+	
+//	console.log($(".swiper-slide [data-swiper-slide-index='index']"))
+//	console.log(this)
+//	console.log(this.slides[index])
+	
+	let asso = $(this.slides[index]).attr("id");
+	let infos =  asso.split("-");
+	
+	let address = infos[0];
+	let name = infos[1];
+	let id = infos[2];
+	
+	console.log(asso)
+	console.log(address + " " + name + " " + id);
+//	console.log($(activeAsso).attr("id"))
+
+	
+}
+
+

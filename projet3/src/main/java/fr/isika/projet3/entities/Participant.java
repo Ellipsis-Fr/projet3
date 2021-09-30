@@ -34,7 +34,7 @@ public class Participant implements IRole {
 	private List<Activity> activities;
 
 	@Transient
-	private static final String ROLE = "participant";
+	private String role = "participant";
 	
 	public Participant() {
 		super();
@@ -73,7 +73,7 @@ public class Participant implements IRole {
 		this.activities = activities;
 	}
 
-	public static String getRole() {
-		return ROLE;
+	public String getRole() {
+		return role;
 	}
 }

@@ -84,14 +84,13 @@
 					<!-- .row -->
 					<div class="row">
 						<div class="col-12">
-							<div class="swiper-container causes-slider"
-								; data-interval="1000" ; data-slide="automatic">
+							<div class="swiper-container causes-slider">
 								<div class="swiper-wrapper">
 
 									<c:forEach items="${requestScope.requestAssociations}"
 										var="association">
 
-										<div class="swiper-slide">
+										<div class="swiper-slide" id="${association.address}-${association.name}-${association.id}">
 											<div class="cause-wrap">
 												<figure class="m-0">
 													<img src="resources/images/template/cause-1.jpg" alt="">
@@ -126,7 +125,7 @@
 															<span class="fill"
 																data-percentage="${association.event.completionPercentage}"></span>
 														</div>
-														.fund-raised-bar
+														<!-- .fund-raised-bar -->
 
 														<div
 															class="fund-raised-details d-flex flex-wrap justify-content-between align-items-center">
@@ -168,6 +167,10 @@
 										<path
 											d="M1203 544q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z" /></svg></span>
 							</div>
+							
+							
+							
+													
 						</div>
 						<!-- .col -->
 					</div>

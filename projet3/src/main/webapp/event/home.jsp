@@ -37,7 +37,8 @@
 		<!-- header -->
 		<c:import url="/WEB-INF/shared/header.jsp"></c:import>
 		
-		<span id="roleUserLogged" hidden='hidden'>${sessionScope.sessionRoleLogged.ROLE}</span> <!-- Use to know in scriptForms if an user is logged or not and what's his role -->
+		<span id="userLogged" hidden='hidden'>${sessionScope.sessionUserLogged}</span> <!-- Use to know in scriptForms if an user is logged or not ...-->
+		<span id="roleUserLogged" hidden='hidden'>${sessionScope.sessionRoleLogged.role}</span> <!-- ... and what's his role -->
 		<span id="stateConnexionUser" hidden='hidden'>${connexionUser}</span> <!-- Use to lauch alert after a connexion -->
 
 		<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
@@ -233,7 +234,8 @@
 							<label for="userType">Je représente une société.</label><br /><br />
 						</div>
 						
-						<div id="fieldsSociety"><c:import url="/WEB-INF/shared/fieldsUserSociety.jsp"></c:import></div>
+<%-- 						<span id="fieldsSociety"><c:import url="/WEB-INF/shared/fieldsUserSociety.jsp"></c:import></span> --%>
+						<c:import url="/WEB-INF/shared/fieldsUserSociety.jsp"></c:import>
 						
 						<c:import url="/WEB-INF/shared/fieldsUser.jsp"></c:import>
 						

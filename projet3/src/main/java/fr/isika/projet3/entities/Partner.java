@@ -41,7 +41,7 @@ public class Partner implements IRole {
 //	private UserSociety userSociety;
 	
 	@Transient
-	private static final String ROLE = "partner";
+	private String role = "partner";
 
 	public Partner() {
 		super();
@@ -97,8 +97,8 @@ public class Partner implements IRole {
 		this.activities = activities;
 	}
 
-	public static String getRole() {
-		return ROLE;
+	public String getRole() {
+		return role;
 	}
 	
 //	public UserSociety getUserSociety() {
