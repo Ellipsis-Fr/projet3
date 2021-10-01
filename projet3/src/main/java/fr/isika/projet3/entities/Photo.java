@@ -21,8 +21,8 @@ public class Photo {
 	private String name;
 	private String pathPhoto;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	private Association association;
+	@ManyToOne
+	private Document document;
 	
 	public Long getId() {
 		return id;
@@ -48,14 +48,11 @@ public class Photo {
 		this.pathPhoto = pathPhoto;
 	}
 
-	public Association getAssociation() {
-		return association;
+	public Document getDocument() {
+		return document;
 	}
 
-	public void setAssociation(Association association) {
-		this.association = association;
+	public void setDocument(Document document) {
+		this.document = document;
 	}
-	
-	
-	
 }
