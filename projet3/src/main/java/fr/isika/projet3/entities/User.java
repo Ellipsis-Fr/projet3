@@ -137,4 +137,26 @@ public class User {
 	public void setAssociation(Association association) {
 		this.association = association;
 	}
+
+	public User(Long id, String firstname, String lastname, String email, String telephone, String address,
+			boolean isRecontactable, List<Donation> donations) {
+		super();
+		this.id = id;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.telephone = telephone;
+		this.address = address;
+		this.isRecontactable = isRecontactable;
+		this.donations = donations;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
+				+ ", telephone=" + telephone + ", address=" + address + ", isRecontactable=" + isRecontactable
+				+ ", donations=" + donations + "]";
+	}
+	
+	
 }

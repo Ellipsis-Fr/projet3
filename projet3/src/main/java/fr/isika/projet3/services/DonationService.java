@@ -25,14 +25,12 @@ public class DonationService implements IDonationService {
 	private IDonationDao dao;
 	
 	@Override
-	public Donation findOne(long id) {
-		// TODO Auto-generated method stub
+	public Donation findOne(long id) {	
 		return null;
 	}
 
 	@Override
 	public List<Donation> findAll() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

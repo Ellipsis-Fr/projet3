@@ -28,7 +28,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Paramètre</a></li>
+                       <li><a class="dropdown-item" href="#!">Paramètre</a></li>
                         <li><a class="dropdown-item" href="editAccount">Mon compte</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="logout">Se déconnecter</a></li>
@@ -66,12 +66,12 @@
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                        Don
+                                        Dons
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href='<c:url value="listDonations"/>'>Liste des dons</a>
+                                             <a class="nav-link" href='<c:url value="listDonations"/>'>Liste des dons</a>
                                             <a class="nav-link" href="register.html">Register</a>
                                             <a class="nav-link" href="password.html">Forgot Password</a>
                                         </nav>
@@ -109,59 +109,80 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Dons</h1>
+                        <h1 class="mt-4">Activité</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Liste des dons</li>
+                            <li class="breadcrumb-item active">Modification des informations de l'activité</li>
                         </ol>
-                		<div class="card mb-4">
-                            <div class="card-header">
-                                <i class="fas fa-table me-1"></i>
-                                DataTable Example
-                            </div>
-                            <div class="card-body">
-                                <table id="datatablesSimple">
-                                    <thead>
-                                        <tr>
-                                            <th>Amount</th>
-											<th>Date</th>
-											<th>Statut</th>
-											<th>User Nom</th>
-											<th>User Prenom</th>
-											<th>User Adresse</th>
-											<th>User Email</th>
-											<th>User Telephone</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Amount</th>
-											<th>Date</th>
-											<th>Statut</th>
-											<th>User Nom</th>
-											<th>User Prenom</th>
-											<th>User Adresse</th>
-											<th>User Email</th>
-											<th>User Telephone</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        <c:forEach var="donation" items="${listDonations}">
-											<tr>
-												<td>${donation.amount}</td>
-												<td>${donation.date}</td>
-												<td>${donation.statut}</td>
-												<td>${donation.user.lastname}</td>
-												<td>${donation.user.firstname}</td>
-												<td>${donation.user.address}</td>
-												<td>${donation.user.email}</td>
-												<td>${donation.user.telephone}</td>
-											</tr>
-										</c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-					</div>
+	                    <div class="container">
+                    		<div id="formEditActivity">
+								<form:form modelAttribute="activity" class="row g-3" method="post" name ="formEditActivity" action= "editActivity" enctype="multipart/form-data">
+									<div class="col-md-6">
+										<label for="name" class="form-label">Nom de l'Activité :<span style="color: red">*</span> </label>
+										<input type="text" class="form-control" id="name" name="name" pattern="[a-zA-Z-\\s]{3,15}" maxlength="15" required />
+										<span class="error"></span>
+									</div>
+								
+									<div class="col-md-6">
+										<label for="address" class="form-label" >Adresse :<span style="color: red">*</span></label>
+										<input type="text" class="form-control" id="address" name="address" pattern="\d+\s+(?:bis?\s|ter?\s)?(?:rue?\s|avenue\s|boulevard?\s)([\sa-zA-Z\u00e0\u00e2\u00e4\u00e7\u00e8\u00e9\u00ea\u00ee\u00ef\u00f4\u00f6\u00f9\u00fb\u00fc])+\s[0-9]{5}\s[\sa-zA-Z\u00e0\u00e2\u00e4\u00e7\u00e8\u00e9\u00ea\u00ee\u00ef\u00f4\u00f6\u00f9\u00fb\u00fc -]+" placeholder="123 rue de la fleur 45678 Paris" maxlength="50" required />
+										<span class="error"></span>
+									</div>
+									
+									<div class="col-md-6">
+										<label for="startDate" class="form-label" >Date de début :<span style="color: red">*</span> </label>
+										<input name="startDate" type="date" class="form-control" placeholder="date de debut" required="required"/>
+										<span class="error"></span>
+									</div>
+									
+									<div class="col-md-6">
+										<label for="endDate" class="form-label">Date de fin : <span style="color: red">*</span></label>
+										<input name="endDate" type="date" class="form-control" placeholder="date de fin" required="required" />
+										<span class="error"></span>
+									</div>
+							
+									<div class="col-md-6">
+										<label for="description" class="form-label">Description :</label>
+										<input type="text" class="form-control" id="description" name="description" placeholder="Description de l'activité"/>
+										<span class="error"></span>
+									</div>
+									
+									<div class="col-md-6">
+										<label for="photo" class="form-label">Photo <span style="color: red">*</span></label>
+										<input type="file" class="form-control" id="photo" name="photo" accept=".jpg,.jpeg,.png" required />
+										<span class="error"></span>
+									</div>
+									
+									<div class="col-md-6">
+										<label for="necessaryFunding" class="form-label">Fond nécessaire pour l'activité :<span style="color: red">*</span></label>
+										<input type="text" class="form-control" id="necessaryFunding" name="necessaryFunding" pattern="^\d+$" required />
+										<span class="error"></span>
+									</div>
+									
+									<div class="col-md-6">
+										<label for="volunteerNeeded" class="form-label">Bénévole(s) nécessaire(s) pour l'activité :<span style="color: red">*</span></label>
+										<input type="text" class="form-control" id="volunteerNeeded" name="volunteerNeeded" pattern="^\d+$" required />
+										<span class="error"></span>
+									</div>
+									
+									<div class="col-md-6">
+										<div class="form-check form-check-inline">
+										<label for="withParticipant">Avec participant</label>
+										<input class="form-check-input" type="radio" name="category" id="withParticipant" value="0" required> 
+										</div>
+									<div class="form-check form-check-inline">
+										<label	for="withoutParticipant">Sans participant</label>
+										<input class="form-check-input" type="radio" name="category" id="withoutParticipant" value="1" required>
+									</div>
+									</div>
+									
+									<div class="col-12" align="center">
+										<input type="reset" value="Réinitialiser" class="btn btn-primary" name="Reset All" id="reset" style="margin-right: 20px"/>	
+										<input type="submit" class="btn btn-primary" id="submitFormActivityRegistration" value="Valider" />
+									</div>							
+								</form:form>
+							</div>
+                    	</div>
+                    </div>
 				</main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
@@ -185,8 +206,8 @@
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
         <script src="<c:url value="/resources/js/dashboard2/js/datatables-simple-demo.js"/>"></script>
 <!-- Lien Jquery et js bootstrap -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/scriptRegex.js"/>"></script>
-</body>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+	    <script type="text/javascript" src="<c:url value="/resources/js/scriptRegex.js"/>"></script>
+	</body>
 </html>

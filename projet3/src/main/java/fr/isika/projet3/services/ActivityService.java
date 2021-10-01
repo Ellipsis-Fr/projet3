@@ -97,6 +97,60 @@ public class ActivityService implements IActivityService {
 	public Activity update(Activity entity) {
 		return dao.update(entity);
 	}
+	
+	@Override
+	public Activity updateByFields(Activity activityUpdated, Activity activity) {
+		
+		if (activityUpdated.getName() != null && !activityUpdated.getName().isEmpty()) {
+			activity.setName(activityUpdated.getName().trim());
+		}
+
+		if (activityUpdated.getAddress() != null  && !activityUpdated.getAddress().isEmpty()) {
+			activity.setAddress(activityUpdated.getAddress().trim());
+		}
+		
+		if (activityUpdated.getStartDate() != null ) {
+			activity.setStartDate(activityUpdated.getStartDate());
+		}
+		
+		if (activityUpdated.getEndDate() != null ) {
+			activity.setEndDate(activityUpdated.getEndDate());
+		}
+
+		if (activityUpdated.getDescription() != null && !activityUpdated.getDescription().isEmpty()) {
+			activity.setDescription(activityUpdated.getDescription().trim());
+		}
+		
+		if (activityUpdated.getPathPhoto() != null && !activityUpdated.getPathPhoto().isEmpty()) {
+			activity.setPathPhoto(activityUpdated.getPathPhoto().trim());
+		}
+		
+		if (activityUpdated.getNecessaryFunding() == 0 ) {
+			activity.setNecessaryFunding(activityUpdated.getNecessaryFunding());
+		}
+
+		if (activityUpdated.getAllocatedFunding() == 0 ) {
+			activity.setAllocatedFunding(activityUpdated.getAllocatedFunding());
+		}
+		
+		if (activityUpdated.getVolunteerNeeded() == 0 ) {
+			activity.setVolunteerNeeded(activityUpdated.getVolunteerNeeded());
+		}
+		
+		if (activityUpdated.getVolunteerAllocated() == 0 ) {
+			activity.setVolunteerAllocated(activityUpdated.getVolunteerAllocated());
+		}
+		
+		if (activityUpdated.getStatut() != null ) {
+			activity.setStatut(activityUpdated.getStatut());
+		}
+		
+		if (activityUpdated.getCategory() != null ) {
+			activity.setCategory(activityUpdated.getCategory());
+		}
+				
+		return activity;
+	}
 
 	@Override
 	public void delete(Activity entity) {
@@ -170,5 +224,4 @@ public class ActivityService implements IActivityService {
 			e.printStackTrace();
 		}
 	}
-
 }

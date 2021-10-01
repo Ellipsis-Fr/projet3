@@ -24,8 +24,7 @@ import fr.isika.projet3.services.IEventService;
 @Controller
 @Transactional
 public class DonationController { //Certainement à supprimer
-	// keeps the information of the association's event visited
-	private static final String ATT_SESSION_ASSOCIATION_EVENT_VISITED = "sessionAssociationVisited"; //Utiliser pour CRUD sur l'association en cours de visualisation
+	
 	private static final String ATT_SESSION_EVENT = "sessionEvent"; //Utiliser pour CRUD sur l'evenement en cours de visualisation
 		
 	@Autowired
