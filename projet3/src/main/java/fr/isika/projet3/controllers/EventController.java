@@ -86,6 +86,7 @@ public class EventController {
 	
 	@PostMapping("dashboardAsso/createEvent")
 	public String createEvent(HttpServletRequest req) {
+		//TODO: ajouter une vérification si document de l'association n'a pas été paramétré
 		HttpSession session = req.getSession();
 		Association association = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION);
 		
@@ -181,6 +182,15 @@ public class EventController {
 		donation.setEvent(eventVisited);
 		donationService.create(donation);
 		
+		// 1. méthode avec taxReceiptService nommée saveFile (s'inspirer de saveFile de la classe activityService) à qui transmettre user et donation
+		//	-> dans un premier temps crée le pdf
+		//	-> ensuite enregistrer ce pdf dnas le dossier ServerContent/taxreceipt
+		//	-> initialisé et retourner l'objet taxReceipt (year, pathFile, emailuser)
+		//
+		// 2. Envoyer le reçu à l'utilisateur avec sendEmailService
+		//
+		// 3. Persister l'objet tax receipt
+		//
 		int sumDonations = getTotalDonationAmount(eventVisited);
 		eventVisited.setSumDonations(sumDonations + donation.getAmount());
 
@@ -466,7 +476,7 @@ public class EventController {
 		association7.setRna("W123456786");
 		association7.setPathFolder(association7.getRna());
 		association7.setName("Le soin pour tous");
-		association7.setAddress("17 rue du Neubourg 76500 Elbeuf");
+		association7.setAddress("rue du Neubourg 76500 Elbeuf");
 		associations.add(association7);
 		
 		Association association8 = new Association();
@@ -540,6 +550,8 @@ public class EventController {
 		event8.setEndDate(LocalDate.parse("2021-11-21"));
 		event8.setTypeEvent(TypeEvent.funndraisingAndActivities);
 		events.add(event8);
+		
+		
 
 		for (int i = 0; i < associations.size(); i++) {
 			associations.get(i).setPathFolder(associationService.createNewFolder(associations.get(i).getRna()));

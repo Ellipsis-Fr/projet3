@@ -11,6 +11,8 @@ img {
     vertical-align: baseline;
 }
 
+img.huechange { filter: hue-rotate(120deg); }
+
 /*--------------------------------------------------------------
 # Links
 --------------------------------------------------------------*/
@@ -1118,6 +1120,25 @@ ul.tabs-nav .tab-nav.active {
 .home-page-limestone .section-heading p {
     font-size: 14px;
     color: #595858;
+}
+
+/*
+# Home Map
+--------------------------------*/
+
+#mapLeafset {
+	
+}
+
+#mapid {
+	width: 500px; 
+	height: 300px;
+	border-radius: 15px;
+	
+}
+
+#distances {
+	
 }
 
 /*--------------------------------------------------------------

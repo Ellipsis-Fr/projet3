@@ -216,4 +216,4 @@ function start() {
 		
 }
 
-
+// ===== Count Char ====

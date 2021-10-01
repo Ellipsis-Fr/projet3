@@ -90,7 +90,7 @@
 									<c:forEach items="${requestScope.requestAssociations}"
 										var="association">
 
-										<div class="swiper-slide" id="${association.address}-${association.name}-${association.id}">
+										<div class="swiper-slide" id="${association.address}%${association.name}%${association.id}">
 											<div class="cause-wrap">
 												<figure class="m-0">
 													<img src="resources/images/template/cause-1.jpg" alt="">
@@ -183,13 +183,16 @@
 	</c:choose>
 	
 	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<h1 id="mapLeafset">Map avec Leafset</h1>
-			    <div id="mapid" style="margin-left:15px; width: 500px; height: 300px;"></div>
-			
-			    <input type="text" id="address" placeholder="Entrez votre adresse" required/>
-			    <button id="entry">Valider</button>
+		<div class="row my-5">
+			<div class="col-8" id="mapLeafset" align="center">
+			    <div id="mapid"></div>
+			</div>
+			<div class="col-4">
+				<input type="text" id="address" placeholder="Entrez votre adresse" required/>
+			    <button class="btn btn-primary" id="entry">Valider</button>
+			    
+			    <br />
+			    <ul id="distances"></ul>
 			</div>
 		</div>
 	</div>

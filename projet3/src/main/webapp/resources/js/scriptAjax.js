@@ -500,10 +500,21 @@ function returnForm(result) {
 
 // ======== MAP ASSOCIATIONS ========
 var map;
-var markersAsso = [];
-var markersUser = [];
 var mySwiper;
+
+var markersUser = [];
+var latUser;
+var lonUser;
+var searchDistance;
+
 var markersAsso = [];
+var addressAsso = [];
+var namesAsso = [];
+var idsAsso = [];
+var latsAsso = [];
+var lonsAsso = [];
+
+var distUserAsso = [];
 
 $(document).ready(start);
 
@@ -513,18 +524,21 @@ function start() {
 	
 	$("#entry").click(localisation);
 	
+	searchDistance = false;
+	
 	mySwiper = new Swiper ('.swiper-container', {
 	  // Optional parameters
 	  direction: 'horizontal',
-	  loop: true,
 	  autoplay: true,
-	  speed: 60000,
-	  longSwipesMs: 60000,
-	  slidesPerView: 4,
-	  width: 1540,
+	  speed: 4000,
+	  longSwipesMs: 500,
+	  slidesPerView: 3,
+	  width: 1300,
 	  spaceBetween: 10,
 	  
 	  on: {
+		init: init,
+		reachBeginning : init,
 	    slideChange: slideChange,
 	  }
 	})
@@ -549,22 +563,30 @@ function initMapLeafset(latitude, longitude) {
 	
 	let marker;
     map.on('click', function (e) {
+		if (markersUser.length > 0) clearMarker(markersUser.shift());
+
         geocoder.reverse(e.latlng, map.options.crs.scale(map.getZoom()), function (results) {
             var r = results[0];
             if (r) {
+				searchDistance = true;
+				
+				latUser = r.center.lat;
+    			lonUser = r.center.lng;
+				setTimeout(calculDistances, 0);
                 marker = L.marker(r.center)
-                    .bindPopup(r.name)
+                    .bindPopup('<span> Ma Position <br/> </span>' + r.html)
                     .addTo(map)
                     .openPopup();
-				console.log(marker);
+                    marker._icon.classList.add("huechange");
                 markersUser.push(marker);
-                if (markersUser.length > 1) clearMarker();
             }
         });
     });
 }
 
 function localisation() {
+	if (markersUser.length > 0) clearMarker(markersUser.shift());
+	
     let address = $("#address").val();
 
     var geocoder = L.Control.Geocoder.nominatim();
@@ -573,22 +595,111 @@ function localisation() {
     geocoder.geocode(address, function (result) {
         var r = result[0]; 
         if (r) {
+			searchDistance = true;
+			
+			latUser = r.center.lat;
+			lonUser = r.center.lng;
+			setTimeout(calculDistances, 0);
             marker = L.marker(r.center)
-                .bindPopup(r.name)
+                .bindPopup('<span> Ma Position <br/> </span>' + r.html)
                 .addTo(map)
                 .openPopup();
+            marker._icon.classList.add("huechange");
             
-	        if (marker) markersUser.push(marker);
-	        console.log(marker);
-		    if (markersUser.length > 1) clearMarker();
+	        if (marker) markersUser.push(marker);		
         }
 
     });
 }
 
-function clearMarker() {
-	map.removeLayer(markersUser[0]);
-	markersUser.shift()
+function localisationAssociation(address, name, push) {
+	var geocoder = L.Control.Geocoder.nominatim();
+    let marker;    
+
+    geocoder.geocode(address, function (result) {
+        var r = result[0]; 
+        if (r) {	
+            marker = L.marker(r.center)
+                .bindPopup(name + " - " + address)
+                .addTo(map)
+                .openPopup();
+            
+	        if (marker) {
+				if (push) {
+					markersAsso.push(marker);
+					latsAsso.push(r.center.lat);
+					lonsAsso.push(r.center.lng);
+				}
+				else {
+					markersAsso.unshift(marker);
+					latsAsso.unshift(r.center.lat);
+					lonsAsso.unshift(r.center.lng);
+				}
+			}
+			
+			if(searchDistance) setTimeout(calculDistances, 0);
+        }
+    });
+}
+
+
+function calculDistances() {
+	distUserAsso = [];
+    
+    for (i = 0; i < markersAsso.length; i++) {
+		latAsso = latsAsso[i];
+		lonAsso = lonsAsso[i];
+		d = getDistance([latUser, lonUser], [latAsso, lonAsso]) / 1000;
+		d = parseInt(d);
+		distUserAsso.push(d);
+	}
+
+	showDistances();
+}
+
+function getDistance(origin, destination) {
+    // return distance in meters
+    var lon1 = toRadian(origin[1]),
+        lat1 = toRadian(origin[0]),
+        lon2 = toRadian(destination[1]),
+        lat2 = toRadian(destination[0]);
+
+    var deltaLat = lat2 - lat1;
+    var deltaLon = lon2 - lon1;
+
+    var a = Math.pow(Math.sin(deltaLat/2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon/2), 2);
+    var c = 2 * Math.asin(Math.sqrt(a));
+    var EARTH_RADIUS = 6371;
+    return c * EARTH_RADIUS * 1000;
+}
+
+function toRadian(degree) {
+    return degree*Math.PI/180;
+}
+
+
+
+
+
+
+
+function showDistances() {
+	let distances = $("#distances");
+	
+	if ($("#distances li")) $("#distances li").remove();	 
+	
+	for (i = 0; i < markersAsso.length; i++) {
+		distances.append("<li><a href='event?id=" + idsAsso[i] + "'>" + namesAsso[i] + "</a> : " + distUserAsso[i] + " km" + "</li>")
+	}
+}
+
+function clearMarker(marker) {
+	map.removeLayer(marker);
+}
+
+function clearMarkers(markers) {
+	for(i = 0; i < markers.length; i++) map.removeLayer(markers[i]);
+	markersAsso = [];
 }
 
 
@@ -596,27 +707,132 @@ function clearMarker() {
 //
 //console.log($(".swiper-container"))
 //
-function slideChange() {
-//	console.log(this.activeIndex)
-	
-	let index = this.activeIndex;
-	
-//	console.log($(".swiper-slide [data-swiper-slide-index='index']"))
-//	console.log(this)
-//	console.log(this.slides[index])
-	
-	let asso = $(this.slides[index]).attr("id");
-	let infos =  asso.split("-");
-	
-	let address = infos[0];
-	let name = infos[1];
-	let id = infos[2];
-	
-	console.log(asso)
-	console.log(address + " " + name + " " + id);
-//	console.log($(activeAsso).attr("id"))
+function init() {
 
+	let index = 0;
+	let slidez = this.slides;
 	
+	
+	initThreeAssoLocalisation(index, slidez);
 }
 
+function slideChange() {
+	// verifier qu'il n'y en ait jamais 2 d'actives  à la fois
+	let index = this.activeIndex;
+	let realIndex = this.realIndex;
+	let slidez = this.slides;
+	let countSlide = slidez.length;
+	let gap = 2; 
+	
+//	let asso = $(this.slides[index]).attr("id");
+
+	let infosAssoActive = ((slidez[index]).id).split("%");
+	let infosAssoNext = ((slidez[index + 1]).id).split("%");
+	
+	
+//	console.log("index " + index);
+//	console.log(infosAssoActive)
+	
+//	if (markersAsso.length == 0) {
+//		initThreeAssoLocalisation(index, slidez);
+//		return;
+//	}
+//	console.log(idsAsso[1])
+//	console.log(infosAssoActive[2])
+//	console.log(idsAsso[1] == infosAssoActive[2])
+	if (idsAsso[1] == infosAssoActive[2]) {
+		
+		addressAsso.shift();
+		namesAsso.shift();
+		idsAsso.shift();
+		clearMarker(markersAsso.shift())
+		latsAsso.shift();
+		lonsAsso.shift();
+
+		let infos = ((slidez[index + gap]).id).split("%");
+		
+		addressAsso.push(infos[0]);
+		namesAsso.push(infos[1]);
+		idsAsso.push(infos[2]);
+
+		localisationAssociation(addressAsso[2], namesAsso[2], true);
+		
+	} /*else if (idsAsso[0] == infosAssoNext[2]) { // for reverse direction (no tested)
+		addressAsso.pop();
+		namesAsso.pop();
+		idsAsso.pop();
+		clearMarker(markersAsso.pop())
+		
+		if (index == gap - 1) {
+			index = countSlide - 1;
+			gap = 0;
+		} else if (index == 0) {
+			index = countSlide;
+		}
+		
+		let infos = ((slidez[index - gap]).id).split("%");
+		
+		addressAsso.unshift(infos[0]);
+		namesAsso.unshift(infos[1]);
+		idsAsso.unshift(infos[2]);
+		localisationAssociation(addressAsso[0], namesAsso[0], false);
+		
+		if(searchDistance) setTimeout(calculDistances, 0);
+	} else {
+		console.log(idsAsso)
+		
+		addressAsso = [];
+		namesAsso = [];
+		idsAsso = [];
+		latsAsso = [];
+		lonsAsso = [];
+		
+		clearMarkers(markersAsso);
+		markersAsso = [];
+		initThreeAssoLocalisation(index, slidez)
+	} else {
+		addressAsso.shift();
+		namesAsso.shift();
+		idsAsso.shift();
+		clearMarker(markersAsso.shift())
+		
+//		if (index == 0) let infos = ((slidez[index]).id).split("%");
+//		else let infos = ((slidez[index + gap]).id).split("%");
+		
+		addressAsso.push(infos[0]);
+		namesAsso.push(infos[1]);
+		idsAsso.push(infos[2]);
+
+		localisationAssociation(addressAsso[2], namesAsso[2], true);
+	}*/
+}
+
+function initThreeAssoLocalisation(index, slidez) {
+		addressAsso = [];
+		namesAsso = [];
+		idsAsso = [];
+		latsAsso = [];
+		lonsAsso = [];
+		console.log(markersAsso)
+		clearMarkers(markersAsso);
+		
+	
+	
+	for (i = index, j = 0; j < 3; i++, j++) {
+		if (i == slidez.length) i = 0;
+		let infos = ((slidez[i]).id).split("%");
+
+		addressAsso.push(infos[0]);
+		namesAsso.push(infos[1]);
+		idsAsso.push(infos[2]);
+		
+		console.log(infos)
+	}
+	
+	localisationAssociation(addressAsso[0], namesAsso[0], true);
+	localisationAssociation(addressAsso[1], namesAsso[1], true);
+	localisationAssociation(addressAsso[2], namesAsso[2], true);
+}
+	
+	
 
