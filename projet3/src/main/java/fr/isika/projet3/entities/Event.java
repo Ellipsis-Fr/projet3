@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -164,5 +165,5 @@ public class Event {
 		return "Event [id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", typeEvent=" + typeEvent
 				+ ", pathFolder=" + pathFolder + ", sumDonations=" + sumDonations + "]";
 	}
-	
+
 }

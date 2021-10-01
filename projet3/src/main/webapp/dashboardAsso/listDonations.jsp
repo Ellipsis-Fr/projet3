@@ -13,7 +13,7 @@
 <body>
 	 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html">${sessionScope.sessionAssociation.name} Admin </a>
+            <a class="navbar-brand ps-3" href="home">${sessionScope.sessionAssociation.name} Admin </a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -28,10 +28,10 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><a class="dropdown-item" href="editAccount">User Profile</a></li>
+                        <li><a class="dropdown-item" href="#!">Paramètre</a></li>
+                        <li><a class="dropdown-item" href="editAccount">Mon compte</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="logout">Logout</a></li>
+                        <li><a class="dropdown-item" href="logout">Se déconnecter</a></li>
                     </ul>
                 </li>
             </ul>
@@ -112,53 +112,56 @@
                         <h1 class="mt-4">Dons</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">Liste des dons</li>
-                            
                         </ol>
-                	
+                		<div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                DataTable Example
+                            </div>
+                            <div class="card-body">
+                                <table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th>Amount</th>
+											<th>Date</th>
+											<th>Statut</th>
+											<th>User Nom</th>
+											<th>User Prenom</th>
+											<th>User Adresse</th>
+											<th>User Email</th>
+											<th>User Telephone</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Amount</th>
+											<th>Date</th>
+											<th>Statut</th>
+											<th>User Nom</th>
+											<th>User Prenom</th>
+											<th>User Adresse</th>
+											<th>User Email</th>
+											<th>User Telephone</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <c:forEach var="donation" items="${listDonations}">
+											<tr>
+												<td>${donation.amount}</td>
+												<td>${donation.date}</td>
+												<td>${donation.statut}</td>
+												<td>${donation.user.lastname}</td>
+												<td>${donation.user.firstname}</td>
+												<td>${donation.user.address}</td>
+												<td>${donation.user.email}</td>
+												<td>${donation.user.telephone}</td>
+											</tr>
+										</c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 					</div>
-				
-						<table class="table table-bordered">
-						<thead>
-							<tr>
-<!-- 								<th>Nom</th> -->
-<!-- 								<th>Prénom</th> -->
-<!-- 								<th>Adresse</th> -->
-<!-- 								<th>Telephone</th> -->
-<!-- 								<th>Email</th> -->
-<!-- 								<th>Montant</th> -->
-								
-								<th>Id</th>
-								<th>Amount</th>
-								<th>Date</th>
-								<th>Statut</th>
-								<th>User_Id</th>
-								<th>Event_Id</th>
-							</tr>
-						</thead>
-				
-						<tbody>
-							<c:forEach var="donation" items="${listDonations}">
-								<tr>
-<%-- 									<td>${user.LastName}</td> --%>
-<%-- 									<td>${user.firstName}</td> --%>
-<%-- 									<td>${user.address}</td> --%>
-<%-- 									<td>${user.telephone}</td> --%>
-<%-- 									<td>${user.email}</td> --%>
-<%-- 									<td>${user.montant}</td> --%>
-									
-									<td>${donation.id}</td>
-									<td>${doantion.amount}</td>
-									<td>${donation.date}</td>
-									<td>${donation.statut}</td>
-									<td>${donation.user_id}</td>
-									<td>${donation.event_id}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-				
-				
-					</table>
-					
 				</main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">

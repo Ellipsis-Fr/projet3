@@ -79,5 +79,26 @@ public class Donation {
 		this.event = event;
 	}
 	
+	public Donation() {
+		super();
+	}
+
+	public Donation(Long id, int amount, LocalDate date, Statut statut, User user, Event event) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.date = date;
+		this.statut = statut;
+		this.user = user;
+		this.event = event;
+	}
+
+	@Override
+	public String toString() {
+		return "Donation [id=" + id + ", amount=" + amount + ", date=" + date + ", statut=" + statut + ", user=" + user
+				+ ", event=" + event + "]";
+	}
+	
+	
 	
 }

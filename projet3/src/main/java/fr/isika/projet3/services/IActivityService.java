@@ -31,4 +31,6 @@ public interface IActivityService {
 	Activity init(HttpServletRequest req);
 
 	void deleteFile(String pathPhoto);
+
+	Activity updateByFields(Activity activityUpdated, Activity activity);
 }
