@@ -24,23 +24,41 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.JsonViewRequestBodyAdvice;
 
 import fr.isika.projet3.entities.Association;
+import fr.isika.projet3.entities.Document;
 import fr.isika.projet3.entities.Event;
 import fr.isika.projet3.services.IAssociationService;
+import fr.isika.projet3.services.IDocumentService;
+import fr.isika.projet3.services.IPhotoService;
 
 @Controller
 @Transactional
 public class AssociationController {
-	//TODO: Ajouter un session invalidate pour déconnecter l'association (ou le partenaire) en cas de saisie d'une URL hors zone de dashboard
 	//TODO: Réussir à afficher texte d'erreur en cas de fichier trop gros
 	// keeps the association's connection information
 	private static final String ATT_SESSION_ASSOCIATION = "sessionAssociation";
 	private static final String ATT_SESSION_EVENT = "sessionEvent";
 	
+	private static final String ATT_SESSION_ASSOCIATION_EVENT_VISITED = "sessionAssociationVisited";
+	
+	private static final String ATT_REQUEST_DOCUMENT = "requestDocument";
+	
 	@Autowired
 	IAssociationService associationService;
 	
+	@Autowired
+	IDocumentService documentService;
+	
+	@Autowired
+	IPhotoService photoService;
+	
 	@RequestMapping("/connexionAssociation")
-	public String associationForm(Model model) {
+	public String associationForm(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		if (session.getAttribute(ATT_SESSION_ASSOCIATION) != null || session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED) != null) {
+			session.invalidate();
+		}
+		
+		
 		model.addAttribute("association", new Association());
 		return "connexionAssociation";
 	}
@@ -165,5 +183,51 @@ public class AssociationController {
 		session.invalidate();
 		
 		return "redirect: ../index";
+	}
+	
+	@GetMapping("dashboardAsso/editDocument")
+	public String editDocument(HttpServletRequest req, Model model) {
+		
+		HttpSession session = req.getSession();
+		Association association = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION);
+		
+		// Reload ours objects save in session
+		association = associationService.findOne(association.getId());
+		
+		Document document = association.getDocument();
+		
+		if (document == null) document = new Document();
+		
+		model.addAttribute(ATT_REQUEST_DOCUMENT, document);
+
+		return "editDocument";
+	}
+	
+	@PostMapping("dashboardAsso/editDocument")
+	public String editDocumentForm(@RequestParam("header") MultipartFile header, @RequestParam("photos") MultipartFile[] photos, @ModelAttribute("requestDocument") Document document, HttpServletRequest req) {
+		
+		HttpSession session = req.getSession();
+		Association association = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION);
+
+		// Reload ours objects save in session
+		association = associationService.findOne(association.getId());
+		
+		if (!header.getOriginalFilename().isEmpty()) {
+			
+		}
+			
+		/*	
+			if (!logo.getOriginalFilename().isEmpty()) {
+				if (!association.getPathLogo().isEmpty()) associationService.deleteFile(association.getPathLogo()); // The condition is necessary cause of the mock data where there isn't logo to be loaded. In case of inscription on the site an association couldn't be without logo
+				associationUpdated.setPathLogo(associationService.saveFile(logo, association.getPathFolder()));
+			}	
+		
+		Document document = association.getDocument();
+		
+		if (document == null) document = new Document();
+		
+		model.addAttribute(ATT_REQUEST_DOCUMENT, document);*/
+
+		return "redirect: home";
 	}
 }

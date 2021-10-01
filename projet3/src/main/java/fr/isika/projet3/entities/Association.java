@@ -27,15 +27,13 @@ public class Association implements IRole {
 	private String address;
 	private String email;
 	private String password;
-	private String description;
 	private String pathFolder;
 	private String pathLogo;
 	private String url;
 	private String rna;
 	
-	@OneToMany(mappedBy="association", fetch = FetchType.EAGER)
-	@Fetch(value = FetchMode.SUBSELECT)
-	private List<Photo> photos;
+	@OneToOne(fetch = FetchType.EAGER)
+	private Document document;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	private Event event;
@@ -48,7 +46,6 @@ public class Association implements IRole {
 	
 	public Association() {
 		super();
-		photos = new ArrayList<>();
 		users = new ArrayList<>();
 	}
 
@@ -92,14 +89,6 @@ public class Association implements IRole {
 		this.password = password;
 	}
 	
-	public String getDescription() {
-		return description;
-	}
-	
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
 	public String getPathFolder() {
 		return pathFolder;
 	}
@@ -132,12 +121,12 @@ public class Association implements IRole {
 		this.rna = rna;
 	}
 	
-	public List<Photo> getPhotos() {
-		return photos;
+	public Document getDocument() {
+		return document;
 	}
-	
-	public void setListePhotos(List<Photo> photos) {
-		this.photos = photos;
+
+	public void setDocument(Document document) {
+		this.document = document;
 	}
 
 	public Event getEvent() {
