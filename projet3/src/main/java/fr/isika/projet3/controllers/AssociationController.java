@@ -27,6 +27,7 @@ import fr.isika.projet3.entities.Association;
 import fr.isika.projet3.entities.Document;
 import fr.isika.projet3.entities.Event;
 import fr.isika.projet3.entities.Photo;
+import fr.isika.projet3.entities.User;
 import fr.isika.projet3.enumerations.Statut;
 import fr.isika.projet3.services.IAssociationService;
 import fr.isika.projet3.services.IDocumentService;
@@ -275,6 +276,19 @@ public class AssociationController {
 		photoService.deleteFile(photo.getPathPhoto());
 		photoService.delete(photo);
 		return "";
+	}
+	
+	@RequestMapping("dashboardAsso/listUsers")
+	public String listUsers(Model model, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		Association association = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION);
+		
+		association = associationService.findOne(association.getId());
+		
+		List<User> users = association.getUsers();
+		model.addAttribute("listUsers", users);
+		
+		return "listUsers";
 	}
 		
 }
