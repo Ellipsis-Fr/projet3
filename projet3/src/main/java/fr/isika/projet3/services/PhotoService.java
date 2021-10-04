@@ -1,5 +1,14 @@
 package fr.isika.projet3.services;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +22,15 @@ import fr.isika.projet3.entities.Photo;
 @Service
 @Transactional
 public class PhotoService implements IPhotoService {
+	private static final String PATH_DISK ="D:/Developpement/Environnement_et_Outils/Git/GitRepositories/ISIKA/projet3/projet3/src/main/webapp/";
+	private static final int SIZE_BUFFER = 10240;
 
 	@Autowired
 	IPhotoDao dao;
 
 	@Override
 	public Photo findOne(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findOne(id);
 	}
 
 	@Override
@@ -47,13 +57,13 @@ public class PhotoService implements IPhotoService {
 
 	@Override
 	public void delete(Photo entity) {
-		// TODO Auto-generated method stub
+		dao.delete(entity);
 		
 	}
 
 	@Override
 	public void deleteById(long entityId) {
-		// TODO Auto-generated method stub
+		dao.deleteById(entityId);
 		
 	}
 
@@ -65,8 +75,31 @@ public class PhotoService implements IPhotoService {
 
 	@Override
 	public String saveFile(MultipartFile file, String folder) {
-		// TODO Auto-generated method stub
-		return null;
+		String filename = file.getOriginalFilename().trim();
+		
+		String shortNameFile = filename.substring(0, filename.lastIndexOf("."));
+		String extensionFile = filename.substring(filename.lastIndexOf("."));
+		
+		filename = shortNameFile + new Date().getTime() + extensionFile;
+		
+		File newFile = Paths.get(PATH_DISK, folder, filename).toFile();
+
+		try (InputStream input = file.getInputStream();
+			BufferedInputStream bufferIn = new BufferedInputStream(input);
+			BufferedOutputStream bufferOut = new BufferedOutputStream(new FileOutputStream(newFile))){
+			
+			byte[] tampon = new byte[SIZE_BUFFER];
+            int longueur = 0;
+            
+            while ((longueur = bufferIn.read(tampon)) > 0) {
+                bufferOut.write(tampon, 0, longueur);
+            }
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return  folder + "/" + newFile.getName();
 	}
 
 	@Override
@@ -77,7 +110,10 @@ public class PhotoService implements IPhotoService {
 
 	@Override
 	public void deleteFile(String pathFile) {
-		// TODO Auto-generated method stub
-		
+		try {
+			Files.delete(Paths.get(PATH_DISK, pathFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
 	} 
 }

@@ -390,7 +390,13 @@ $("form[name='formAssociationToLogin']").one('submit', function(e) {
 //
 
 
-
+// ======== ASSOCIAITON FORGOT PASSWORD ========
+$("form[name='forgotPassword']").on('submit', (e) => {
+	e.preventDefault();
+	let targetedForm = e.target;
+	let formData = new FormData(targetedForm);
+	sendForm(formData, "forgotPassword");
+});
 
 // ======== DONATION FORM ========
 
@@ -410,6 +416,14 @@ $("form[name='formVolunteerRegistration']").on('submit', (e) => {
 	sendForm(formData, "newVolunteer");
 });
 
+// ======== PARTICIPANT FORM ========
+
+$("form[name='formParticipantRegistration']").on('submit', (e) => {
+	e.preventDefault();
+	let targetedForm = e.target;
+	let formData = new FormData(targetedForm);
+	sendForm(formData, "newParticipant");
+});
 
 // ======== PARTNER FORM ========
 
@@ -420,7 +434,14 @@ $("form[name='formPartnerRegistration']").on('submit', (e) => {
 	sendForm(formData, "newPartner");
 });
 
+// ======== ACTIVITY FORM ========
 
+$("form[name='formActivityRegistration']").on('submit', (e) => {
+	e.preventDefault();
+	let targetedForm = e.target;
+	let formData = new FormData(targetedForm);
+	sendForm(formData, "newActivity");
+});
 
 
 // ======== GENERIC METHOD TO FORM : DONATION AND REGISTRATION  ========
@@ -473,6 +494,16 @@ function returnForm(result) {
 	if (result == "Inscription Partenaire confirmé") {
 		success = true;
 		text = result + ", Merci pour votre aide.";
+	}
+	
+	if (result == "Proposition d'Activité envoyée.") {
+		success = true;
+		text = result;
+	}
+	
+	if (result == "Mot de passe du compte envoyé.") {
+		success = true;
+		text = result;
 	}
 	
 	
@@ -702,11 +733,6 @@ function clearMarkers(markers) {
 	markersAsso = [];
 }
 
-
-// ----------- Test
-//
-//console.log($(".swiper-container"))
-//
 function init() {
 
 	let index = 0;
@@ -717,29 +743,16 @@ function init() {
 }
 
 function slideChange() {
-	// verifier qu'il n'y en ait jamais 2 d'actives  à la fois
 	let index = this.activeIndex;
 	let realIndex = this.realIndex;
 	let slidez = this.slides;
 	let countSlide = slidez.length;
 	let gap = 2; 
-	
-//	let asso = $(this.slides[index]).attr("id");
+
 
 	let infosAssoActive = ((slidez[index]).id).split("%");
 	let infosAssoNext = ((slidez[index + 1]).id).split("%");
-	
-	
-//	console.log("index " + index);
-//	console.log(infosAssoActive)
-	
-//	if (markersAsso.length == 0) {
-//		initThreeAssoLocalisation(index, slidez);
-//		return;
-//	}
-//	console.log(idsAsso[1])
-//	console.log(infosAssoActive[2])
-//	console.log(idsAsso[1] == infosAssoActive[2])
+
 	if (idsAsso[1] == infosAssoActive[2]) {
 		
 		addressAsso.shift();
@@ -757,54 +770,7 @@ function slideChange() {
 
 		localisationAssociation(addressAsso[2], namesAsso[2], true);
 		
-	} /*else if (idsAsso[0] == infosAssoNext[2]) { // for reverse direction (no tested)
-		addressAsso.pop();
-		namesAsso.pop();
-		idsAsso.pop();
-		clearMarker(markersAsso.pop())
-		
-		if (index == gap - 1) {
-			index = countSlide - 1;
-			gap = 0;
-		} else if (index == 0) {
-			index = countSlide;
-		}
-		
-		let infos = ((slidez[index - gap]).id).split("%");
-		
-		addressAsso.unshift(infos[0]);
-		namesAsso.unshift(infos[1]);
-		idsAsso.unshift(infos[2]);
-		localisationAssociation(addressAsso[0], namesAsso[0], false);
-		
-		if(searchDistance) setTimeout(calculDistances, 0);
-	} else {
-		console.log(idsAsso)
-		
-		addressAsso = [];
-		namesAsso = [];
-		idsAsso = [];
-		latsAsso = [];
-		lonsAsso = [];
-		
-		clearMarkers(markersAsso);
-		markersAsso = [];
-		initThreeAssoLocalisation(index, slidez)
-	} else {
-		addressAsso.shift();
-		namesAsso.shift();
-		idsAsso.shift();
-		clearMarker(markersAsso.shift())
-		
-//		if (index == 0) let infos = ((slidez[index]).id).split("%");
-//		else let infos = ((slidez[index + gap]).id).split("%");
-		
-		addressAsso.push(infos[0]);
-		namesAsso.push(infos[1]);
-		idsAsso.push(infos[2]);
-
-		localisationAssociation(addressAsso[2], namesAsso[2], true);
-	}*/
+	}
 }
 
 function initThreeAssoLocalisation(index, slidez) {
@@ -835,4 +801,27 @@ function initThreeAssoLocalisation(index, slidez) {
 }
 	
 	
+// ======== EDIT DOCUMENT : DELETE PHOTO ========
+
+$(".delete").click((e) => {
+	e.preventDefault();
+	console.log(e.currentTarget)
+	let oElem = e.currentTarget;
+	oElem.parentNode.parentNode.parentNode.removeChild(oElem.parentNode.parentNode);
+	
+	deletePhoto(e);
+
+});
+
+function deletePhoto(e) {
+	
+	$.ajax({
+		url: "deletePhoto",
+		type: "POST",
+		data: {"id": e.currentTarget.id},
+		error: () => {
+			console.log("raté");
+		}
+	})
+}
 

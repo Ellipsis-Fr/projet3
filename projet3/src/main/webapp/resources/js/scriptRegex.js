@@ -1,11 +1,13 @@
 $("button").click(selectForm);
 $(".event-page-icon-boxes a").click(selectForm);
+$(".btnParticipant").click(selectForm);
 
 function selectForm(e) {
 	
 	if ($(this).attr("id") == "btnVolunteer") inputsToCheck("#formVolunteerRegistration");
 	else if ($(this).attr("id") == "btnDonation") inputsToCheck("#formDonation"); 
 	else if ($(this).attr("id") == "btnPartner") inputsToCheck("#formPartnerRegistration"); 
+	else if (e.currentTarget.className == "btnParticipant") inputsToCheck("#formParticipantRegistration");
 	else if ($(this).attr("id") == "btnAssociationRegistration") inputsToCheck("#formAssociationRegistration");
 }
 
@@ -32,7 +34,7 @@ function inputsToCheck(formToCheck) {
 			else if (e.target.id == "rna") {
 				$(formToCheck + " #" + e.target.id).next("span").text("");
 				indication = "Le RNA doit comporter un W et 9 chiffres"
-			}
+			} else return;
 	
 			let warningExists = $(formToCheck + " #" + e.target.id).next("span").text().length > 1 ? true : false;
 			

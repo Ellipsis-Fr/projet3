@@ -1,14 +1,9 @@
 // ==== apparition formulaire sans connexion ====
 
-$("a").click(apparitionForm);
+$(".event-page-icon-boxes a").click(apparitionForm);
 
 function apparitionForm(e) {
-	/* TODO
-	 * gérer les formulaires d'inscription aux activités en tant que participant
-	 * généraliser la remise à zéro des formulaires de connexions pour les autres types de comptes
-	 * supprimer le contenu des remarques de non respect des patterns
-	*/
-	
+	let x = e.currentTarget;
 	
 	initForms();
 	$('.collapse').collapse('hide');
@@ -28,6 +23,13 @@ function apparitionForm(e) {
 		
 		$("#loginVolunteer").prop("disabled", false);
 		$("#formVolunteerRegistration input").prop("disabled", false);
+	}
+	else if (x.className == "btnParticipant") {
+		console.log("là")
+		$("#formParticipantToLogin").hide();
+
+		$("#loginParticipant").prop("disabled", false);
+		$("#formParticipantRegistration input").prop("disabled", false);
 	}
 	else if ($(this).attr("id") == "btnDonation") {
 //		$("#formDonation").toggle();
@@ -70,6 +72,10 @@ function apparitionForm(e) {
 			$("#userType").prop("readonly", true);
 			$("#userType").hide();
 			$("label[for='userType']").hide();
+			
+			$("#contact2").prop("readonly", true);
+			$("#contact2").hide();
+			$("label[for='contact2']").hide();
 		}
 
 	}
@@ -84,13 +90,18 @@ function apparitionForm(e) {
 		$("#loginPartner").prop("disabled", false);
 		$("#formPartnerRegistration input").prop("disabled", false);
 	}
+	else if ($(this).attr("id") == "btnActivity") {
+
+		$("#formActivityRegistration input").prop("disabled", false);
+	}
 }
 
-function initForms() {
-	console.log("je suis dans init forms")
-	
+function initForms() {	
 	$("#loginVolunteer").prop("checked", false);
 	$("#formVolunteerRegistration").show();
+	
+	$("#loginParticipant").prop("checked", false);
+	$("#formParticipantRegistration").show();
 	
 	$("#loginPartner").prop("checked", false);
 	$("#formPartnerRegistration").show();
@@ -110,8 +121,13 @@ function initForms() {
 	$(".formDonation input[type='radio']").prop("checked", false);
 	
 	$("#formVolunteer .error").text("");
+	$("#formParticipant .error").text("");
 	$("#formDonation .error").text("");
 	$("#formPartner .error").text("");
+	$("#formActivity .error").text("");	
+	
+	$("textarea").next("span").text("0 / " + $("textarea").attr("maxlength"));
+	$("textarea").next("span").css("color", "black");
 	
 	$("#formz input").prop("disabled", true);
 	
@@ -144,6 +160,21 @@ $(".switch").change((e) => {
 			
 			$("#formVolunteerRegistration input").prop("disabled", false);
 			$("#formVolunteerToLogin input").prop("disabled", true);
+		}
+	} else if (e.target.id == "loginParticipant") {
+		if (e.target.checked) {
+			$("#formParticipantRegistration").hide();
+			$("#formParticipantToLogin").show();
+			
+			$("#formParticipantRegistration input").prop("disabled", true);
+			$("#formParticipantToLogin input").prop("disabled", false);
+		}
+		else {
+			$("#formParticipantToLogin").hide();
+			$("#formParticipantRegistration").show();
+			
+			$("#formParticipantRegistration input").prop("disabled", false);
+			$("#formParticipantToLogin input").prop("disabled", true);
 		}
 	} else if (e.target.id == "loginPartner") {
 		if (e.target.checked) {
@@ -217,3 +248,35 @@ function start() {
 }
 
 // ===== Count Char ====
+$("textarea").on("input", countChar);
+
+function countChar(e) {
+	let maxLength = $(this).attr("maxlength")
+	let count = e.target.value.length;
+	$(this).next("span").text(count + " / " + maxLength);
+	
+	let isOverLimit = count > maxLength ? true : false;
+	
+	if (isOverLimit) $(this).next("span").css("color", "red");
+	else  $(this).next("span").css("color", "black");	
+}
+
+
+// ===== Add photo ====
+
+var inputFile = 3;
+
+$("#addPhoto").click(addPhoto);
+
+function addPhoto(e) {
+	e.preventDefault();
+	if(inputFile === 4) $(this).prop("disabled", true);
+	console.log($(this).parent())
+	$(this).parent().before($("<div class='col-md-12 my-3'><label for='photo" + 
+	inputFile + 
+	"' > Photo Caroussel : </label><input type='file' name='files' id='photo" + 
+	 inputFile + 
+	 "' accept='.jpg,.jpeg,.png'/><span class='error'></span></div>"));
+	 
+	inputFile++;
+}

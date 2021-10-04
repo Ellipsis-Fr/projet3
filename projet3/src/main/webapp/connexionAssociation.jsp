@@ -23,30 +23,51 @@
 		
 		
 		<!-- body -->
-		<div class="col-3 mx-auto my-5">
-			<div class="card text-center shadow-sm">
-				<div class="card-header">
-				  Connexion <br />
-				</div>
-				<div class="card-body">
-				<span class="error">${result}</span><br />
-				<form method="post" action="connexionAssociation" class="connexion-form" name="formAssociationToLogin">
-					<div class="form-floating mb-3">
-						<input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required><label for="floatingInput">Adresse Email</label>
+		<div class="content">
+			<div class="col-3 mx-auto my-5">
+				<div class="card text-center shadow-sm">
+					<div class="card-header">
+					  Connexion <br />
 					</div>
-					<div class="form-floating mb-3">
-						<input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required> <label for="floatingPassword">Mot de Passe</label>
+					<div class="card-body">		
+						<form method="post" action="connexionAssociation" class="connexion-form" name="formAssociationToLogin">
+							<div class="form-floating mb-3">
+								<input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required><label for="floatingInput">Adresse Email</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required> <label for="floatingPassword">Mot de Passe</label>
+							</div>
+							<button type="submit" class="btn btn-primary" id="btnConnexionAssociation">Connexion</button>
+						</form>
+							<a href="#" data-bs-toggle="modal" data-bs-target="#forgotPassword">Mot de passe oublié ?</a>
 					</div>
-					<button type="submit" class="btn btn-primary" id="btnConnexionAssociation">Connexion</button>
-				</form>
-				</div>
-				<div class="card-footer">
-					Première visite ? <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="btnAssociationRegistration" >S'inscrire</button>
+					<div class="card-footer">
+						Première visite ? <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="btnAssociationRegistration" >S'inscrire</button>
+					</div>
 				</div>
 			</div>
 		</div>
+		
+		<!-- Modal Forgot Password-->
+		<div class="modal fade" id="forgotPassword" tabindex="-1" aria-labelledby="forgotPasswordLabel" aria-hidden="false">
+		  <div class="modal-dialog modal-dialog-centered">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+				<form name="forgotPassword">
+					<div class="form-floating mb-3">
+						<input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required><label for="floatingInput">Adresse Email</label>
+					</div>
+					<button type="submit" class="btn btn-primary">Envoyer Mail</button>
+				</form>
+		      </div>
+		    </div>
+		  </div>
+		</div>	
 
-		<!-- Modal -->
+		<!-- Modal Regsitration Association-->
 		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
 		  <div class="modal-dialog modal-xl modal-dialog-centered">
 		    <div class="modal-content">
@@ -68,13 +89,6 @@
 		
 		<!-- Lien Jquery et js bootstrap -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script type='text/javascript' src='<c:url value="resources/js/template/jquery.collapsible.min.js"/>'></script>
-	    <script type='text/javascript' src='<c:url value="resources/js/template/swiper.min.js"/>'></script>
-	    <script type='text/javascript' src='<c:url value="resources/js/template/jquery.countdown.min.js"/>'></script>
-	    <script type='text/javascript' src='<c:url value="resources/js/template/circle-progress.min.js"/>'></script>
-	    <script type='text/javascript' src='<c:url value="resources/js/template/jquery.countTo.min.js"/>'></script>
-	    <script type='text/javascript' src='<c:url value="resources/js/template/jquery.barfiller.js"/>'></script>
-	    <script type='text/javascript' src='<c:url value="resources/js/template/custom.js"/>'></script>
 	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 	    <script type="text/javascript" src="<c:url value="resources/js/scriptFiles.js"/>"></script>
 	    <script type="text/javascript" src="<c:url value="resources/js/scriptAjax.js"/>"></script>

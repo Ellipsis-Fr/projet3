@@ -28,6 +28,8 @@ public interface IAssociationService {
 	
 	boolean checkDouble(String rna);
 	
+	Association findByEmail(String email);
+	
 	Association logIn(String email, String password);
 
 	void deleteFolder(String pathFolder);

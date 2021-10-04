@@ -40,6 +40,9 @@ public class Association implements IRole {
 	
 	private boolean eventInProgress;
 	
+	@OneToOne(fetch = FetchType.EAGER)
+	private Messaging messaging;
+	
 	@OneToMany(mappedBy="association", fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<User> users;
@@ -145,6 +148,14 @@ public class Association implements IRole {
 		this.eventInProgress = eventInProgress;
 	}
 	
+	public Messaging getMessaging() {
+		return messaging;
+	}
+
+	public void setMessaging(Messaging messaging) {
+		this.messaging = messaging;
+	}
+
 	public List<User> getUsers() {
 		return users;
 	}

@@ -145,6 +145,12 @@ public class AssociationService implements IAssociationService {
 	}
 	
 	@Override
+	public Association findByEmail(String email) {
+		String query = "FROM Association a WHERE a.email=?";
+		return dao.findOneByParameters(query, email);
+	}
+	
+	@Override
 	public void deleteFolder(String pathFolder) {
 		try {
 			FileUtils.deleteDirectory(Paths.get(PATH_DISK, pathFolder).toFile());

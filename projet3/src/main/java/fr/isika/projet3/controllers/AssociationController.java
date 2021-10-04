@@ -26,9 +26,12 @@ import org.springframework.web.servlet.mvc.method.annotation.JsonViewRequestBody
 import fr.isika.projet3.entities.Association;
 import fr.isika.projet3.entities.Document;
 import fr.isika.projet3.entities.Event;
+import fr.isika.projet3.entities.Photo;
+import fr.isika.projet3.enumerations.Statut;
 import fr.isika.projet3.services.IAssociationService;
 import fr.isika.projet3.services.IDocumentService;
 import fr.isika.projet3.services.IPhotoService;
+import fr.isika.projet3.services.ISendMailService;
 
 @Controller
 @Transactional
@@ -44,6 +47,9 @@ public class AssociationController {
 	
 	@Autowired
 	IAssociationService associationService;
+	
+	@Autowired
+	ISendMailService sendMailService;
 	
 	@Autowired
 	IDocumentService documentService;
@@ -68,6 +74,13 @@ public class AssociationController {
 
 		association.setPathFolder(associationService.createNewFolder(association.getRna()));
 		association.setPathLogo(associationService.saveFile(logo, association.getPathFolder()));
+		
+		Document document = new Document();		
+		document.setPathFolder(documentService.createNewFolder(association.getPathFolder(), "home"));
+		document.setPathFolderPhoto(documentService.createNewFolder(document.getPathFolder(), "photos"));
+		documentService.create(document);
+		
+		association.setDocument(document);
 		associationService.create(association);
 		
 		model.addAttribute("association", new Association()); //Réinitialise le formulaire
@@ -126,6 +139,31 @@ public class AssociationController {
 		return "redirect: dashboardAsso/home";
 	}
 	
+	@PostMapping("forgotPassword")
+	public @ResponseBody String forgotPassword(@RequestParam("email") String email) {
+		Association association = associationService.findByEmail(email);
+		
+		if (association == null) return "Aucun compte ne correspond à ce mail";
+		
+		sendPassword(association);
+		return "Mot de passe du compte envoyé.";		
+	}
+	
+	private void sendPassword(Association association) {
+		String recipient = association.getEmail();
+		String subject = "Mot de passe oublié";
+		String messageTosend = "Voici votre mot de passe :\n"
+				+ association.getPassword();
+		
+		recipient = "crespel.romain@gmail.com";
+		try {
+			sendMailService.sendMail(recipient, subject, messageTosend, null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@RequestMapping({"dashboardAsso/logout", "logout"})  
     public String logoutPage(HttpServletRequest request) {  
 		HttpSession session = request.getSession();
@@ -156,7 +194,7 @@ public class AssociationController {
 		Association association = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION);
 		
 		if (!logo.getOriginalFilename().isEmpty()) {
-			if (!association.getPathLogo().isEmpty()) associationService.deleteFile(association.getPathLogo()); // The condition is necessary cause of the mock data where there isn't logo to be loaded. In case of inscription on the site an association couldn't be without logo
+			if (association.getPathLogo() != null) associationService.deleteFile(association.getPathLogo()); // The condition is necessary cause of the mock data where there isn't logo to be loaded. In case of inscription on the site an association couldn't be without logo
 			associationUpdated.setPathLogo(associationService.saveFile(logo, association.getPathFolder()));
 		}
 		
@@ -194,40 +232,49 @@ public class AssociationController {
 		// Reload ours objects save in session
 		association = associationService.findOne(association.getId());
 		
-		Document document = association.getDocument();
-		
-		if (document == null) document = new Document();
-		
-		model.addAttribute(ATT_REQUEST_DOCUMENT, document);
+		model.addAttribute(ATT_REQUEST_DOCUMENT, association.getDocument());
 
 		return "editDocument";
 	}
 	
 	@PostMapping("dashboardAsso/editDocument")
-	public String editDocumentForm(@RequestParam("header") MultipartFile header, @RequestParam("photos") MultipartFile[] photos, @ModelAttribute("requestDocument") Document document, HttpServletRequest req) {
+	public String editDocumentForm(@RequestParam("header") MultipartFile header, @RequestParam("files") MultipartFile[] files, @ModelAttribute("requestDocument") Document documentUpdated) {
+		Document document = documentService.findOne(documentUpdated.getId());
 		
-		HttpSession session = req.getSession();
-		Association association = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION);
-
-		// Reload ours objects save in session
-		association = associationService.findOne(association.getId());
+		document.setParagraph_1(documentUpdated.getParagraph_1());
+		document.setParagraph_2(documentUpdated.getParagraph_2());
+		document.setStatut(Statut.VALID);
 		
 		if (!header.getOriginalFilename().isEmpty()) {
-			
+			if(document.getPathHeader() != null) documentService.deleteFile(document.getPathHeader());
+			 document.setPathHeader(documentService.saveFile(header, document.getPathFolder()));
 		}
-			
-		/*	
-			if (!logo.getOriginalFilename().isEmpty()) {
-				if (!association.getPathLogo().isEmpty()) associationService.deleteFile(association.getPathLogo()); // The condition is necessary cause of the mock data where there isn't logo to be loaded. In case of inscription on the site an association couldn't be without logo
-				associationUpdated.setPathLogo(associationService.saveFile(logo, association.getPathFolder()));
-			}	
 		
-		Document document = association.getDocument();
+		if (files.length != 0) savePhotos(files, document);
 		
-		if (document == null) document = new Document();
-		
-		model.addAttribute(ATT_REQUEST_DOCUMENT, document);*/
+		documentService.update(document);
 
-		return "redirect: home";
+		return "redirect: editDocument";
 	}
+	
+	private void savePhotos(MultipartFile[] photos, Document document) {
+		
+		for (MultipartFile photo : photos) {
+			if (photo.getOriginalFilename().isEmpty()) continue;
+			Photo newPhoto = new Photo();
+			newPhoto.setName(photo.getOriginalFilename().trim());
+			newPhoto.setPathPhoto(photoService.saveFile(photo, document.getPathFolderPhoto()));
+			newPhoto.setDocument(document);
+			photoService.create(newPhoto);
+		}
+	}
+	
+	@PostMapping("dashboardAsso/deletePhoto")
+	public @ResponseBody String deletePhoto(@RequestParam("id") String id) {
+		Photo photo = photoService.findOne(Long.parseLong(id));
+		photoService.deleteFile(photo.getPathPhoto());
+		photoService.delete(photo);
+		return "";
+	}
+		
 }
