@@ -62,7 +62,7 @@ public class ActivityService implements IActivityService {
 		String description = req.getParameter(DESCRIPTION);
 		int necessaryFunding = Integer.parseInt(req.getParameter(NECESSARY_FUNDING));
 		int volunteerNeeded = Integer.parseInt(req.getParameter(VOLUNTEER_NEEDED));
-		Statut statut = Statut.IN_PROGRESS;
+		
 		Category category = null;
 
 		switch(req.getParameter(FIELD_TYPE_CATEGORY)) {
@@ -83,7 +83,6 @@ public class ActivityService implements IActivityService {
 		activity.setNecessaryFunding(necessaryFunding);
 		activity.setVolunteerNeeded(volunteerNeeded);
 		activity.setCategory(category);
-		activity.setStatut(statut);
 		
 		return activity;	
 	}

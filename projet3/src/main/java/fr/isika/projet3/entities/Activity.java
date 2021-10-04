@@ -24,7 +24,10 @@ public class Activity {
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private String description;
+	
+	@Column(length = 500)
 	private String pathPhoto;
+	
 	private int necessaryFunding;
 	private int allocatedFunding;
 	private int volunteerNeeded;

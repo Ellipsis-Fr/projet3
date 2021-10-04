@@ -32,8 +32,8 @@ public class User {
 	private String address;
 	private boolean isRecontactable;
 	
-	@OneToMany(mappedBy="user")
-//	@Fetch(value = FetchMode.SUBSELECT)
+	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Donation> donations;
 	
 	@OneToOne
@@ -154,8 +154,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
-				+ ", telephone=" + telephone + ", address=" + address + ", isRecontactable=" + isRecontactable
-				+ ", donations=" + donations + "]";
+				+ ", telephone=" + telephone + ", address=" + address + ", isRecontactable=" + isRecontactable + "]";
 	}
 	
 	

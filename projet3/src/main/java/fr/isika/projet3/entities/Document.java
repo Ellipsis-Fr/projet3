@@ -26,6 +26,8 @@ public class Document {
 	private Long id;
 	
 	private Statut statut;
+	private String pathFolder;
+	private String pathFolderPhoto;
 	private String pathHeader;
 	
 	@Column(length = 4000)
@@ -40,8 +42,8 @@ public class Document {
 
 	public Document() {
 		super();
-		photos = new ArrayList<>();
 		statut = Statut.PENDING;
+		photos = new ArrayList<>();
 	}
 
 	public Long getId() {
@@ -58,6 +60,22 @@ public class Document {
 
 	public void setStatut(Statut statut) {
 		this.statut = statut;
+	}
+
+	public String getPathFolder() {
+		return pathFolder;
+	}
+
+	public void setPathFolder(String pathFolder) {
+		this.pathFolder = pathFolder;
+	}
+
+	public String getPathFolderPhoto() {
+		return pathFolderPhoto;
+	}
+
+	public void setPathFolderPhoto(String pathFolderPhoto) {
+		this.pathFolderPhoto = pathFolderPhoto;
 	}
 
 	public String getPathHeader() {

@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Modifier mes Informations</title>
+		<title>Modifier ma page</title>
 		
 		<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
 		<link rel="stylesheet"  href="<c:url value="/resources/css/dashboard2/css/styles.css" />">
@@ -13,11 +13,11 @@
 			<!-- bootstrap CSS -->
 <!-- 			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous"> -->
 	</head>
-	<body onload="inputsToCheck(formEditAssociation.id)">
+	<body>
 	
 			 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html">${sessionScope.sessionAssociation.name} Admin </a>
+            <a class="navbar-brand ps-3" href="home">${sessionScope.sessionAssociation.name} Admin </a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -32,10 +32,10 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="editDocument">Parametres</a></li>
+                        <li><a class="dropdown-item" href="editDocument">Paramètres</a></li>
                         <li><a class="dropdown-item" href="editAccount">Mon compte</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="logout">Se Deconnecter</a></li>
+                        <li><a class="dropdown-item" href="logout">Se déconnecter</a></li>
                     </ul>
                 </li>
             </ul>
@@ -118,57 +118,83 @@
                             <li class="breadcrumb-item active">Edition de l'Evenement</li>
                         </ol>
 	                    <div class="container">
-							<form:form modelAttribute="requestDocument" class="row g-3" method="post" action="editDocument" enctype="multipart/form-data">
-								<div class="col-md-12">
-									<form:label path="paragraph_1" class="form-label">Paragraphe 1 - Présentation Association :<span style="color: red">*</span></form:label>
-									<form:textarea path="paragraph_1" class="form-control" maxlength="2000" rows="5" required="required" />
-									<span class="error" id="countP1"></span>
-								</div>
-							
-								<div class="col-md-12">
-									<form:label path="paragraph_2" class="form-label">Paragraphe 2 :</form:label>
-									<form:textarea path="paragraph_2" class="form-control" maxlength="2000" rows="5" />
-									<span class="error" id="countP2"></span>
-								</div>
+	                    	<div class="row mb-5" align="center">
+								<form:form modelAttribute="requestDocument" class="row g-3" method="post" action="editDocument" enctype="multipart/form-data">
+									<div class="col-md-12 my-3">
+										<form:label path="paragraph_1" class="form-label">Paragraphe 1 - Présentation Association :<span style="color: red">*</span></form:label>
+										<form:textarea path="paragraph_1" id="paragraph_1" class="form-control" maxlength="2000" rows="12" required="required" />
+										<span></span>
+									</div>
 								
-								<div class="col-md-7">
-									<label for="header">Image de Fond : </label>
+									<div class="col-md-12 my-3">
+										<form:label path="paragraph_2" class="form-label">Paragraphe 2 :</form:label>
+										<form:textarea path="paragraph_2" id="paragraph_2" class="form-control" maxlength="2000" rows="12" />
+										<span></span>
+									</div>
+									
+									<div class="col-md-12 my-3">
+										<label for="header">Image d'en-tête : </label>
                               			<input type="file" name="header" id="header" accept=".jpg,.jpeg,.png"/>
-                              			<span class="error" id="errorFile"></span>
-								</div>
-								
-								<div class="col-md-6">
-									<label for="photo1">Image défilante 1 : </label>
-                              			<input type="file" name="photos" id="photo1" accept=".jpg,.jpeg,.png"/>
-                              			<span class="error" id="errorFile"></span>
-								</div>
-								
-								<div class="col-md-6">
-									<label for="photo2">Image défilante 2 : </label>
-                              			<input type="file" name="photos" id="photo2" accept=".jpg,.jpeg,.png"/>
-                              			<span class="error" id="errorFile"></span>
-								</div>
-								
-								<div class="col-md-6">
-									<label for="photo3">Image défilante 3 : </label>
-                              			<input type="file" name="photos" id="photo3" accept=".jpg,.jpeg,.png"/>
-                              			<span class="error" id="errorFile"></span>
-								</div>
-								
-								<div class="col-md-6">
-									<label for="photo4">Image défilante 4 : </label>
-                              			<input type="file" name="photos" id="photo4" accept=".jpg,.jpeg,.png"/>
-                              			<span class="error" id="errorFile"></span>
-								</div>
-<%-- 											<form:select path="photos" items="${requestScope.requestDocument.photos}" /> --%>
+                              			<span class="error"></span>
+									</div>
+									
+									<div class="col-md-12 my-3">
+										<label for="photo1"> Photo Caroussel : </label>
+                              			<input type="file" name="files" id="photo1" accept=".jpg,.jpeg,.png"/>
+                              			<span class="error"></span>
+									</div>
+									
+									<div class="col-md-12 my-3">
+										<label for="photo2"> Photo Caroussel : </label>
+                              			<input type="file" name="files" id="photo2" accept=".jpg,.jpeg,.png"/>
+                              			<span class="error"></span>
+									</div>
 
-								
-								<div class="col-12" align="right">
-									<input type="reset" value="Réinitialiser" class="btn btn-primary" name="Reset All" id="reset" style="margin-right: 20px"/>	
-									<input type="submit" class="btn btn-primary" id="submitFormActivityRegistration" value="Valider" />
-								</div>
-							</form:form>
+									
+									<div class="col-md-12 my-3">
+										<button class="btn btn-primary" id="addPhoto"><i class="fa fa-plus" aria-hidden="true"></i></button>
+									</div>
+																
+									<input id="id" name="id" type="hidden" value="${requestDocument.id}"/>
+									
+									<div class="col-12" align="right">
+										<input type="reset" value="Réinitialiser" class="btn btn-primary" name="Reset All" id="reset" style="margin-right: 20px"/>	
+										<input type="submit" class="btn btn-primary" id="submit" value="Valider" />
+									</div>
+								</form:form>
+							</div>
 
+							
+							<div class="row mb-4" align="center">
+								
+								<c:choose>
+									<c:when test="${requestScope.requestDocument.photos.size() > 0}">
+									
+										<table style="border-collapse: collapse;">
+											
+											<thead>
+		                                        <tr>
+		                                            <th style="border: 1px solid black; padding: 10px;">Nom de la photo</th>
+													<th style="border: 1px solid black; padding: 10px; width: 50px;"></th>
+													<th style="border: 1px solid black; padding: 10px; width: 50px;"></th>
+		                                        </tr>
+		                                    </thead>
+											
+											<tbody>
+												<c:forEach items="${requestScope.requestDocument.photos}" var="photo">
+													<tr>
+														<td style="border: 1px solid black; padding: 10px;">${photo.name}</td>
+														<td style="border: 1px solid black; padding: 10px; text-align:center;"><a href="<c:url value="/${photo.pathPhoto}"/>" target="_blank"><i class="fa fa-camera" aria-hidden="true"></i></a></td>
+														<td style="border: 1px solid black; padding: 10px; text-align:center;"><a href="#" class="delete" id="${photo.id}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+													</tr>									
+												</c:forEach>
+											</tbody>
+										
+										</table>
+									</c:when>
+								</c:choose>
+
+							</div>
 						</div>
 					</div>					
 				</main>
@@ -191,16 +217,13 @@
 				
 		<!-- Lien Jquery et js bootstrap -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	    <script type='text/javascript' src='../resources/js/template/jquery.collapsible.min.js'></script>
-	    <script type='text/javascript' src='../resources/js/template/swiper.min.js'></script>
-	    <script type='text/javascript' src='../resources/js/template/jquery.countdown.min.js'></script>
-	    <script type='text/javascript' src='../resources/js/template/circle-progress.min.js'></script>
-	    <script type='text/javascript' src='../resources/js/template/jquery.countTo.min.js'></script>
-	    <script type='text/javascript' src='../resources/js/template/jquery.barfiller.js'></script>
-	    <script type='text/javascript' src='../resources/js/template/custom.js'></script>
 	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="<c:url value="/resources/js/scriptFiles.js"/>"></script>
 	    <script type="text/javascript" src="<c:url value="/resources/js/scriptRegex.js"/>"></script>
-	
+		<script type="text/javascript" src="<c:url value="/resources/js/scriptAjax.js"/>"></script>
+<!--         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script> -->
+		<script type="text/javascript" src="<c:url value="/resources/js/scriptForms.js"/>"></script>
+		<script src="<c:url value="/resources/js/dashboard2/js/scripts.js"/>"></script>
+        <script src="<c:url value="/resources/js/dashboard2/js/datatables-simple-demo.js"/>"></script>
 	</body>
 </html>

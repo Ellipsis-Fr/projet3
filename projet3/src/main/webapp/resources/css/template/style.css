@@ -2157,6 +2157,67 @@ ul.tabs-nav .tab-nav.active {
     text-align: center;
 }
 
+
+/*--------------------------------------------------------------
+# EVENT-PAGE
+--------------------------------------------------------------*/
+
+/*
+# Header
+-------------------------------*/
+
+.page-header-asso {
+    position: relative;
+    z-index: 99;
+    padding-top: 100px;
+    padding-bottom: 72px;
+    background-size: cover !important;
+}
+
+.page-header-asso::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.7);
+}
+
+.page-header-asso h1 {
+    position: relative;
+    padding-bottom: 24px;
+    font-size: 36px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.page-header-asso h1::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 64px;
+    height: 4px;
+    border-radius: 2px;
+    background: #ff5a00;
+}
+
+
+/*
+# Content
+-------------------------------*/
+
+.content {
+	padding: 50px 0;
+}
+
+/* .content .container { */
+/* 	padding: 10px 0; */
+/* } */
+
+
 /*
 # Forms
 --------------------------------*/
@@ -2177,8 +2238,6 @@ ul.tabs-nav .tab-nav.active {
     cursor: pointer;
     outline: none;
 }
-
-
 
 /*
 # event-page Icon-boxes Cards

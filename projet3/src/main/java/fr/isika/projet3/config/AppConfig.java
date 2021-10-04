@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -106,7 +107,7 @@ public class AppConfig implements WebMvcConfigurer {
  	@Bean(name = "multipartResolver")
  	public CommonsMultipartResolver multipartResolver() {
  	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
- 	    multipartResolver.setMaxUploadSize(100000);
+ 	    multipartResolver.setMaxUploadSize(18000000); // 18 Mo
  	    return multipartResolver;
  	}
  	

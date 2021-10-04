@@ -48,6 +48,9 @@ public class SendMailService implements ISendMailService {
 		properties.put("mail.smtp.starttls.enable", MAIL_SMTP_STARTTLS_ENABLE);
 		properties.put("mail.smtp.host", MAIL_SMTP_HOST);
 		properties.put("mail.smtp.port", MAIL_SMTP_PORT);
+		properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		properties.put("mail.smtp.debug", "true");
+		properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
 		
 		Session session = Session.getInstance(properties,new Authenticator() {
 			@Override
@@ -74,7 +77,7 @@ public class SendMailService implements ISendMailService {
 			
 			BodyPart messageBody = new MimeBodyPart();
 			
-			if(!attachment.isEmpty()) { // Envoie message et attachment
+			if(attachment != null && !attachment.isEmpty()) { // Envoie message et attachment
 				
 				// Message à envoyer
 				messageBody.setText(messageToSend);

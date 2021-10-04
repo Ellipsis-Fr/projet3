@@ -11686,3 +11686,8 @@ body {
   font-size: 0.75rem;
   border-radius: 0.25rem !important;
 }
+
+.error {
+	font-size: 12px;
+    color: red;
+}

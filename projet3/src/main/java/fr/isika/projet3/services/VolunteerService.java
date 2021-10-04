@@ -21,8 +21,7 @@ public class VolunteerService implements IVolunteerService {
 	
 	@Override
 	public Volunteer findOne(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findOne(id);
 	}
 
 	@Override

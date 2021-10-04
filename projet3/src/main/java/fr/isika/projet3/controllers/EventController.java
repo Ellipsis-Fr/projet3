@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.isika.projet3.entities.Activity;
 import fr.isika.projet3.entities.Association;
+import fr.isika.projet3.entities.Document;
 import fr.isika.projet3.entities.Donation;
 import fr.isika.projet3.entities.Event;
 import fr.isika.projet3.entities.IRole;
@@ -33,7 +36,9 @@ import fr.isika.projet3.entities.UserSociety;
 import fr.isika.projet3.entities.Volunteer;
 import fr.isika.projet3.enumerations.Statut;
 import fr.isika.projet3.enumerations.TypeEvent;
+import fr.isika.projet3.services.IActivityService;
 import fr.isika.projet3.services.IAssociationService;
+import fr.isika.projet3.services.IDocumentService;
 import fr.isika.projet3.services.IDonationService;
 import fr.isika.projet3.services.IEventService;
 import fr.isika.projet3.services.IParticipantService;
@@ -83,6 +88,12 @@ public class EventController {
 	
 	@Autowired
 	IUserSocietyService userSocietyService;
+	
+	@Autowired
+	IDocumentService documentService;
+	
+	@Autowired
+	IActivityService activityService;
 	
 	@PostMapping("dashboardAsso/createEvent")
 	public String createEvent(HttpServletRequest req) {
@@ -227,6 +238,36 @@ public class EventController {
 		return "Inscription Bénévole confirmé";
 	}
 	
+	@PostMapping("newParticipant")
+	public @ResponseBody String newParticipant(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		Association associationVisited = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED);
+		Event eventVisited = (Event) session.getAttribute(ATT_SESSION_EVENT_VISITED);
+		
+		// Reload ours objects save in session
+		associationVisited = associationService.findOne(associationVisited.getId());
+		eventVisited = eventService.findOne(eventVisited.getId());
+
+		String email = req.getParameter(FIELD_EMAIL);
+		
+		User user = getUser(associationVisited, false, null, email);
+		
+		if (user == null) user = newUser(req, associationVisited, false);
+		else {
+			String role = isAlreadyEngaged(user);
+			if (role != null) return role;
+			
+			user = updateUser(req, user, false);
+		}
+		
+		Participant participant = participantService.init(req);
+		participantService.create(participant);
+		user.setParticipant(participant);
+		userService.update(user);		
+		
+		return "Inscription Participant confirmé";
+	}
+	
 	@PostMapping("newPartner")
 	public @ResponseBody String newPartner(HttpServletRequest req) {
 		HttpSession session = req.getSession();
@@ -350,7 +391,6 @@ public class EventController {
 		
 		User user = getUser(associationVisited, email);
 		
-		
 		if (user == null || checkEmailPassword(user, password, role).equals("not Match")) {
 //			model.addAttribute("connexionUser", "Email et/ou Mot de passe incorrect(s)");
 //			return "event/home";
@@ -421,6 +461,26 @@ public class EventController {
 		return "not Match";
 	}
 	
+	@PostMapping("newActivity")
+	public @ResponseBody String newActivity(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		Association associationVisited = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED);
+		Event eventVisited = (Event) session.getAttribute(ATT_SESSION_EVENT_VISITED);
+		Partner partner = (Partner) session.getAttribute(ATT_SESSION_ROLE_LOGGED);
+		
+		// Reload ours objects save in session
+		associationVisited = associationService.findOne(associationVisited.getId());
+		eventVisited = eventService.findOne(eventVisited.getId());
+		partner = partnerService.findOne(partner.getId());
+
+		Activity activity = activityService.init(req);
+		activity.setStatut(Statut.PENDING);
+		activity.setPartner(partner);
+		activity.setEvent(eventVisited);
+		activityService.create(activity);
+		
+		return "Proposition d'Activité envoyée.";
+	}
 	
 	
 	
@@ -555,6 +615,12 @@ public class EventController {
 
 		for (int i = 0; i < associations.size(); i++) {
 			associations.get(i).setPathFolder(associationService.createNewFolder(associations.get(i).getRna()));
+			
+			Document document = new Document();		
+			document.setPathFolder(documentService.createNewFolder(associations.get(i).getPathFolder(), "home"));
+			document.setPathFolderPhoto(documentService.createNewFolder(document.getPathFolder(), "photos"));
+			documentService.create(document);
+			associations.get(i).setDocument(document);
 
 			if (i < 8) {
 				events.get(i).setPathFolder(eventService.createNewFolder(associations.get(i).getPathFolder()));

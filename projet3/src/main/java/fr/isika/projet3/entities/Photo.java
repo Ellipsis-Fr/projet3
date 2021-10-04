@@ -1,5 +1,6 @@
 package fr.isika.projet3.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,8 @@ public class Photo {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
+	
+	@Column(length = 500)
 	private String pathPhoto;
 	
 	@ManyToOne
