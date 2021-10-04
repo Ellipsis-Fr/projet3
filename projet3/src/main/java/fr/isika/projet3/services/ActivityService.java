@@ -45,7 +45,7 @@ public class ActivityService implements IActivityService {
 	
 	@Override
 	public Activity findOne(long id) {
-		return null;
+		return dao.findOne(id);
 	}
 	
 	@Override
@@ -108,11 +108,11 @@ public class ActivityService implements IActivityService {
 			activity.setAddress(activityUpdated.getAddress().trim());
 		}
 		
-		if (activityUpdated.getStartDate() != null ) {
+		if (activityUpdated.getStartDate() != activity.getStartDate() ) {
 			activity.setStartDate(activityUpdated.getStartDate());
 		}
 		
-		if (activityUpdated.getEndDate() != null ) {
+		if (activityUpdated.getEndDate() != activity.getEndDate() ) {
 			activity.setEndDate(activityUpdated.getEndDate());
 		}
 
@@ -120,31 +120,23 @@ public class ActivityService implements IActivityService {
 			activity.setDescription(activityUpdated.getDescription().trim());
 		}
 		
-		if (activityUpdated.getPathPhoto() != null && !activityUpdated.getPathPhoto().isEmpty()) {
-			activity.setPathPhoto(activityUpdated.getPathPhoto().trim());
-		}
-		
-		if (activityUpdated.getNecessaryFunding() == 0 ) {
+		if (activityUpdated.getNecessaryFunding() != activity.getNecessaryFunding() ) {
 			activity.setNecessaryFunding(activityUpdated.getNecessaryFunding());
 		}
 
-		if (activityUpdated.getAllocatedFunding() == 0 ) {
+		if (activityUpdated.getAllocatedFunding() != activity.getAllocatedFunding() ) {
 			activity.setAllocatedFunding(activityUpdated.getAllocatedFunding());
 		}
 		
-		if (activityUpdated.getVolunteerNeeded() == 0 ) {
+		if (activityUpdated.getVolunteerNeeded() != activity.getVolunteerNeeded() ) {
 			activity.setVolunteerNeeded(activityUpdated.getVolunteerNeeded());
 		}
 		
-		if (activityUpdated.getVolunteerAllocated() == 0 ) {
+		if (activityUpdated.getVolunteerAllocated() != activity.getVolunteerAllocated() ) {
 			activity.setVolunteerAllocated(activityUpdated.getVolunteerAllocated());
 		}
-		
-		if (activityUpdated.getStatut() != null ) {
-			activity.setStatut(activityUpdated.getStatut());
-		}
-		
-		if (activityUpdated.getCategory() != null ) {
+
+		if (activityUpdated.getCategory() != activity.getCategory() ) {	
 			activity.setCategory(activityUpdated.getCategory());
 		}
 				

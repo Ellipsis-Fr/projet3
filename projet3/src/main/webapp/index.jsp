@@ -94,12 +94,8 @@
 											<div class="swiper-slide" id="${association.address}%${association.name}%${association.id}">
 												<div class="cause-wrap">
 													<figure class="m-0">
-														<img src="resources/images/template/cause-1.jpg" alt="">
+														<img src='<c:url value="${association.pathLogo}"/>' style="height: 221px;">
 	
-														<div
-															class="figure-overlay d-flex justify-content-center align-items-center position-absolute w-100 h-100">
-															<a href="#" class="btn gradient-bg mr-2">Donate Now</a>
-														</div>
 														<!-- .figure-overlay -->
 													</figure>
 	
