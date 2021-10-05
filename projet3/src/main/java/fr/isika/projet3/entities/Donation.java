@@ -22,6 +22,7 @@ public class Donation {
 	private Long id;
 	
 	private int amount;
+	private String amount2;
 	private LocalDate date;
 	private Statut statut;
 	
@@ -91,6 +92,11 @@ public class Donation {
 		this.statut = statut;
 		this.user = user;
 		this.event = event;
+	}
+
+	public Donation(String amount2) {
+		super();
+		this.amount2 = amount2;
 	}
 
 	@Override

@@ -9,23 +9,22 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	
 		<!-- Bootstrap CSS -->
-	    <link rel="stylesheet" href='<c:url value="resources/css/template/bootstrap.min.css"/>'>
+	    <link rel="stylesheet" href='<c:url value="/resources/css/template/bootstrap.min.css"/>'>
 	
 		<!-- FontAwesome CSS -->
-	    <link rel="stylesheet" href='<c:url value="resources/css/template/font-awesome.min.css"/>'>
+	    <link rel="stylesheet" href='<c:url value="/resources/css/template/font-awesome.min.css"/>'>
 	
 		<!-- ElegantFonts CSS -->
-	    <link rel="stylesheet" href='<c:url value="resources/css/template/elegant-fonts.css"/>'>
+	    <link rel="stylesheet" href='<c:url value="/resources/css/template/elegant-fonts.css"/>'>
 	
 		<!-- themify-icons CSS -->
-	    <link rel="stylesheet" href='<c:url value="resources/css/template/themify-icons.css"/>'>
+	    <link rel="stylesheet" href='<c:url value="/resources/css/template/themify-icons.css"/>'>
 	
 		<!-- Swiper CSS -->
-	    <link rel="stylesheet" href='<c:url value="resources/css/template/swiper.min.css"/>'>
+	    <link rel="stylesheet" href='<c:url value="/resources/css/template/swiper.min.css"/>'>
 	
 		<!-- Styles -->
-		<link rel="stylesheet"
-		href="<c:url value="resources/css/template/style.css"/>">
+		<link rel="stylesheet" href="<c:url value="/resources/css/template/style.css"/>">
 	
 		<!-- bootstrap CSS -->
 		<link
@@ -207,19 +206,19 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type='text/javascript'
-		src='<c:url value="resources/js/template/jquery.collapsible.min.js"/>'></script>
+		src='<c:url value="/resources/js/template/jquery.collapsible.min.js"/>'></script>
 	<script type='text/javascript'
-		src='<c:url value="resources/js/template/swiper.min.js"/>'></script>
+		src='<c:url value="/resources/js/template/swiper.min.js"/>'></script>
 	<script type='text/javascript'
-		src='<c:url value="resources/js/template/jquery.countdown.min.js"/>'></script>
+		src='<c:url value="/resources/js/template/jquery.countdown.min.js"/>'></script>
 	<script type='text/javascript'
-		src='<c:url value="resources/js/template/circle-progress.min.js"/>'></script>
+		src='<c:url value="/resources/js/template/circle-progress.min.js"/>'></script>
 	<script type='text/javascript'
-		src='<c:url value="resources/js/template/jquery.countTo.min.js"/>'></script>
+		src='<c:url value="/resources/js/template/jquery.countTo.min.js"/>'></script>
 	<script type='text/javascript'
-		src='<c:url value="resources/js/template/jquery.barfiller.js"/>'></script>
+		src='<c:url value="/resources/js/template/jquery.barfiller.js"/>'></script>
 	<script type='text/javascript'
-		src='<c:url value="resources/js/template/custom.js"/>'></script>
+		src='<c:url value="/resources/js/template/custom.js"/>'></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"

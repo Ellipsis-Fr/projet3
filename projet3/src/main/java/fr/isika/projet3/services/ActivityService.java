@@ -167,6 +167,7 @@ public class ActivityService implements IActivityService {
 		return folder + "/" + newFolder.getFileName().toString();
 	}
 	
+	
 	@Override
 	public String saveFile(MultipartFile file, String folder) {
 		

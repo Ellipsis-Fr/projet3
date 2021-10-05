@@ -7,7 +7,7 @@ paypal.Buttons({
         return actions.order.create({
             purchase_units : [{
                 amount: {
-                    value: '10.0' //ici gère le montant du don  voir pour récupéré le montant mis dans la case montant
+                    value: document.getElementById("amount").value
                 }
             }]
         });
@@ -15,10 +15,11 @@ paypal.Buttons({
     onApprove: function (data, actions) {
         return actions.order.capture().then(function (details) {
             console.log(details)
-            window.location.replace("/webapp/paypal/Oncancel.jsp")
+            window.location.replace("/projet3/paypal/success.jsp")
         })
     },
     onCancel: function (data) {
-        window.location.replace("webapp/paypal/success.jsp")
+        window.location.replace("/projet3/paypal/Oncancel.jsp")
     }
 }).render('#paypal-payment-button');
+

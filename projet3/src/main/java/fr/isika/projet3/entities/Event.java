@@ -128,29 +128,29 @@ public class Event {
 		this.sumDonations = sumDonations;
 	}
 	
-//	public List<Volunteer> getVolunteers() {
-//	return volunteers;
-//}
-//
-//public void setVolunteers(List<Volunteer> volunteers) {
-//	this.volunteers = volunteers;
-//}
-//
-//public List<Participant> getParticipants() {
-//	return participants;
-//}
-//
-//public void setParticipants(List<Participant> participants) {
-//	this.participants = participants;
-//}
-//
-//public List<Partner> getPartners() {
-//	return partners;
-//}
-//
-//public void setPartners(List<Partner> partners) {
-//	this.partners = partners;
-//}
+//		public List<Volunteer> getVolunteers() {
+//		return volunteers;
+//	}
+//	
+//	public void setVolunteers(List<Volunteer> volunteers) {
+//		this.volunteers = volunteers;
+//	}
+//	
+//	public List<Participant> getParticipants() {
+//		return participants;
+//	}
+//	
+//	public void setParticipants(List<Participant> participants) {
+//		this.participants = participants;
+//	}
+//	
+//	public List<Partner> getPartners() {
+//		return partners;
+//	}
+//	
+//	public void setPartners(List<Partner> partners) {
+//		this.partners = partners;
+//	}
 	
 	public int getCompletionPercentage () {
 		Instant instantStartDate = startDate.atStartOfDay(ZoneId.systemDefault()).toInstant();

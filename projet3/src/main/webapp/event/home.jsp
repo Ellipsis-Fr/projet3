@@ -393,11 +393,11 @@
 									<span class="error"></span>
 							</div>
 							
-							<div class="col-md-4">
-								<div class="form-check form-check-inline" hidden>
-									<input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethodPaypal" value="0" required>
-									<label class="form-check-label" for="paymentMethodPaypal">Paypal</label>
-								</div>
+							<div class="col-md-8">
+<!-- 								<div class="form-check form-check-inline" hidden> -->
+<!-- 									<input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethodPaypal" value="0" required> -->
+<!-- 									<label class="form-check-label" for="paymentMethodPaypal">Paypal</label> -->
+<!-- 								</div> -->
 								<div class="form-check form-check-inline">
 									<input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethodCheck" value="1" required>
 									<label class="form-check-label" for="paymentMethodCheck">Chèque</label>
@@ -406,6 +406,7 @@
 									<input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethodCb" value="0" required>
 									<label class="form-check-label" for="paymentMethodCb">Carte Bancaire</label>
 								</div>
+								<div class="form-check form-check-inline" id="paypal-payment-button"></div>
 							</div>
 							
 							<div id="paymentCb" class="collapse">
@@ -662,6 +663,9 @@
 	    <script type="text/javascript" src="<c:url value="/resources/js/scriptRegex.js"/>"></script>
 	    <script src="<c:url value="/resources/css/alert-nice-toast/dist/js/nice-toast-js.min.js"/>"></script>
 	    
+	    <!-- For paypal button -->
+	   <script src="https://www.paypal.com/sdk/js?client-id=AaOiObYaY0bp0t9sovHx8LBsw1BeywqOcOAW7BX8DWxoL5xd7Gs7VZcP8_ccAUFBal34pUefiQDc6pyp&disable-funding=credit,card&currency=EUR"></script>
+	   <script src='<c:url value="/resources/js/paypal/index.js"/>'></script> 
 	</body>
 </html>
 
