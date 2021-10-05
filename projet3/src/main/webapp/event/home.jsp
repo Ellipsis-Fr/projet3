@@ -11,16 +11,16 @@
 <%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/bootstrap.min.css"/>'> --%>
 	
 	    <!-- FontAwesome CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/font-awesome.min.css"/>'> --%>
+	    <link rel="stylesheet" href='<c:out value="resources/css/template/font-awesome.min.css"/>'>
 	
 	    <!-- ElegantFonts CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/elegant-fonts.css"/>'> --%>
+	    <link rel="stylesheet" href='<c:out value="resources/css/template/elegant-fonts.css"/>'>
 	
 	    <!-- themify-icons CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/themify-icons.css"/>'> --%>
+	    <link rel="stylesheet" href='<c:out value="resources/css/template/themify-icons.css"/>'>
 	
 	    <!-- Swiper CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/swiper.min.css"/>'> --%>
+	    <link rel="stylesheet" href='<c:out value="resources/css/template/swiper.min.css"/>'>
 	
 	    <!-- Styles -->
 	    <link rel="stylesheet" href="<c:url value="/resources/css/template/style.css"/>">
@@ -609,15 +609,37 @@
 				</div><!-- .row -->
 			</div><!-- .container -->
 			
-			<div class="container">
-				<div class="row mb-3">
-					<div class="col-12">
-						<p>
-							Formulaire de contact
-						</p>
-					</div><!-- .col -->
-				</div><!-- .row -->
-			</div><!-- .container -->
+			<div class="contact-page-wrap">
+		        <div class="container">
+		            <div class="row">
+		                <div class="col-12 col-lg-5">
+		                    <div class="entry-content">
+		                        <h2>Contactez-nous</h2>
+		
+		                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris. Lorem ipsum dolor sit amet, conse ctetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. Integer accu msan sodales odio, id tempus velit ullamc.</p>
+		
+		                        <ul class="contact-info p-0">
+		                            <li><i class="fa fa-phone"></i><span>+45 677 8993000 223</span></li>
+		                            <li><i class="fa fa-envelope"></i><span>office@template.com</span></li>
+		                            <li><i class="fa fa-map-marker"></i><span>Main Str. no 45-46, b3, 56832, Los Angeles, CA</span></li>
+		                        </ul>
+		                    </div>
+		                </div><!-- .col -->
+		
+		                <div class="col-12 col-lg-7">
+		                    <form class="contact-form" name="formContact">
+		                        <input type="email" placeholder="Email" name="email">
+		                        <textarea rows="15" cols="6" placeholder="Message" name="content" maxlength="500"></textarea>
+								<input type="hidden" name="typeMessage" value="received">
+		                        <span>
+		                            <input class="btn gradient-bg" type="submit" value="Envoyez">
+		                        </span>
+		                    </form><!-- .contact-form -->
+		
+		                </div><!-- .col -->
+		            </div><!-- .row -->
+		        </div><!-- .container -->
+		    </div>
 			
 			
 			

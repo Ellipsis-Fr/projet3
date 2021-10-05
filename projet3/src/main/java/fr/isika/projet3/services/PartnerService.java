@@ -34,7 +34,7 @@ public class PartnerService implements IPartnerService	{
 	public Partner init(HttpServletRequest req) {
 		Partner partner = new Partner();
 		
-		partner.setStatut(Statut.PENDING);
+		partner.setStatut(Statut.VALID);
 		partner.setPassword(req.getParameter(FIELD_PASSWORD));
 		partner.setDescription(req.getParameter(FIELD_DESCRIPTION));
 		
