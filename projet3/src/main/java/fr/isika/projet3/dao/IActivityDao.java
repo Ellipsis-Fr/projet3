@@ -1,5 +1,6 @@
 package fr.isika.projet3.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import fr.isika.projet3.entities.Activity;
@@ -19,5 +20,7 @@ public interface IActivityDao {
     void delete(Activity entity);
 
     void deleteById(long entityId);
+
+	List<Activity> findAllByParameters(HashMap<String, String> parameters); //ADD
 
 }

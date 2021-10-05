@@ -63,6 +63,8 @@ public class EventController {
 	// keeps the information of the association's event visited
 	private static final String ATT_SESSION_ASSOCIATION_EVENT_VISITED = "sessionAssociationVisited"; //Utiliser pour CRUD sur l'association en cours de visualisation
 	private static final String ATT_SESSION_EVENT_VISITED = "sessionEventVisited"; //Utiliser pour CRUD sur l'evenement en cours de visualisation
+	private static final String ATT_SESSION_EVENT_ACTIVE_ACTIVITIES= "sessionActiveActivities";
+	private static final String ATT_SESSION_EVENT_INPROGRESS_ACTIVITIES = "sessionInprogressActivities";
 	private static final String ATT_SESSION_USER_LOGGED = "sessionUserLogged";
 	private static final String ATT_SESSION_ROLE_LOGGED = "sessionRoleLogged";
 	
@@ -171,10 +173,16 @@ public class EventController {
 
 		Event event = eventService.findOne(association.getEvent().getId());
 		
+		List<Activity> activeActivities = activityService.findAllByStatusAndEventId(event.getId(), Statut.ACTIVE); // ADDED
+		List<Activity> inprogressactivities = activityService.findAllByStatusAndEventId(event.getId(), Statut.IN_PROGRESS); // ADDED
+		
 		event.setSumDonations(getTotalDonationAmount(event));
 		
 		session.setAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED, association);
 		session.setAttribute(ATT_SESSION_EVENT_VISITED, event);
+		
+		session.setAttribute(ATT_SESSION_EVENT_ACTIVE_ACTIVITIES, activeActivities);// Ligne174
+		session.setAttribute(ATT_SESSION_EVENT_INPROGRESS_ACTIVITIES, inprogressactivities);// Ligne174
 
 		return "event/home";
 	}
@@ -640,34 +648,176 @@ public class EventController {
 		events.add(event8);
 		
 		
+		List<Activity> activities = new ArrayList<>(); //ADD from here to redirect
+		
+		Activity activity1 = new Activity();
+		activity1.setStartDate(LocalDate.parse("2021-07-11"));
+		activity1.setEndDate(LocalDate.parse("2021-12-10"));
+		activity1.setName("L'activité cartablière");
+		activity1.setAddress("11 rue de julien 21001 Julienville");
+		activity1.setStatut(Statut.ACTIVE);
+		activity1.setEvent(event1);
+		activities.add(activity1);
+		
+		
+		Activity activity2 = new Activity();
+		activity2.setStartDate(LocalDate.parse("2021-07-12"));
+		activity2.setEndDate(LocalDate.parse("2021-12-11"));
+		activity2.setName("L'activité dansière");
+		activity2.setAddress("11 rue de la danse 21002 danseville");
+		activity2.setStatut(Statut.ACTIVE);
+		activity2.setEvent(event1);
+		activities.add(activity2);
+	
+		
+		Activity activity3 = new Activity();
+		activity3.setStartDate(LocalDate.parse("2021-07-13"));
+		activity3.setEndDate(LocalDate.parse("2021-12-12"));
+		activity3.setName("L'activité du soin");
+		activity3.setAddress("11 rue de soin 21003 Soinville");
+		activity3.setStatut(Statut.ACTIVE);
+		activity3.setEvent(event1);
+		activities.add(activity3);
+			
+		
+		Activity activity4 = new Activity();
+		activity4.setStartDate(LocalDate.parse("2021-07-14"));
+		activity4.setEndDate(LocalDate.parse("2021-12-13"));
+		activity4.setName("L'activité ménagère");
+		activity4.setAddress("11 rue du ménage 21004 Ménageville");
+		activity4.setStatut(Statut.ACTIVE);
+		activity4.setEvent(event1);
+		activities.add(activity4);	
+
+		
+		Activity activity5 = new Activity();
+		activity5.setStartDate(LocalDate.parse("2021-07-15"));
+		activity5.setEndDate(LocalDate.parse("2021-12-14"));
+		activity5.setName("L'activité nanardesque");
+		activity5.setAddress("11 rue du nanar 21005 Nanarville");
+		activity5.setStatut(Statut.ACTIVE);
+		activity5.setEvent(event1);
+		activities.add(activity5);	
+		
+		
+		Activity activity6 = new Activity();
+		activity6.setStartDate(LocalDate.parse("2021-07-11"));
+		activity6.setEndDate(LocalDate.parse("2021-12-10"));
+		activity6.setName("L'activité cartablière");
+		activity6.setAddress("11 rue de julien 21001 Julienville");
+		activity6.setStatut(Statut.IN_PROGRESS);
+		activity6.setEvent(event1);
+		activities.add(activity6);
+		
+		
+		Activity activity7 = new Activity();
+		activity7.setStartDate(LocalDate.parse("2021-07-12"));
+		activity7.setEndDate(LocalDate.parse("2021-12-11"));
+		activity7.setName("L'activité dansière");
+		activity7.setAddress("11 rue de la danse 21002 danseville");
+		activity7.setStatut(Statut.IN_PROGRESS);
+		activity7.setEvent(event1);
+		activities.add(activity7);
+	
+		
+		Activity activity8 = new Activity();
+		activity8.setStartDate(LocalDate.parse("2021-07-13"));
+		activity8.setEndDate(LocalDate.parse("2021-12-12"));
+		activity8.setName("L'activité du soin");
+		activity8.setAddress("11 rue de soin 21003 Soinville");
+		activity8.setStatut(Statut.IN_PROGRESS);
+		activity8.setEvent(event1);
+		activities.add(activity8);
+			
+		
+		Activity activity9 = new Activity();
+		activity9.setStartDate(LocalDate.parse("2021-07-14"));
+		activity9.setEndDate(LocalDate.parse("2021-12-13"));
+		activity9.setName("L'activité ménagère");
+		activity9.setAddress("11 rue du ménage 21004 Ménageville");
+		activity9.setStatut(Statut.IN_PROGRESS);
+		activity9.setEvent(event1);
+		activities.add(activity9);	
+
+		
+		Activity activity10 = new Activity();
+		activity10.setStartDate(LocalDate.parse("2021-07-15"));
+		activity10.setEndDate(LocalDate.parse("2021-12-14"));
+		activity10.setName("L'activité nanardesque");
+		activity10.setAddress("11 rue du nanar 21005 Nanarville");
+		activity10.setStatut(Statut.IN_PROGRESS);
+		activity10.setEvent(event1);
+		activities.add(activity10);
+		
+		
+		event1.addActivity(activity1);
+		event1.addActivity(activity2);
+		event1.addActivity(activity3);
+		event1.addActivity(activity4);
+		event1.addActivity(activity5);
+		event1.addActivity(activity6);
+		event1.addActivity(activity7);
+		event1.addActivity(activity8);
+		event1.addActivity(activity9);
+		event1.addActivity(activity10);
+
 
 		for (int i = 0; i < associations.size(); i++) {
-			associations.get(i).setPathFolder(associationService.createNewFolder(associations.get(i).getRna()));
-			
-			Document document = new Document();		
-			document.setPathFolder(documentService.createNewFolder(associations.get(i).getPathFolder(), "home"));
-			document.setPathFolderPhoto(documentService.createNewFolder(document.getPathFolder(), "photos"));
-			documentService.create(document);
-			associations.get(i).setDocument(document);
-			
-			Messaging messaging = new Messaging();
-			messaging.setPathFolder(messagingService.createNewFolder(associations.get(i).getPathFolder(), "messaging"));
-			messagingService.create(messaging);
-			associations.get(i).setMessaging(messaging);
+			Association association = associations.get(i);
+			association.setPathFolder(associationService.createNewFolder(associations.get(i).getRna()));
 
-			if (i < 8) {
-				events.get(i).setPathFolder(eventService.createNewFolder(associations.get(i).getPathFolder()));
-				eventService.create(events.get(i));
-				associations.get(i).setEvent(events.get(i));
-				associations.get(i).setEventInProgress(true);
+			if (i < events.size()) {
+				Event event = events.get(i);
+				event.setPathFolder(eventService.createNewFolder(associations.get(i).getPathFolder()));
+				eventService.create(event);
+				
+				association.setEvent(event);
+				association.setEventInProgress(true);
+				
+				for (int j = 0; j < event.getActivities().size(); j++) {
+					Activity activity = event.getActivities().get(j);
+					activity.setPathPhoto(activityService.createNewFolder(events.get(i).getPathFolder(), Integer.toString(j+1)));
+					activityService.create(activity);
+				}
 			}
 			
 			associations.get(i).setEmail("crespel.romain@gmail.com");
 			associations.get(i).setPassword("1111111" + i);
 			
-			associationService.create(associations.get(i));
+			associationService.create(association);
 		}
+		
+
 				
 		return "redirect: index";
 	}
+//		for (int i = 0; i < associations.size(); i++) {
+//			associations.get(i).setPathFolder(associationService.createNewFolder(associations.get(i).getRna()));
+//			
+//			Document document = new Document();		
+//			document.setPathFolder(documentService.createNewFolder(associations.get(i).getPathFolder(), "home"));
+//			document.setPathFolderPhoto(documentService.createNewFolder(document.getPathFolder(), "photos"));
+//			documentService.create(document);
+//			associations.get(i).setDocument(document);
+//			
+//			Messaging messaging = new Messaging();
+//			messaging.setPathFolder(messagingService.createNewFolder(associations.get(i).getPathFolder(), "messaging"));
+//			messagingService.create(messaging);
+//			associations.get(i).setMessaging(messaging);
+//
+//			if (i < 8) {
+//				events.get(i).setPathFolder(eventService.createNewFolder(associations.get(i).getPathFolder()));
+//				eventService.create(events.get(i));
+//				associations.get(i).setEvent(events.get(i));
+//				associations.get(i).setEventInProgress(true);
+//			}
+//			
+//			associations.get(i).setEmail("crespel.romain@gmail.com");
+//			associations.get(i).setPassword("1111111" + i);
+//			
+//			associationService.create(associations.get(i));
+//		}
+//				
+//		return "redirect: index";
+//	}
 }

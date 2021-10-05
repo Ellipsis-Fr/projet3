@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +29,7 @@ import fr.isika.projet3.enumerations.Statut;
 @Service
 @Transactional
 public class ActivityService implements IActivityService {
-	private static final String PATH_DISK ="D:/Developpement/Environnement_et_Outils/Git/GitRepositories/ISIKA/projet3/projet3/src/main/webapp/";
+	private static final String PATH_DISK ="C:/Users/micka/Documents/workspace-spring-tool-suite-4-4.11.1.RELEASE/projet3/projet3/src/main/webapp/";
 	private static final int SIZE_BUFFER = 10240;
 	
 	private static final String NAME = "name";
@@ -51,6 +52,14 @@ public class ActivityService implements IActivityService {
 	@Override
 	public List<Activity> findAll() {
 		return dao.findAll();
+	}
+	
+	@Override
+	public List<Activity> findAllByStatusAndEventId(Long eventId, Statut statut) {
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		parameters.put("event_id", eventId.toString());
+		parameters.put("statut", Integer.toString(Statut.valueOf(statut.toString()).ordinal()));
+		return dao.findAllByParameters(parameters);
 	}
 	
 	@Override
@@ -159,6 +168,20 @@ public class ActivityService implements IActivityService {
 		
 		try {
 			newFolder = Files.createDirectory(Paths.get(PATH_DISK, folder, "activity"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return folder + "/" + newFolder.getFileName().toString();
+	}
+	
+	@Override
+	public String createNewFolder(String folder, String additionalName) { //ADD
+		Path newFolder = null;
+		
+		try {
+			newFolder = Files.createDirectory(Paths.get(PATH_DISK, folder, "activity" + additionalName));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,5 +1,7 @@
 package fr.isika.projet3.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -43,6 +45,15 @@ public abstract class AbstractJpaDao<T> {
     @SuppressWarnings("unchecked")
     public List<T> findAll() {
         return entityManager.createQuery("from " + clazz.getName()).getResultList();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<T> findAllByParameters(HashMap<String, String> parameters) {
+    	List<String> conditions = new ArrayList<String>();
+    	for (String key: parameters.keySet()) {
+    		conditions.add(key + " = " + parameters.get(key));
+    	}
+        return entityManager.createQuery("from " + clazz.getName() + " where " + String.join(" AND ", conditions)).getResultList();
     }
 
     public void create(final T entity) {

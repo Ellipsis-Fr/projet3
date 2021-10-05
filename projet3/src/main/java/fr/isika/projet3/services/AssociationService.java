@@ -24,7 +24,7 @@ import fr.isika.projet3.entities.Association;
 @Service
 @Transactional
 public class AssociationService implements IAssociationService {
-	private static final String PATH_DISK ="D:/Developpement/Environnement_et_Outils/Git/GitRepositories/ISIKA/projet3/projet3/src/main/webapp/";
+	private static final String PATH_DISK ="C:/Users/micka/Documents/workspace-spring-tool-suite-4-4.11.1.RELEASE/projet3/projet3/src/main/webapp/";
 	private static final String PATH_SERVER ="ServerContent/associations";
 	private static final int SIZE_BUFFER = 10240;
 
