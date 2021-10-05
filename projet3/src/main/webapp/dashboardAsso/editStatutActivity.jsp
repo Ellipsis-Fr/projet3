@@ -109,47 +109,44 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Activités</h1>
+                        <h1 class="mt-4">Activité</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Activités en cours</li>
-                            <li class="breadcrumb-item active">Activités en attente</li>
-                            <li class="breadcrumb-item active">Activités refusées</li>
+                            <li class="breadcrumb-item active">Valider ou refuser une activité partenaire</li>
                         </ol>
-                	
-					</div>
-				
-						<table class="table table-bordered">
-						<thead>
-							<tr>
-								<th>Nom de l'activité</th>
-								<th>Adresse</th>
-								<th>Description</th>
-								<th>Statut</th>
-								<th>Détails</th>
-								<th>Edit</th>
-								<th>Delete</th>
-							</tr>
-						</thead>
-				
-						<tbody>
-							<c:forEach var="activity" items="${listActivities}">
-								<tr>
-									<td>${activity.name}</td>
-									<td>${activity.address}</td>
-									<td>${activity.description}</td>
-									<td>${activity.statut}</td>
-									<td><a href="<c:url value="/dashboardAsso/editStatutActivity?id=${activity.id}"/>" target="_blank"><i class="fa fa-search" aria-hidden="true"></i></a></td>
-									<td><a
-										href="${pageContext.request.contextPath}/dashboardAsso/editActivity?id=${activity.id}">Edit</a></td>
-									<td><a 
-										href="${pageContext.request.contextPath}/dashboardAsso/deleteActivityById?id=${activity.id}">Delete</a></td>
-								</tr>
-							</c:forEach>
-						</tbody>
-				
-				
-					</table>
-					
+	                    <div class="container">
+                    		<div id="formEditStatutActivity">
+                    		<p><img src="<c:url value="/${activity.pathPhoto}"/>" style="height: 221px; float: right"></p>
+                    		
+								<form:form modelAttribute="activity" class="row g-3" method="post" name ="formEditStatutActivity" action="editStatutActivity" enctype="multipart/form-data">
+									
+									<c:import url="/WEB-INF/shared/fieldsActivity.jsp"></c:import>
+									
+									<div class="col-12" align="center">										
+										<input type="submit" class="btn btn-success" name="" id="validActivityPartner" value="Valider" />
+									</div>							
+								</form:form>
+								<button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#refuseActivityPartner" id="btnRefuseActivity">Refuser l'activité</button>
+										
+								<!-- Modal RefuseActivityPartner -->
+								<div class="modal fade" id="refuseActivityPartner" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Refus de l'activité proposée</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												Etes vous sûr de vouloir refuser cette activité ?
+											</div>
+											<div class="modal-footer">
+												<a class="btn btn-danger" href='<c:url value="deleteActivity"/>' role="button">Valider l'activité</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+                    	</div>
+                    </div>
 				</main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
@@ -165,6 +162,11 @@
                 </footer>
             </div>
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+	    <script type="text/javascript" src="<c:url value="/resources/js/scriptFiles.js"/>"></script>
+	    <script type="text/javascript" src="<c:url value="/resources/js/scriptRegex.js"/>"></script>
+
 <!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> -->
         <script src="<c:url value="/resources/js/dashboard2/js/scripts.js"/>"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
@@ -172,9 +174,6 @@
         <script src="<c:url value="/resources/js/dashboard2/assets/demo/chart-bar-demo.js"/>"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
         <script src="<c:url value="/resources/js/dashboard2/js/datatables-simple-demo.js"/>"></script>
-<!-- Lien Jquery et js bootstrap -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/scriptRegex.js"/>"></script>
-</body>
+
+	</body>
 </html>

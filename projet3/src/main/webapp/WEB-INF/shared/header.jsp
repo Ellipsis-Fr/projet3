@@ -1,4 +1,5 @@
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
+	pageEncoding="UTF-8"%> 
 
 <header class="site-header mb-5">
         <div class="top-header-bar">
@@ -6,11 +7,11 @@
                 <div class="row flex-wrap justify-content-center justify-content-lg-between align-items-lg-center">
                     <div class="col-12 col-lg-8 d-none d-md-flex flex-wrap justify-content-center justify-content-lg-start mb-3 mb-lg-0">
                         <div class="header-bar-email">
-                            MAIL: <a href="#">contact@ourcharity.com</a>
+                            EMAIL: <a href="#">contact@ourcharity.com</a>
                         </div><!-- .header-bar-email -->
 
                         <div class="header-bar-text">
-                            <p>PHONE: <span>+24 3772 120 091 / +56452 4567</span></p>
+                            <p>Téléphone: <span>+33 1 24 86 92 45</span></p>
                         </div><!-- .header-bar-text -->
                     </div><!-- .col -->
 
@@ -33,12 +34,12 @@
 
                         <nav class="site-navigation d-flex justify-content-end align-items-center">
                             <ul class="d-flex flex-column flex-lg-row justify-content-lg-end align-content-center">
-                                <li class="current-menu-item"><a href="index.html">Home</a></li>
-                                <li><a href="about.html">About us</a></li>
+                                <li class="current-menu-item"><a href="index.html">Accueil</a></li>
+                                <li><a href="about.html">À propos de nous</a></li>
                                 <li><a href="causes.html">Causes</a></li>
-                                <li><a href="portfolio.html">Gallery</a></li>
-                                <li><a href="news.html">News</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="portfolio.html">Galerie</a></li>
+                                <li><a href="news.html">Nouvelles</a></li>
+                                <li><a href="contact.html">Contactez-nous</a></li>
                             </ul>
                         </nav><!-- .site-navigation -->
 

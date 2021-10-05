@@ -10,10 +10,12 @@
 </head>
 <body>
 <main id="cart-main">
-    <div class="site-title text-center">
-        <div><img src="resources/images/cancel.png" alt=""></div>
-        <h1 class="font-title">Payment Cancel For Some Reason</h1>
-    </div>
+	<div class="container" align="center">
+	    <div class="site-title text-center">
+	        <div><img src="<c:url value="/resources/images/paypal/cancel.png" />"></div>
+	        <h1 class="font-title">Payment Cancel For Some Reason</h1>
+	    </div>
+	</div>
 </main>
 </body>
 </html>

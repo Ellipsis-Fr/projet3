@@ -33,4 +33,5 @@ public interface IActivityService {
 	void deleteFile(String pathPhoto);
 
 	Activity updateByFields(Activity activityUpdated, Activity activity);
+
 }

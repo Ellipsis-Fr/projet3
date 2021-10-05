@@ -10,9 +10,11 @@
 </head>
 <body>
 <main id="cart-main">
-    <div class="site-title text-center">
-        <div><img src="resources/images/checked.png" alt=""></div>
-        <h1 class="font-title">Payment Done Successfully...!</h1>
+	<div class="container" align="center">
+	    <div class="site-title text-center">
+	        <div><img src="<c:url value="/resources/images/paypal/checked.png" />"></div>
+	        <h1 class="font-title">Payment Done Successfully...!</h1>
+	    </div>
     </div>
 </main>
 </body>
