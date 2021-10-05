@@ -1,5 +1,6 @@
 package fr.isika.projet3.services;
 
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import antlr.StringUtils;
+import fr.isika.projet3.entities.Mail;
 
 
 @Service
@@ -67,6 +69,58 @@ public class SendMailService implements ISendMailService {
 		
 	}
 	
+	@Override
+	public boolean sendMail(Mail mail) throws Exception {
+		
+		boolean result = false;
+		
+		Session session = getSession();
+		
+		Message message = prepareMessage(session, MAIL_SENDER, "crespel.romain@gmail.com", mail.getSubject(), mail.getContent(), mail.getAttachment());
+		Transport.send(message);
+		result = true;
+		
+		return result;
+		
+	}
+	
+	@Override
+	public boolean sendMail(Mail mail, String[] emails) throws Exception {
+		
+		boolean result = false;
+		
+		Session session = getSession();
+		
+		Message message = prepareMessage(session, MAIL_SENDER, "crespel.romain@gmail.com", mail.getSubject(), mail.getContent(), mail.getAttachment());
+		Transport.send(message);
+		result = true;
+		
+		return result;
+		
+	}
+	
+	
+	private Session getSession() {
+		Properties properties = new Properties();
+		
+		properties.put("mail.smtp.auth", MAIL_SMTP_AUTH);
+		properties.put("mail.smtp.starttls.enable", MAIL_SMTP_STARTTLS_ENABLE);
+		properties.put("mail.smtp.host", MAIL_SMTP_HOST);
+		properties.put("mail.smtp.port", MAIL_SMTP_PORT);
+		properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		properties.put("mail.smtp.debug", "true");
+		properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+		
+		Session session = Session.getInstance(properties,new Authenticator() {
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(MAIL_SENDER,PASSWORD);
+			}
+		});
+		
+		return session;
+	}
+	
 	private static Message prepareMessage(Session session,String myAccountantEmail,String recipient, String subject, String messageToSend, String attachment) {
 		try {
 			Message message = new MimeMessage(session);
@@ -107,5 +161,7 @@ public class SendMailService implements ISendMailService {
 		}
 		return null;
 	}
+	
+	
 
 }

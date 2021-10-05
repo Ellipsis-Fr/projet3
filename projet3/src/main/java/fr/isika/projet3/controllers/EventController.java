@@ -29,11 +29,14 @@ import fr.isika.projet3.entities.Document;
 import fr.isika.projet3.entities.Donation;
 import fr.isika.projet3.entities.Event;
 import fr.isika.projet3.entities.IRole;
+import fr.isika.projet3.entities.Mail;
+import fr.isika.projet3.entities.Messaging;
 import fr.isika.projet3.entities.Participant;
 import fr.isika.projet3.entities.Partner;
 import fr.isika.projet3.entities.User;
 import fr.isika.projet3.entities.UserSociety;
 import fr.isika.projet3.entities.Volunteer;
+import fr.isika.projet3.enumerations.MessageType;
 import fr.isika.projet3.enumerations.Statut;
 import fr.isika.projet3.enumerations.TypeEvent;
 import fr.isika.projet3.services.IActivityService;
@@ -41,6 +44,8 @@ import fr.isika.projet3.services.IAssociationService;
 import fr.isika.projet3.services.IDocumentService;
 import fr.isika.projet3.services.IDonationService;
 import fr.isika.projet3.services.IEventService;
+import fr.isika.projet3.services.IMailService;
+import fr.isika.projet3.services.IMessagingService;
 import fr.isika.projet3.services.IParticipantService;
 import fr.isika.projet3.services.IPartnerService;
 import fr.isika.projet3.services.IUserService;
@@ -91,6 +96,12 @@ public class EventController {
 	
 	@Autowired
 	IDocumentService documentService;
+	
+	@Autowired
+	IMessagingService messagingService;
+	
+	@Autowired
+	IMailService mailService;
 	
 	@Autowired
 	IActivityService activityService;
@@ -462,7 +473,7 @@ public class EventController {
 	}
 	
 	@PostMapping("newActivity")
-	public @ResponseBody String newActivity(HttpServletRequest req) {
+	public @ResponseBody String newActivity(@RequestParam MultipartFile photo, HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		Association associationVisited = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED);
 		Event eventVisited = (Event) session.getAttribute(ATT_SESSION_EVENT_VISITED);
@@ -472,17 +483,34 @@ public class EventController {
 		associationVisited = associationService.findOne(associationVisited.getId());
 		eventVisited = eventService.findOne(eventVisited.getId());
 		partner = partnerService.findOne(partner.getId());
-
+		
 		Activity activity = activityService.init(req);
 		activity.setStatut(Statut.PENDING);
 		activity.setPartner(partner);
 		activity.setEvent(eventVisited);
+		activity.setPathPhoto(activityService.saveFile(photo, eventVisited.getPathFolder()));
 		activityService.create(activity);
 		
 		return "Proposition d'Activité envoyée.";
 	}
 	
-	
+	@PostMapping("newMessage")
+	public @ResponseBody String newMessage(HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		Association associationVisited = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED);
+		Event eventVisited = (Event) session.getAttribute(ATT_SESSION_EVENT_VISITED);
+				
+		// Reload ours objects save in session
+		associationVisited = associationService.findOne(associationVisited.getId());
+		eventVisited = eventService.findOne(eventVisited.getId());
+
+		Mail message = mailService.init(req);
+		message.setRecipient(associationVisited.getName());
+		message.setMessaging(associationVisited.getMessaging());
+		mailService.create(message);
+		
+		return "Message envoyé.";
+	}
 	
 	
 	// ==== Mock Data
@@ -621,6 +649,11 @@ public class EventController {
 			document.setPathFolderPhoto(documentService.createNewFolder(document.getPathFolder(), "photos"));
 			documentService.create(document);
 			associations.get(i).setDocument(document);
+			
+			Messaging messaging = new Messaging();
+			messaging.setPathFolder(messagingService.createNewFolder(associations.get(i).getPathFolder(), "messaging"));
+			messagingService.create(messaging);
+			associations.get(i).setMessaging(messaging);
 
 			if (i < 8) {
 				events.get(i).setPathFolder(eventService.createNewFolder(associations.get(i).getPathFolder()));

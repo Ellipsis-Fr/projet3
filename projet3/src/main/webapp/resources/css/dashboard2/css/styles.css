@@ -11691,3 +11691,20 @@ body {
 	font-size: 12px;
     color: red;
 }
+
+/* ------------------------
+ # MESSAGING
+ ------------------------ */
+ 
+ #buttons {
+	list-style-type: none;
+	padding-left: 0;
+ }
+ 
+ #buttons li {
+	margin-bottom: 10px;
+ }
+ 
+input#attachment {
+	display: none;
+}

@@ -390,7 +390,7 @@ $("form[name='formAssociationToLogin']").one('submit', function(e) {
 //
 
 
-// ======== ASSOCIAITON FORGOT PASSWORD ========
+// ======== ASSOCIATION FORGOT PASSWORD ========
 $("form[name='forgotPassword']").on('submit', (e) => {
 	e.preventDefault();
 	let targetedForm = e.target;
@@ -443,6 +443,23 @@ $("form[name='formActivityRegistration']").on('submit', (e) => {
 	sendForm(formData, "newActivity");
 });
 
+
+// ======== CONTACT FORM ========
+
+$("form[name='formContact']").on('submit', (e) => {
+	e.preventDefault();
+	let targetedForm = e.target;
+	let formData = new FormData(targetedForm);
+	sendForm(formData, "newMessage");
+});
+
+// ======== ASSOCIATION SEND MAIL ========
+$("form[name='sendMessage']").on('submit', (e) => {
+	e.preventDefault();
+	let targetedForm = e.target;
+	let formData = new FormData(targetedForm);
+	sendForm(formData, "newMail");
+});
 
 // ======== GENERIC METHOD TO FORM : DONATION AND REGISTRATION  ========
 
@@ -506,6 +523,10 @@ function returnForm(result) {
 		text = result;
 	}
 	
+	if (result == "Message envoyé.") {
+		success = true;
+		text = result;
+	}
 	
 	if (success) {
 		$.niceToast.setup({
@@ -825,3 +846,90 @@ function deletePhoto(e) {
 	})
 }
 
+
+// ======== MESSAGING : GETMAIL ========
+
+var readMessageModal = document.getElementById('readMessage')
+readMessageModal.addEventListener('show.bs.modal', function (event) {
+	// Button that triggered the modal
+	let button = event.relatedTarget
+	// Extract info from data-bs-* attributes
+	let mailToOpen = button.getAttribute('data-message')
+	console.log(mailToOpen);
+	
+	getMail(mailToOpen)
+
+//	let modalTitle = newMessageModal.querySelector('.modal-title')
+//	let modalRecipientInput = newMessageModal.querySelector('.modal-body #recipient')
+//	
+//	if (recipient == "new") {
+//		modalRecipientInput.setAttribute("type", "email");
+//		modalRecipientInput.removeAttribute("readonly");
+//		modalRecipientInput.value = "";
+//		return;
+//	}
+//	
+//	modalRecipientInput.setAttribute("type", "text");
+//	modalRecipientInput.setAttribute("readonly", true);
+//	
+//		
+//	modalTitle.textContent = 'Nouveau Message à tous les ' + recipient
+//	modalRecipientInput.value = recipient
+})
+
+function getMail(mailToOpen) {
+	$.ajax({
+		url: "getMail",
+		type: "POST",
+		data: {"id": mailToOpen},
+		success: openMail,
+		error: () => {
+			console.log("raté");
+		}
+	})
+}
+
+function openMail(result) {
+	//Utiliser un split '%-%'
+	console.log(result);
+	let contentMail = result.split("%-%");
+	
+	
+	let modalTitle = readMessageModal.querySelector(".modal-title")
+	let modalSubject = readMessageModal.querySelector(".modal-body #subject")
+	let modalContent = readMessageModal.querySelector(".modal-body textarea[name='content']")
+	let modalReplyButton = readMessageModal.querySelector(".modal-footer button[name='reply']");
+	let modalDeleteButton = readMessageModal.querySelector(".modal-footer button[name='delete']");
+
+	
+	modalTitle.textContent = contentMail[1];
+	modalSubject.textContent = contentMail[2] != null ? contentMail[2] : "";
+	modalContent.textContent = contentMail[3];
+	
+	modalReplyButton.setAttribute("data-bs-whatever", contentMail[1])
+	modalDeleteButton.setAttribute("id", contentMail[0]);
+}
+
+// ======== MESSAGING : DELETE MAIL ========
+
+$(".deleteMail").click((e) => {
+	e.preventDefault();
+	console.log(e.currentTarget)
+	let oElem = e.currentTarget;
+	oElem.parentNode.parentNode.parentNode.removeChild(oElem.parentNode.parentNode);
+	
+	deleteMail(e);
+
+});
+
+function deleteMail(e) {
+	
+	$.ajax({
+		url: "deleteMail",
+		type: "POST",
+		data: {"id": e.currentTarget.id},
+		error: () => {
+			console.log("raté");
+		}
+	})
+}
