@@ -2,6 +2,7 @@
 
 $(".event-page-icon-boxes a").click(apparitionForm);
 
+
 function apparitionForm(e) {
 	let x = e.currentTarget;
 	
@@ -280,3 +281,52 @@ function addPhoto(e) {
 	 
 	inputFile++;
 }
+
+// ===== Modal to Send Message =====
+
+let newMessageModal = document.getElementById('newMessage')
+newMessageModal.addEventListener('show.bs.modal', function (event) {
+	// Button that triggered the modal
+	let button = event.relatedTarget
+	// Extract info from data-bs-* attributes
+	let recipient = button.getAttribute('data-bs-whatever')
+	
+	let modalTitle = newMessageModal.querySelector('.modal-title')
+	let modalRecipientInput = newMessageModal.querySelector('.modal-body #recipient')
+	
+//	if (recipient == "new") {
+//		modalRecipientInput.setAttribute("type", "email");
+//		modalRecipientInput.removeAttribute("readonly");
+//		modalRecipientInput.value = "";
+//		return;
+//	}
+//	
+//	modalRecipientInput.setAttribute("type", "text");
+//	modalRecipientInput.setAttribute("readonly", true);
+	
+	switch (recipient) {
+		case "new":
+			modalRecipientInput.setAttribute("type", "email");
+			modalRecipientInput.removeAttribute("readonly");
+			modalRecipientInput.value = "";
+			break;
+		case "Donnateurs":
+		case "Bénévoles":
+		case "Participants":
+		case "Partenaires":
+			modalRecipientInput.setAttribute("type", "text");
+			modalRecipientInput.setAttribute("readonly", true);
+			
+			modalTitle.textContent = 'Nouveau Message à tous les ' + recipient
+			modalRecipientInput.value = recipient
+			break;
+		default:
+			modalRecipientInput.setAttribute("type", "email");
+			modalRecipientInput.removeAttribute("readonly");
+			modalRecipientInput.value = recipient;	
+	}
+	
+		
+//	modalTitle.textContent = 'Nouveau Message à tous les ' + recipient
+//	modalRecipientInput.value = recipient
+})

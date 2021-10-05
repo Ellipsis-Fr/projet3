@@ -20,11 +20,37 @@ public class Messaging {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	private String pathFolder;
+	
 	@OneToMany(mappedBy="messaging", fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
-	private List<Message> messages;
+	private List<Mail> mails;
 	
 	public Messaging() {
-		messages = new ArrayList<>();
+		mails = new ArrayList<>();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getPathFolder() {
+		return pathFolder;
+	}
+
+	public void setPathFolder(String pathFolder) {
+		this.pathFolder = pathFolder;
+	}
+
+	public List<Mail> getMails() {
+		return mails;
+	}
+
+	public void setMails(List<Mail> mails) {
+		this.mails = mails;
 	}
 }

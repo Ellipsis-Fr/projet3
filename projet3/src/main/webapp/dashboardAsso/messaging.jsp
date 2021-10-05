@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Modifier ma page</title>
+		<title>Messagerie</title>
 		
 		<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
 		<link rel="stylesheet"  href="<c:url value="/resources/css/dashboard2/css/styles.css" />">
@@ -110,88 +110,128 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Page de l'évenement</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Edition de l'Evenement</li>
-                        </ol>
+                        <h1 class="mt-4">Messagerie</h1>
 	                    <div class="container">
 	                    	<div class="row mb-5" align="center">
-								<form:form modelAttribute="requestDocument" class="row g-3" method="post" action="editDocument" enctype="multipart/form-data">
-									<div class="col-md-12 my-3">
-										<form:label path="paragraph_1" class="form-label">Paragraphe 1 - Présentation Association :<span style="color: red">*</span></form:label>
-										<form:textarea path="paragraph_1" id="paragraph_1" class="form-control" maxlength="2000" rows="12" required="required" />
-										<span></span>
-									</div>
-								
-									<div class="col-md-12 my-3">
-										<form:label path="paragraph_2" class="form-label">Paragraphe 2 :</form:label>
-										<form:textarea path="paragraph_2" id="paragraph_2" class="form-control" maxlength="2000" rows="12" />
-										<span></span>
-									</div>
-									
-									<div class="col-md-12 my-3">
-										<label for="header">Image d'en-tête : </label>
-                              			<input type="file" name="header" id="header" accept=".jpg,.jpeg,.png"/>
-                              			<span class="error"></span>
-									</div>
-									
-									<div class="col-md-12 my-3">
-										<label for="photo1"> Photo Caroussel : </label>
-                              			<input type="file" name="files" id="photo1" accept=".jpg,.jpeg,.png"/>
-                              			<span class="error"></span>
-									</div>
-									
-									<div class="col-md-12 my-3">
-										<label for="photo2"> Photo Caroussel : </label>
-                              			<input type="file" name="files" id="photo2" accept=".jpg,.jpeg,.png"/>
-                              			<span class="error"></span>
-									</div>
-
-									
-									<div class="col-md-12 my-3">
-										<button class="btn btn-primary" id="addPhoto"><i class="fa fa-plus" aria-hidden="true"></i></button>
-									</div>
-																
-									<input id="id" name="id" type="hidden" value="${requestDocument.id}"/>
-									
-									<div class="col-12" align="right">
-										<input type="reset" value="Réinitialiser" class="btn btn-primary" name="Reset All" id="reset" style="margin-right: 20px"/>	
-										<input type="submit" class="btn btn-primary" id="submit" value="Valider" />
-									</div>
-								</form:form>
-							</div>
-
-							
-							<div class="row mb-4" align="center">
-								
-								<c:choose>
-									<c:when test="${requestScope.requestDocument.photos.size() > 0}">
-									
-										<table style="border-collapse: collapse;">
-											
-											<thead>
-		                                        <tr>
-		                                            <th style="border: 1px solid black; padding: 10px;">Nom de la photo</th>
-													<th style="border: 1px solid black; padding: 10px; width: 50px;"></th>
-													<th style="border: 1px solid black; padding: 10px; width: 50px;"></th>
-		                                        </tr>
-		                                    </thead>
-											
-											<tbody>
-												<c:forEach items="${requestScope.requestDocument.photos}" var="photo">
-													<tr>
-														<td style="border: 1px solid black; padding: 10px;">${photo.name}</td>
-														<td style="border: 1px solid black; padding: 10px; text-align:center;"><a href="<c:url value="/${photo.pathPhoto}"/>" target="_blank"><i class="fa fa-camera" aria-hidden="true"></i></a></td>
-														<td style="border: 1px solid black; padding: 10px; text-align:center;"><a href="#" class="delete" id="${photo.id}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
-													</tr>									
-												</c:forEach>
-											</tbody>
+	                    		<div class="col-2 px-2">
+	                    			<ul id="buttons">
+	                    				<li>
+	                    					<div class="btn-group">
+												<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newMessage" data-bs-whatever="new" style="width:160px;">Nouveau Message</button>
+												<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"></button>
+												<ul class="dropdown-menu">
+													<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#newMessage" data-bs-whatever="Donnateurs">Donnateurs</a></li>
+													<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#newMessage" data-bs-whatever="Bénévoles">Bénévoles</a></li>
+													<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#newMessage" data-bs-whatever="Participants">Participants</a></li>
+													<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#newMessage" data-bs-whatever="Partenaires">Partenaires</a></li>
+													<li><hr class="dropdown-divider"></li>
+													<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#newMessage" data-bs-whatever="Utilisateurs">Utilisateurs</a></li>
+												</ul>
+											</div>
+	                    				</li>
+	                    				<li>
+	                    					<button type="button" class="btn btn-primary" style="width:189px;">Boite de réception</button>
+	                    				</li>
+	                    				<li>
+	                    					<button type="button" class="btn btn-primary" style="width:189px;">Boite d'envoi</button>
+	                    				</li>
+	                    			</ul>
+	                    		
+	                    		</div>
+	                    		<div class="col-10 px-2">
+	                    		
+	                    			<table class="table">
+										<thead>
+											<tr>
+												<th scope="col">De</th>
+												<th scope="col"></th>
+												<th scope="col"></th>
+											</tr>
+										</thead>
+										<tbody>
 										
-										</table>
-									</c:when>
-								</c:choose>
-
+											<c:forEach var="mail" items="${sessionAssociation.messaging.mails}">
+												<tr>
+													<td>${mail.sender}</td>
+													<td><a role="button" data-bs-toggle="modal" data-bs-target="#readMessage" data-message="${mail.id}">${mail.previewContent}</a></td>
+													<td>${mail.date}</td>
+													<td><a role="button" class="deleteMail" id="${mail.id}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+													
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+	                    		</div>
+	                    		
+	                    		
+								
 							</div>
+							
+							<!-- Modal newMessag-->
+							<div class="modal fade" id="newMessage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="staticBackdropLabel">Nouveau Message</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<form name="sendMessage" enctype="multipart/form-data">
+												<div class="mb-3">
+													<label for="recipient" class="col-form-label">Destinataire :</label>
+													<input type="email" class="form-control" id="recipient" name="recipient" required>
+												</div>
+												
+												<div class="mb-3">
+													<label for="subject" class="col-form-label">Objet :</label>
+													<input type="text" class="form-control" id="subject" name="subject" required>
+												</div>
+												
+												<div class="mb-3">
+													<label for="content" class="col-form-label">Message:</label>
+													<textarea class="form-control" id="messageToSend" name="content" rows="10" maxlength="500" required></textarea>
+												</div>
+												<input type="hidden" name="typeMessage" value="sent">
+                           						<input type="file" name="attachment" class="form-control" id="attachment" accept="image/*,.pdf, .doc, .docx, .xml, .html, .txt">
+												<div class="modal-footer">
+													<label class="control-label" for="attachment" role="button"><i class="fa fa-paperclip"></i></label>
+													<button type="submit" class="btn btn-primary">Envoyer</button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							
+							<!-- Modal readMessage -->
+							<div class="modal fade" id="readMessage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="staticBackdropLabel"></h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">																				
+											<div class="mb-3">
+												<span>Objet : </span>
+												<span id="subject"></span>
+											</div>
+											
+											<div class="mb-3">
+												<textarea class="form-control" name="content" rows="10" maxlength="500" readonly></textarea>
+											</div>
+											<div class="modal-footer">
+												<button type="button" name="reply" class="btn btn-primary">Répondre</button>
+												<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deleteMail(event)">Supprimer</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							
+							
 						</div>
 					</div>					
 				</main>

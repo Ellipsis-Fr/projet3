@@ -1,6 +1,8 @@
 package fr.isika.projet3.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,11 +28,17 @@ import org.springframework.web.servlet.mvc.method.annotation.JsonViewRequestBody
 import fr.isika.projet3.entities.Association;
 import fr.isika.projet3.entities.Document;
 import fr.isika.projet3.entities.Event;
+import fr.isika.projet3.entities.Mail;
+import fr.isika.projet3.entities.Messaging;
 import fr.isika.projet3.entities.Photo;
 import fr.isika.projet3.entities.User;
+import fr.isika.projet3.entities.UserSociety;
+import fr.isika.projet3.enumerations.MessageType;
 import fr.isika.projet3.enumerations.Statut;
 import fr.isika.projet3.services.IAssociationService;
 import fr.isika.projet3.services.IDocumentService;
+import fr.isika.projet3.services.IMailService;
+import fr.isika.projet3.services.IMessagingService;
 import fr.isika.projet3.services.IPhotoService;
 import fr.isika.projet3.services.ISendMailService;
 
@@ -58,6 +66,12 @@ public class AssociationController {
 	@Autowired
 	IPhotoService photoService;
 	
+	@Autowired
+	IMessagingService messagingService;
+	
+	@Autowired
+	IMailService mailService;
+	
 	@RequestMapping("/connexionAssociation")
 	public String associationForm(HttpServletRequest req, Model model) {
 		HttpSession session = req.getSession();
@@ -80,8 +94,13 @@ public class AssociationController {
 		document.setPathFolder(documentService.createNewFolder(association.getPathFolder(), "home"));
 		document.setPathFolderPhoto(documentService.createNewFolder(document.getPathFolder(), "photos"));
 		documentService.create(document);
-		
 		association.setDocument(document);
+		
+		Messaging messaging = new Messaging();
+		messaging.setPathFolder(messagingService.createNewFolder(association.getPathFolder(), "messaging"));
+		messagingService.create(messaging);
+		association.setMessaging(messaging);
+		
 		associationService.create(association);
 		
 		model.addAttribute("association", new Association()); //Réinitialise le formulaire
@@ -268,6 +287,100 @@ public class AssociationController {
 			newPhoto.setDocument(document);
 			photoService.create(newPhoto);
 		}
+	}
+	
+	@GetMapping("dashboardAsso/messaging")
+	public String messaging(HttpServletRequest req) {
+		return "messaging";
+	}
+	
+	@PostMapping("dashboardAsso/newMail")
+	public @ResponseBody String newMessage(@RequestParam("attachment") MultipartFile attachment, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		Association association = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION);
+				
+		// Reload ours objects save in session
+		association = associationService.findOne(association.getId());
+		
+		Mail mail = mailService.init(req);
+		mail.setSender(association.getName());
+		
+		String[] emails = getAllEmails(mail.getRecipient(), association);
+		if (emails != null && emails.length == 0) return "Aucun utilisateur ne correspond à cet envoi groupé";
+		
+		if (!attachment.getOriginalFilename().isEmpty()) {
+			mail.setAttachment(mailService.saveFile(attachment, association.getMessaging().getPathFolder()));
+		}
+		
+		if (sendMail(mail, emails)) {
+			mail.setMessaging(association.getMessaging());
+			mailService.create(mail);
+			
+			return "Message envoyé.";
+		} else  {
+			if (mail.getAttachment() != null) mailService.deleteFile(mail.getAttachment());
+			
+			return "Message non transmis";
+		}		
+	}
+	
+	private String[] getAllEmails(String recipient, Association association) {
+		
+		switch (recipient) {
+			case "Donnateurs":
+				return (String[]) association.getUsers().stream().filter(x -> x.getDonations().size() > 0).map(x -> x.getEmail()).collect(Collectors.toList()).toArray();
+			case "Bénévoles":
+				return (String[]) association.getUsers().stream().filter(x -> x.getVolunteer() != null).map(x -> x.getEmail()).collect(Collectors.toList()).toArray();
+			case "Participants":
+				return (String[]) association.getUsers().stream().filter(x -> x.getParticipant() != null).map(x -> x.getEmail()).collect(Collectors.toList()).toArray();
+			case "Partenaires":
+				List<User> users = association.getUsers().stream().filter(x -> x instanceof UserSociety).collect(Collectors.toList());
+				
+				for(User user : new ArrayList<User>()) {
+					if (((UserSociety) user).getPartner() == null) users.remove(user);
+				}
+				
+				return (String[]) users.stream().map(x -> x.getEmail()).collect(Collectors.toList()).toArray();
+				
+			case "Utilisateurs":
+				return (String[]) association.getUsers().stream().map(x -> x.getEmail()).collect(Collectors.toList()).toArray();
+		}
+		
+		return null;
+	}
+	
+	private boolean sendMail(Mail mail, String[] emails) {
+		
+		if (emails == null) {
+			try {
+				return sendMailService.sendMail(mail);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		} else {
+			try {
+				return sendMailService.sendMail(mail, emails);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+	}
+	
+	@PostMapping("dashboardAsso/getMail")
+	public @ResponseBody String getMail(@RequestParam("id") String id, HttpServletRequest req) {
+		Mail mail = mailService.findOne(Long.parseLong(id));
+		
+		String informations = mail.getId() + "%-%";
+		
+		if (mail.getMessageType() == MessageType.received) informations += mail.getSender() + "%-%";
+		else informations += mail.getRecipient() + "%-%";
+		
+		informations += mail.getSubject() + "%-%";
+		informations += mail.getContent() + "%-%";
+		
+		return informations;		
 	}
 	
 	@PostMapping("dashboardAsso/deletePhoto")
