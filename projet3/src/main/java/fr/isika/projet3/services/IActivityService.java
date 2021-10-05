@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import fr.isika.projet3.entities.Activity;
+import fr.isika.projet3.enumerations.Statut;
 
 public interface IActivityService {
 	
@@ -33,5 +34,9 @@ public interface IActivityService {
 	void deleteFile(String pathPhoto);
 
 	Activity updateByFields(Activity activityUpdated, Activity activity);
+
+	String createNewFolder(String folder, String additionalName); //ADD
+
+	List<Activity> findAllByStatusAndEventId(Long eventId, Statut statut); //ADD
 
 }

@@ -11,16 +11,16 @@
 <%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/bootstrap.min.css"/>'> --%>
 	
 	    <!-- FontAwesome CSS -->
-	    <link rel="stylesheet" href='<c:out value="resources/css/template/font-awesome.min.css"/>'>
+<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/font-awesome.min.css"/>'> --%>
 	
 	    <!-- ElegantFonts CSS -->
-	    <link rel="stylesheet" href='<c:out value="resources/css/template/elegant-fonts.css"/>'>
+<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/elegant-fonts.css"/>'> --%>
 	
 	    <!-- themify-icons CSS -->
-	    <link rel="stylesheet" href='<c:out value="resources/css/template/themify-icons.css"/>'>
+<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/themify-icons.css"/>'> --%>
 	
 	    <!-- Swiper CSS -->
-	    <link rel="stylesheet" href='<c:out value="resources/css/template/swiper.min.css"/>'>
+<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/swiper.min.css"/>'> --%>
 	
 	    <!-- Styles -->
 	    <link rel="stylesheet" href="<c:url value="/resources/css/template/style.css"/>">
@@ -29,7 +29,28 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 		
 		<!-- Include Plugin CSS file -->
-        <link href="<c:url value="/resources/css/alert-nice-toast/dist/css/nice-toast-js.min.css"/>" rel="stylesheet" />  
+        <link href="<c:url value="/resources/css/alert-nice-toast/dist/css/nice-toast-js.min.css"/>" rel="stylesheet" />
+
+        
+        <!-- Bootstrap CSS -->
+	    <link rel="stylesheet" href='<c:url value="resources/css/template/bootstrap.min.css"/>'>
+	
+		<!-- FontAwesome CSS -->
+	    <link rel="stylesheet" href='<c:url value="resources/css/template/font-awesome.min.css"/>'>
+	
+		<!-- ElegantFonts CSS -->
+	    <link rel="stylesheet" href='<c:url value="resources/css/template/elegant-fonts.css"/>'>
+	
+		<!-- themify-icons CSS -->
+	    <link rel="stylesheet" href='<c:url value="resources/css/template/themify-icons.css"/>'>
+	
+		<!-- Swiper CSS -->
+	    <link rel="stylesheet" href='<c:url value="resources/css/template/swiper.min.css"/>'>
+	
+		<!-- Styles -->
+		<link rel="stylesheet"
+		href="<c:url value="resources/css/template/style.css"/>">   
+        
         
 	</head>
 	<body id="event">
@@ -258,7 +279,9 @@
 	
 			
 			<div class="container">
-				<div id="formz">
+				<div id="formz">						
+				
+					</div>
 					<div id="formVolunteer" class="collapse">
 						<div class="col-12">
 							<label for="loginVolunteer">Je me suis déjà inscrit</label>
@@ -393,11 +416,11 @@
 									<span class="error"></span>
 							</div>
 							
-							<div class="col-md-8">
-<!-- 								<div class="form-check form-check-inline" hidden> -->
-<!-- 									<input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethodPaypal" value="0" required> -->
-<!-- 									<label class="form-check-label" for="paymentMethodPaypal">Paypal</label> -->
-<!-- 								</div> -->
+							<div class="col-md-4">
+								<div class="form-check form-check-inline" hidden>
+									<input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethodPaypal" value="0" required>
+									<label class="form-check-label" for="paymentMethodPaypal">Paypal</label>
+								</div>
 								<div class="form-check form-check-inline">
 									<input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethodCheck" value="1" required>
 									<label class="form-check-label" for="paymentMethodCheck">Chèque</label>
@@ -406,7 +429,6 @@
 									<input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethodCb" value="0" required>
 									<label class="form-check-label" for="paymentMethodCb">Carte Bancaire</label>
 								</div>
-								<div class="form-check form-check-inline" id="paypal-payment-button"></div>
 							</div>
 							
 							<div id="paymentCb" class="collapse">
@@ -587,85 +609,311 @@
 				</div>
 			</div>
 	
-			<a class="btnParticipant" data-bs-toggle="collapse"  href="#formParticipant" role="button" aria-expanded="false" aria-controls="formParticipant" onclick="apparitionForm(event)"> Participer </a>
+			
+			
+			<c:choose>
+				<c:when test="${empty sessionScope.sessionEventVisited.activities}">
+				It's empty
+				</c:when>
+				<c:otherwise>
+					<div class="our-causes">
+						<div class="container">
+						
+		
+												
+							<div class="row">
+								<div class="coL-12">
+									<div class="section-heading">
+										<h2 class="entry-title">Activités validées</h2>
+									</div>
+									<!-- .section-heading -->
+								</div>
+							<!-- .col -->
+							</div>
+		
+		
+		
+							<!-- .row -->
+							<div class="row">
+								<div class="col-12">
+									<div class="swiper-container causes-slider">
+										<div class="swiper-wrapper">
+		
+											<c:forEach items="${sessionScope.sessionActiveActivities}" var="activity">
+		
+												<div class="swiper-slide" id="${activity.address}-${activity.name}-${activity.id}">
+													<div class="cause-wrap">
+														<figure class="m-0">
+															<img src='<c:url value="${activity.pathPhoto}"/>' style="height: 147.6px;">
+
+															
+															<div
+															class="figure-overlay d-flex justify-content-center align-items-center position-absolute w-100 h-100">
+															<a href="#" class="btn gradient-bg mr-2">Participer</a>
+
+															</div>
+															
+															<!-- .figure-overlay -->
+														</figure>
+		
+														<div class="cause-content-wrap">
+															<header
+																class="entry-header d-flex flex-wrap align-items-center">
+																<h3 class="entry-title w-100 m-0"> <a href='<c:url value="event?id=${activity.id}"/>'>${activity.name}</a></h3>
+															</header>
+															<!-- .entry-header -->
+		
+															<div class="entry-content"> <p class="m-0">${activity.description}</p></div>
+															<!-- .entry-content -->
+		
+															
+		
+																<div
+																	class="fund-raised-details d-flex flex-wrap justify-content-between align-items-center">
+																<div class="fund-raised-total mt-4"> ${activity.startDate}</div>
+																<!-- .fund-raised-total -->
+		
+																<div class="fund-raised-goal mt-4"> ${activity.endDate}</div>
+																<!-- .fund-raised-goal -->
+																</div>
+																<!-- .fund-raised-details -->
+															<!-- .fund-raised -->
+														</div>
+														<!-- .cause-content-wrap -->
+													</div>
+													<!-- .cause-wrap -->
+												</div>
+												<!-- .swiper-slide -->
+											</c:forEach>
+		
+										</div>
+										<!-- .swiper-wrapper -->
+									</div>
+									<!-- .swiper-container -->
+									
+									<!-- Add Arrows -->
+									<div
+										class="swiper-button-next flex justify-content-center align-items-center swiper-button" id="idswiper">
+										<span><svg viewBox="0 0 1792 1792"
+												xmlns="http://www.w3.org/2000/svg">
+												<path
+													d="M1171 960q0 13-10 23l-466 466q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l393-393-393-393q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l466 466q10 10 10 23z" /></svg></span>
+									</div>
+									<div
+										class="swiper-button-prev flex justify-content-center align-items-center swiper-button" id="idswiper">
+										<span><svg viewBox="0 0 1792 1792"
+												xmlns="http://www.w3.org/2000/svg">
+												<path
+													d="M1203 544q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z" /></svg></span>
+									</div>
+									
+									
+									
+															
+								</div>
+								<!-- .col -->
+							</div>
+							<!-- .row -->
+						</div>
+						<!-- .container -->
+					</div>
+					<!-- .our-causes -->
+				</c:otherwise>
+			</c:choose>
+			
+		<br />
+		<br />
+		<br />
+			
+			
+
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<p>
+	
+	
+	
+	
+	
+		
+	<c:choose>
+		<c:when test="${empty sessionScope.sessionEventVisited.activities}">
+		It's empty
+		</c:when>
+		<c:otherwise>
+			<div class="our-causes">
+				<div class="container">
+				
+	
+										
+					<div class="row">
+						<div class="coL-12">
+							<div class="section-heading">
+								<h2 class="entry-title">Activités in progress</h2>
+							</div>
+							<!-- .section-heading -->
+						</div>
+					<!-- .col -->
+					</div>
+	
+	
+
+					<!-- .row -->
+					<div class="row">
+						<div class="col-12">
+							<div class="swiper-container causes-slider">
+								<div class="swiper-wrapper">
+	
+									<c:forEach items="${sessionScope.sessionInprogressActivities}" var="activity">
+	
+										<div class="swiper-slide" id="${activity.address}-${activity.name}-${activity.id}">
+											<div class="cause-wrap">
+												<figure class="m-0">
+													<img src='<c:url value="${activity.pathPhoto}"/>' style="height: 147.6px;">
+	
+													<div 
+														class="figure-overlay d-flex justify-content-center align-items-center position-absolute w-100 h-100">
+														<a class="btn gradient-bg mr-2" data-bs-toggle="collapse"  href="#formParticipant" role="button" aria-expanded="false" aria-controls="formParticipant" onclick="apparitionForm(event)"> Participer </a>
+													</div>
+													<!-- .figure-overlay -->
+												</figure>
+	
+												<div class="cause-content-wrap">
+													<header
+														class="entry-header d-flex flex-wrap align-items-center">
+														<h3 class="entry-title w-100 m-0"> <a href='<c:url value="event?id=${activity.id}"/>'>${activity.name}</a></h3>
+													</header>
+													<!-- .entry-header -->
+	
+													<div class="entry-content"> <p class="m-0">${activity.description}</p></div>
+													<!-- .entry-content -->
+	
+														<div
+															class="fund-raised-details d-flex flex-wrap justify-content-between align-items-center">
+															<div class="fund-raised-total mt-4"> ${activity.startDate}</div>
+															<!-- .fund-raised-total -->
+	
+															<div class="fund-raised-goal mt-4"> ${activity.endDate}</div>
+															<!-- .fund-raised-goal -->
+														</div>
+														<!-- .fund-raised-details -->
+													<!-- .fund-raised -->
+												</div>
+												<!-- .cause-content-wrap -->
+											</div>
+											<!-- .cause-wrap -->
+										</div>
+										<!-- .swiper-slide -->
+									</c:forEach>
+	
+								</div>
+								<!-- .swiper-wrapper -->
+							</div>
+							<!-- .swiper-container -->
+							<!-- Add Arrows -->
+							<div
+								class="swiper-button-next flex justify-content-center align-items-center swiper-button" id="idswiper">
+								<span><svg viewBox="0 0 1792 1792"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M1171 960q0 13-10 23l-466 466q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l393-393-393-393q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l466 466q10 10 10 23z" /></svg></span>
+							</div>
+							<div
+								class="swiper-button-prev flex justify-content-center align-items-center swiper-button" id="idswiper">
+								<span><svg viewBox="0 0 1792 1792"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M1203 544q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z" /></svg></span>
+							</div>
+							
+								
+													
+						</div>
+						<!-- .col -->
+					</div>
+					<!-- .row -->
+				</div>
+				<!-- .container -->
+			</div>
+			<!-- .our-causes -->
+		</c:otherwise>
+	</c:choose>
+	
+	<br />
+	<br />
+	
+	
+
+	
+	
+	
+	
 			
 			<div class="container">
 				<div class="row mb-3">
 					<div class="col-12">
 						<p>
-							Carroussel Activités validées
+							Formulaire de contact
 						</p>
 					</div><!-- .col -->
 				</div><!-- .row -->
 			</div><!-- .container -->
-			
-			<div class="container">
-				<div class="row mb-3">
-					<div class="col-12">
-						<p>
-							Carroussel Activités en besoin de bénévoles et/ou financement
-						</p>
-					</div><!-- .col -->
-				</div><!-- .row -->
-			</div><!-- .container -->
-			
-			<div class="contact-page-wrap">
-		        <div class="container">
-		            <div class="row">
-		                <div class="col-12 col-lg-5">
-		                    <div class="entry-content">
-		                        <h2>Contactez-nous</h2>
-		
-		                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris. Lorem ipsum dolor sit amet, conse ctetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. Integer accu msan sodales odio, id tempus velit ullamc.</p>
-		
-		                        <ul class="contact-info p-0">
-		                            <li><i class="fa fa-phone"></i><span>+45 677 8993000 223</span></li>
-		                            <li><i class="fa fa-envelope"></i><span>office@template.com</span></li>
-		                            <li><i class="fa fa-map-marker"></i><span>Main Str. no 45-46, b3, 56832, Los Angeles, CA</span></li>
-		                        </ul>
-		                    </div>
-		                </div><!-- .col -->
-		
-		                <div class="col-12 col-lg-7">
-		                    <form class="contact-form" name="formContact">
-		                        <input type="email" placeholder="Email" name="email">
-		                        <textarea rows="15" cols="6" placeholder="Message" name="content" maxlength="500"></textarea>
-								<input type="hidden" name="typeMessage" value="received">
-		                        <span>
-		                            <input class="btn gradient-bg" type="submit" value="Envoyez">
-		                        </span>
-		                    </form><!-- .contact-form -->
-		
-		                </div><!-- .col -->
-		            </div><!-- .row -->
-		        </div><!-- .container -->
-		    </div>
 			
 			
 			
 		</div>
+		
+		
+		
+
 	
-		<!-- footer -->
+	
+	
+		<br />
+		<br />
+		
+	
+	
+	
+	
+		
+		
+		
+		
+		
+		
+		
+	
+	
+	
+	
+	
+	    
+	    
+	    
+	    		<!-- footer -->
 		<c:import url="/WEB-INF/shared/footer.jsp"></c:import>
 		
 		<!-- Lien Jquery et js bootstrap -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script type='text/javascript' src='<c:url value="/resources/js/jquery.js"/>'></script>
 	    <script type='text/javascript' src='<c:url value="/resources/js/template/jquery.collapsible.min.js"/>'></script>
 	    <script type='text/javascript' src='<c:url value="/resources/js/template/swiper.min.js"/>'></script>
+	    <script type='text/javascript' src='<c:url value="/resources/js/template/swiper2.js"/>'></script>
 	    <script type='text/javascript' src='<c:url value="/resources/js/template/jquery.countdown.min.js"/>'></script>
 	    <script type='text/javascript' src='<c:url value="/resources/js/template/circle-progress.min.js"/>'></script>
 	    <script type='text/javascript' src='<c:url value="/resources/js/template/jquery.countTo.min.js"/>'></script>
 	    <script type='text/javascript' src='<c:url value="/resources/js/template/jquery.barfiller.js"/>'></script>
-	    <script type='text/javascript' src='<c:url value="/resources/js/template/custom.js"/>'></script>
+	    <script type='text/javascript' src='<c:url value="/resources/js/template/jquery.custom.js"/>'></script>
+	    
 	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 	    <script type="text/javascript" src="<c:url value="/resources/js/scriptAjax.js"/>"></script>
 	    <script type="text/javascript" src="<c:url value="/resources/js/scriptForms.js"/>"></script>
 	    <script type="text/javascript" src="<c:url value="/resources/js/scriptRegex.js"/>"></script>
 	    <script src="<c:url value="/resources/css/alert-nice-toast/dist/js/nice-toast-js.min.js"/>"></script>
 	    
-	    <!-- For paypal button -->
-	   <script src="https://www.paypal.com/sdk/js?client-id=AaOiObYaY0bp0t9sovHx8LBsw1BeywqOcOAW7BX8DWxoL5xd7Gs7VZcP8_ccAUFBal34pUefiQDc6pyp&disable-funding=credit,card&currency=EUR"></script>
-	   <script src='<c:url value="/resources/js/paypal/index.js"/>'></script> 
 	</body>
 </html>
-

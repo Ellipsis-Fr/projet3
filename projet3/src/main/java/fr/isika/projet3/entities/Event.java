@@ -128,6 +128,10 @@ public class Event {
 		this.sumDonations = sumDonations;
 	}
 	
+	public void addActivity(Activity activity) {
+		this.activities.add(activity);
+	}//ADD
+	
 //		public List<Volunteer> getVolunteers() {
 //		return volunteers;
 //	}
