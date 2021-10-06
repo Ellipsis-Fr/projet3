@@ -92,8 +92,7 @@ public class MailService implements IMailService {
 
 	@Override
 	public void delete(Mail entity) {
-		// TODO Auto-generated method stub
-		
+		dao.delete(entity);
 	}
 
 	@Override

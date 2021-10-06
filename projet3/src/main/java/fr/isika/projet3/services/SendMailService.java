@@ -30,6 +30,7 @@ import fr.isika.projet3.entities.Mail;
 @Service
 @Transactional
 public class SendMailService implements ISendMailService {
+	private static final String PATH_DISK ="D:/Developpement/Environnement_et_Outils/Git/GitRepositories/ISIKA/projet3/projet3/src/main/webapp/";
 	
 	private final String MAIL_SMTP_AUTH = "true";
 	private final String MAIL_SMTP_STARTTLS_ENABLE = "true";
@@ -140,7 +141,7 @@ public class SendMailService implements ISendMailService {
 				// Attachment
 				BodyPart attachmentBody = new MimeBodyPart();
 	           // String filename = "E:/workspace-spring-projet3/Isika_projet3/projet3/src/main/webapp/attachment.txt";
-	            String filename = attachment;
+	            String filename = PATH_DISK + attachment;
 				DataSource source = new FileDataSource(filename); 
 	            attachmentBody.setDataHandler(new DataHandler(source)); 
 	            attachmentBody.setFileName(filename); 
