@@ -1,6 +1,7 @@
 package fr.isika.projet3.controllers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,6 +54,7 @@ public class AssociationController {
 	private static final String ATT_SESSION_ASSOCIATION_EVENT_VISITED = "sessionAssociationVisited";
 	
 	private static final String ATT_REQUEST_DOCUMENT = "requestDocument";
+	private static final String ATT_REQUEST_MAILS = "requestMails";
 	
 	@Autowired
 	IAssociationService associationService;
@@ -290,7 +292,18 @@ public class AssociationController {
 	}
 	
 	@GetMapping("dashboardAsso/messaging")
-	public String messaging(HttpServletRequest req) {
+	public String messaging(HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		Association association = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION);
+				
+		// Reload ours objects save in session
+		association = associationService.findOne(association.getId());
+		
+		List<Mail> mails = association.getMessaging().getMails();
+		Collections.reverse(mails);
+		
+		model.addAttribute(ATT_REQUEST_MAILS, mails);
+		
 		return "messaging";
 	}
 	
@@ -304,6 +317,7 @@ public class AssociationController {
 		
 		Mail mail = mailService.init(req);
 		mail.setSender(association.getName());
+		mail.setStatut(Statut.INACTIVE);
 		
 		String[] emails = getAllEmails(mail.getRecipient(), association);
 		if (emails != null && emails.length == 0) return "Aucun utilisateur ne correspond à cet envoi groupé";
@@ -316,6 +330,7 @@ public class AssociationController {
 			mail.setMessaging(association.getMessaging());
 			mailService.create(mail);
 			
+			session.setAttribute(ATT_SESSION_ASSOCIATION, association);
 			return "Message envoyé.";
 		} else  {
 			if (mail.getAttachment() != null) mailService.deleteFile(mail.getAttachment());
@@ -328,22 +343,20 @@ public class AssociationController {
 		
 		switch (recipient) {
 			case "Donnateurs":
-				return (String[]) association.getUsers().stream().filter(x -> x.getDonations().size() > 0).map(x -> x.getEmail()).collect(Collectors.toList()).toArray();
+				List<String> mailsDonors = association.getUsers().stream().filter(x -> x.getDonations().size() > 0).map(x -> x.getEmail()).collect(Collectors.toList());
+				return mailsDonors.toArray(new String[0]);
 			case "Bénévoles":
-				return (String[]) association.getUsers().stream().filter(x -> x.getVolunteer() != null).map(x -> x.getEmail()).collect(Collectors.toList()).toArray();
+				List<String> mailsVolunteers = association.getUsers().stream().filter(x -> x.getVolunteer() != null).map(x -> x.getEmail()).collect(Collectors.toList());
+				return mailsVolunteers.toArray(new String[0]);
 			case "Participants":
-				return (String[]) association.getUsers().stream().filter(x -> x.getParticipant() != null).map(x -> x.getEmail()).collect(Collectors.toList()).toArray();
+				List<String> mailsParticipants = association.getUsers().stream().filter(x -> x.getParticipant() != null).map(x -> x.getEmail()).collect(Collectors.toList());
+				return mailsParticipants.toArray(new String[0]);
 			case "Partenaires":
-				List<User> users = association.getUsers().stream().filter(x -> x instanceof UserSociety).collect(Collectors.toList());
-				
-				for(User user : new ArrayList<User>()) {
-					if (((UserSociety) user).getPartner() == null) users.remove(user);
-				}
-				
-				return (String[]) users.stream().map(x -> x.getEmail()).collect(Collectors.toList()).toArray();
-				
+				List<String> mailsPartners = association.getUsers().stream().filter(x -> x instanceof UserSociety).filter(x -> ((UserSociety) x).getPartner() != null).map(x -> x.getEmail()).collect(Collectors.toList());
+				return mailsPartners.toArray(new String[0]);
 			case "Utilisateurs":
-				return (String[]) association.getUsers().stream().map(x -> x.getEmail()).collect(Collectors.toList()).toArray();
+				List<String> mailsUsers = association.getUsers().stream().map(x -> x.getEmail()).collect(Collectors.toList());
+				return mailsUsers.toArray(new String[0]);
 		}
 		
 		return null;
@@ -372,6 +385,10 @@ public class AssociationController {
 	public @ResponseBody String getMail(@RequestParam("id") String id, HttpServletRequest req) {
 		Mail mail = mailService.findOne(Long.parseLong(id));
 		
+		if (mail.getStatut() == Statut.ACTIVE) mail.setStatut(Statut.INACTIVE);
+		
+		mailService.update(mail);
+		
 		String informations = mail.getId() + "%-%";
 		
 		if (mail.getMessageType() == MessageType.received) informations += mail.getSender() + "%-%";
@@ -381,6 +398,14 @@ public class AssociationController {
 		informations += mail.getContent() + "%-%";
 		
 		return informations;		
+	}
+	
+	@PostMapping("dashboardAsso/deleteMail")
+	public @ResponseBody String deleteMail(@RequestParam("id") String id, HttpServletRequest req) {
+		Mail mail = mailService.findOne(Long.parseLong(id));
+		if (mail.getAttachment() != null) mailService.deleteFile(mail.getAttachment());
+		mailService.delete(mail);
+		return "";		
 	}
 	
 	@PostMapping("dashboardAsso/deletePhoto")

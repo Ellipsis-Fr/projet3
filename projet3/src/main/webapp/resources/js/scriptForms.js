@@ -292,6 +292,7 @@ newMessageModal.addEventListener('show.bs.modal', function (event) {
 	let recipient = button.getAttribute('data-bs-whatever')
 	
 	let modalTitle = newMessageModal.querySelector('.modal-title')
+	let modalSubject = newMessageModal.querySelector(".modal-body #subject")
 	let modalRecipientInput = newMessageModal.querySelector('.modal-body #recipient')
 	
 //	if (recipient == "new") {
@@ -304,16 +305,20 @@ newMessageModal.addEventListener('show.bs.modal', function (event) {
 //	modalRecipientInput.setAttribute("type", "text");
 //	modalRecipientInput.setAttribute("readonly", true);
 	
+	
 	switch (recipient) {
 		case "new":
 			modalRecipientInput.setAttribute("type", "email");
 			modalRecipientInput.removeAttribute("readonly");
+			
+			modalTitle.textContent = "Nouveau Message";
 			modalRecipientInput.value = "";
 			break;
 		case "Donnateurs":
 		case "Bénévoles":
 		case "Participants":
 		case "Partenaires":
+		case "Utilisateurs":
 			modalRecipientInput.setAttribute("type", "text");
 			modalRecipientInput.setAttribute("readonly", true);
 			
@@ -323,6 +328,8 @@ newMessageModal.addEventListener('show.bs.modal', function (event) {
 		default:
 			modalRecipientInput.setAttribute("type", "email");
 			modalRecipientInput.removeAttribute("readonly");
+			
+			modalTitle.textContent = "Nouveau Message";
 			modalRecipientInput.value = recipient;	
 	}
 	
@@ -330,3 +337,28 @@ newMessageModal.addEventListener('show.bs.modal', function (event) {
 //	modalTitle.textContent = 'Nouveau Message à tous les ' + recipient
 //	modalRecipientInput.value = recipient
 })
+
+function resetMail(event) {
+	let newMessageModal = document.getElementById('newMessage')
+	
+	let modalTitle = newMessageModal.querySelector('.modal-title')
+	let modalForm = newMessageModal.querySelector('form[name="sendMessage"]')
+	
+	modalTitle.textContent = "Nouveau Message";
+	modalForm.reset();
+	
+}
+
+
+
+//========== SWITCH MAILBOX AND OUTBOX =======
+
+function switchBox(e) {
+	if (e.target.id == "btnMailBox" && $("#mailBox").is(":hidden")) {
+		$("#mailBox").toggle();
+		$("#outBox").toggle();
+	} else if (e.target.id == "btnOutBox" && $("#outBox").is(":hidden")) {
+		$("#outBox").toggle();
+		$("#mailBox").toggle();
+	}
+}
