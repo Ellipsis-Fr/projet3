@@ -25,8 +25,8 @@ function apparitionForm(e) {
 		$("#loginVolunteer").prop("disabled", false);
 		$("#formVolunteerRegistration input").prop("disabled", false);
 	}
-	else if (x.className == "btnParticipant") {
-		console.log("là")
+	else if (x.getAttribute("aria-controls") == "formParticipant") {
+		console.log("là - participant")
 		$("#formParticipantToLogin").hide();
 
 		$("#loginParticipant").prop("disabled", false);
@@ -238,12 +238,15 @@ function start() {
 	console.log($("#userLogged").text());
 	if ($("#event").length == 0) return;
 
-	let connexion = $("#stateConnexionUser").text();
-	console.log(connexion);
+	let msg = $("#msg").text();
+	console.log(msg);
 
-	if (connexion.length > 1) {	
-	    var toast = new bootstrap.Toast($('#liveToast'));
-	    toast.show();
+	if (msg.length > 1) {	
+	    $.niceToast.setup({
+	            timeout: 5000,
+	            progressBar: false
+		        });
+	    $.niceToast.success(msg);
 	}
 		
 }

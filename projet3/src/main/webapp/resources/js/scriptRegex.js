@@ -1,13 +1,14 @@
 $("button").click(selectForm);
 $(".event-page-icon-boxes a").click(selectForm);
-$(".btnParticipant").click(selectForm);
+$("#btnParticipant").click(selectForm);
 
 function selectForm(e) {
-	
+	console.log(e.currentTarget);
+	console.log(e.currentTarget.getAttribute("aria-controls"))
 	if ($(this).attr("id") == "btnVolunteer") inputsToCheck("#formVolunteerRegistration");
 	else if ($(this).attr("id") == "btnDonation") inputsToCheck("#formDonation"); 
 	else if ($(this).attr("id") == "btnPartner") inputsToCheck("#formPartnerRegistration"); 
-	else if (e.currentTarget.className == "btnParticipant") inputsToCheck("#formParticipantRegistration");
+	else if (e.currentTarget.getAttribute("aria-controls") == "formParticipant") inputsToCheck("#formParticipantRegistration");
 	else if ($(this).attr("id") == "btnAssociationRegistration") inputsToCheck("#formAssociationRegistration");
 }
 

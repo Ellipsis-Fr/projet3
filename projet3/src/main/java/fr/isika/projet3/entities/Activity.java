@@ -175,14 +175,19 @@ public class Activity {
 		this.event = event;
 	}
 
-	@Override
-	public String toString() {
-		return "Activity [id=" + id + ", name=" + name + ", address=" + address + ", startDate=" + startDate
-				+ ", endDate=" + endDate + ", description=" + description + ", pathPhoto=" + pathPhoto
-				+ ", necessaryFunding=" + necessaryFunding + ", allocatedFunding=" + allocatedFunding
-				+ ", volunteerNeeded=" + volunteerNeeded + ", volunteerAllocated=" + volunteerAllocated + ", statut="
-				+ statut + ", category=" + category + ", partner=" + partner + ", event=" + event + "]";
+	public List<Participant> getParticipants() {
+		return participants;
 	}
 
-		
+	public void setParticipants(List<Participant> participants) {
+		this.participants = participants;
+	}
+
+	public List<Volunteer> getVolunteers() {
+		return volunteers;
+	}
+
+	public void setVolunteers(List<Volunteer> volunteers) {
+		this.volunteers = volunteers;
+	}
 }

@@ -46,20 +46,17 @@ public class ParticipantService implements IParticipantService {
 
 	@Override
 	public Participant update(Participant entity) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.update(entity);
 	}
 
 	@Override
 	public void delete(Participant entity) {
-		// TODO Auto-generated method stub
+		dao.delete(entity);
 		
 	}
 
 	@Override
 	public void deleteById(long entityId) {
-		// TODO Auto-generated method stub
-		
+		dao.deleteById(entityId);
 	}
-
 }

@@ -53,14 +53,12 @@ public class PartnerService implements IPartnerService	{
 
 	@Override
 	public void delete(Partner partner) {
-		// TODO Auto-generated method stub
-		
+		partnerDao.delete(partner);
 	}
 
 	@Override
 	public void deleteById(long entityId) {
-		// TODO Auto-generated method stub
-		
+		partnerDao.deleteById(entityId);
 	}
 }
 

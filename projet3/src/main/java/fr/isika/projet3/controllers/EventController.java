@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -63,10 +65,14 @@ public class EventController {
 	// keeps the information of the association's event visited
 	private static final String ATT_SESSION_ASSOCIATION_EVENT_VISITED = "sessionAssociationVisited"; //Utiliser pour CRUD sur l'association en cours de visualisation
 	private static final String ATT_SESSION_EVENT_VISITED = "sessionEventVisited"; //Utiliser pour CRUD sur l'evenement en cours de visualisation
-	private static final String ATT_SESSION_EVENT_ACTIVE_ACTIVITIES= "sessionActiveActivities";
-	private static final String ATT_SESSION_EVENT_INPROGRESS_ACTIVITIES = "sessionInprogressActivities";
+	
+	private static final String ATT_REQUEST_EVENT_INPROGRESS_ACTIVITIES = "requestInprogressActivities";
+	private static final String ATT_REQUEST_EVENT_VALID_ACTIVITIES= "requestValidActivities";
+	
 	private static final String ATT_SESSION_USER_LOGGED = "sessionUserLogged";
 	private static final String ATT_SESSION_ROLE_LOGGED = "sessionRoleLogged";
+	
+	private static final String ATT_EVENT_VISITED_MSG = "msg";
 	
 	private static final String FIELD_CHECK_TYPE_USER = "userType";
 	private static final String FIELD_SIRET = "siret";
@@ -168,21 +174,21 @@ public class EventController {
 			session = req.getSession();
 		}
 		
-		if (req.getParameter("connexionUser") != null) model.addAttribute("connexionUser", req.getParameter("connexionUser"));
+		if (req.getParameter(ATT_EVENT_VISITED_MSG) != null) model.addAttribute(ATT_EVENT_VISITED_MSG, req.getParameter(ATT_EVENT_VISITED_MSG));
 
 
 		Event event = eventService.findOne(association.getEvent().getId());
-		
-		List<Activity> activeActivities = activityService.findAllByStatusAndEventId(event.getId(), Statut.ACTIVE); // ADDED
-		List<Activity> inprogressactivities = activityService.findAllByStatusAndEventId(event.getId(), Statut.IN_PROGRESS); // ADDED
-		
+
 		event.setSumDonations(getTotalDonationAmount(event));
+		
+		List<Activity> inprogressActivities = event.getActivities().stream().filter(x -> x.getStatut() == Statut.IN_PROGRESS).collect(Collectors.toList());
+		List<Activity> validActivities = event.getActivities().stream().filter(x -> x.getStatut() == Statut.VALID).collect(Collectors.toList());
 		
 		session.setAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED, association);
 		session.setAttribute(ATT_SESSION_EVENT_VISITED, event);
 		
-		session.setAttribute(ATT_SESSION_EVENT_ACTIVE_ACTIVITIES, activeActivities);// Ligne174
-		session.setAttribute(ATT_SESSION_EVENT_INPROGRESS_ACTIVITIES, inprogressactivities);// Ligne174
+		req.setAttribute(ATT_REQUEST_EVENT_INPROGRESS_ACTIVITIES, inprogressActivities);
+		req.setAttribute(ATT_REQUEST_EVENT_VALID_ACTIVITIES, validActivities);
 
 		return "event/home";
 	}
@@ -414,7 +420,7 @@ public class EventController {
 //			model.addAttribute("connexionUser", "Email et/ou Mot de passe incorrect(s)");
 //			return "event/home";
 //			return "redirect: event?id=" + associationVisited.getId() + "connexionUser=Email+et%2Fou+Mot+de+passe+incorrect%28s%29";
-			mv.addObject("connexionUser", "Email et/ou Mot de passe incorrect(s)");
+			mv.addObject(ATT_EVENT_VISITED_MSG, "Email et/ou Mot de passe incorrect(s)");
 			return mv;
 		}
 
@@ -437,7 +443,7 @@ public class EventController {
 //					model.addAttribute("connexionUser", "Compte en attente de Validation Administrateur");
 //					return "event/home";
 					
-					mv.addObject("connexionUser", "Compte en attente de Validation Administrateur");
+					mv.addObject(ATT_EVENT_VISITED_MSG, "Compte en attente de Validation Administrateur");
 					return mv;
 				}
 				
@@ -448,7 +454,7 @@ public class EventController {
 //		model.addAttribute("connexionUser", "Connexion Réussie !");
 //		return "event/home";
 		
-		mv.addObject("connexionUser", "Connexion Réussie !");
+		mv.addObject(ATT_EVENT_VISITED_MSG, "Connexion Réussie !");
 		return mv;
 	}
 	
@@ -518,6 +524,113 @@ public class EventController {
 		mailService.create(message);
 		
 		return "Message envoyé.";
+	}
+	
+	@GetMapping("subscribeActivity")	
+	public ModelAndView subscribeActivity(@RequestParam("id") String id, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		Association associationVisited = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED);
+		Event eventVisited = (Event) session.getAttribute(ATT_SESSION_EVENT_VISITED);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect: event?id=" + associationVisited.getId());
+		
+		//TODO : vérifier que la personne ne soit pas déjà inscrite à l'activité en question
+		Activity activity = activityService.findOne(Long.parseLong(id));
+		
+		IRole role = (IRole) session.getAttribute(ATT_SESSION_ROLE_LOGGED);
+		Volunteer volunteer = null;
+		Participant participant = null;
+		
+		if (eventVisited == null || role == null) {
+			mv.setViewName("redirect: index");
+			return mv;
+			
+		} else if (role instanceof Volunteer) {
+			volunteer = (Volunteer) role;
+			
+			volunteer.getActivities().add(activity);
+			activity.getVolunteers().add(volunteer);
+			activity.setVolunteerAllocated(activity.getVolunteerAllocated() + 1);
+			
+			volunteer = volunteerService.update(volunteer);
+			
+			session.setAttribute(ATT_SESSION_ROLE_LOGGED, volunteer);
+			
+		} else {
+			participant = (Participant) role;
+			
+			participant.getActivities().add(activity);
+			activity.getParticipants().add(participant);
+			
+			participant = participantService.update(participant);
+			
+			session.setAttribute(ATT_SESSION_ROLE_LOGGED, participant);
+		}
+
+		activityService.update(activity);
+		
+		mv.addObject(ATT_EVENT_VISITED_MSG, "Inscription enregistrée.");
+				
+		return mv;
+	}
+	
+	@GetMapping("unsubscribeActivity")	
+	public ModelAndView unsubscribeActivity(@RequestParam("id") String id, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		Association associationVisited = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED);
+		Event eventVisited = (Event) session.getAttribute(ATT_SESSION_EVENT_VISITED);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect: event?id=" + associationVisited.getId());
+		
+		//TODO : vérifier que la personne ne soit pas déjà inscrite à l'activité en question
+		Activity activity = activityService.findOne(Long.parseLong(id));
+		
+		IRole role = (IRole) session.getAttribute(ATT_SESSION_ROLE_LOGGED);
+		Volunteer volunteer = null;
+		Participant participant = null;
+		
+		if (eventVisited == null || role == null) {
+			mv.setViewName("redirect: index");
+			return mv;
+			
+		} else if (role instanceof Volunteer) {
+			volunteer = (Volunteer) role;
+			
+			volunteer = volunteerService.findOne(volunteer.getId());
+			
+			volunteer.getActivities().remove(activity);
+			activity.getVolunteers().remove(volunteer);
+			activity.setVolunteerAllocated(activity.getVolunteerAllocated() - 1);
+			
+			volunteer = volunteerService.update(volunteer);
+			
+			session.setAttribute(ATT_SESSION_ROLE_LOGGED, volunteer);
+			
+		} else {
+			participant = (Participant) role;
+			
+			participant = participantService.findOne(participant.getId());
+			
+			List<Activity> participant_activities = participant.getActivities();
+			participant_activities.remove(activity);
+			participant.setActivities(participant_activities);
+			
+			List<Participant> activity_participants = activity.getParticipants();
+			activity_participants.remove(participant);
+			activity.setParticipants(activity_participants);
+			
+			participant = participantService.update(participant);
+			
+			session.setAttribute(ATT_SESSION_ROLE_LOGGED, participant);
+		}
+
+		activityService.update(activity);
+		
+		mv.addObject(ATT_EVENT_VISITED_MSG, "Désinscription enregistrée.");
+				
+		return mv;
 	}
 	
 	
@@ -655,7 +768,7 @@ public class EventController {
 		activity1.setEndDate(LocalDate.parse("2021-12-10"));
 		activity1.setName("L'activité cartablière");
 		activity1.setAddress("11 rue de julien 21001 Julienville");
-		activity1.setStatut(Statut.ACTIVE);
+		activity1.setStatut(Statut.VALID);
 		activity1.setEvent(event1);
 		activities.add(activity1);
 		
@@ -665,7 +778,7 @@ public class EventController {
 		activity2.setEndDate(LocalDate.parse("2021-12-11"));
 		activity2.setName("L'activité dansière");
 		activity2.setAddress("11 rue de la danse 21002 danseville");
-		activity2.setStatut(Statut.ACTIVE);
+		activity2.setStatut(Statut.VALID);
 		activity2.setEvent(event1);
 		activities.add(activity2);
 	
@@ -675,7 +788,7 @@ public class EventController {
 		activity3.setEndDate(LocalDate.parse("2021-12-12"));
 		activity3.setName("L'activité du soin");
 		activity3.setAddress("11 rue de soin 21003 Soinville");
-		activity3.setStatut(Statut.ACTIVE);
+		activity3.setStatut(Statut.VALID);
 		activity3.setEvent(event1);
 		activities.add(activity3);
 			
@@ -685,7 +798,7 @@ public class EventController {
 		activity4.setEndDate(LocalDate.parse("2021-12-13"));
 		activity4.setName("L'activité ménagère");
 		activity4.setAddress("11 rue du ménage 21004 Ménageville");
-		activity4.setStatut(Statut.ACTIVE);
+		activity4.setStatut(Statut.VALID);
 		activity4.setEvent(event1);
 		activities.add(activity4);	
 
@@ -695,7 +808,7 @@ public class EventController {
 		activity5.setEndDate(LocalDate.parse("2021-12-14"));
 		activity5.setName("L'activité nanardesque");
 		activity5.setAddress("11 rue du nanar 21005 Nanarville");
-		activity5.setStatut(Statut.ACTIVE);
+		activity5.setStatut(Statut.VALID);
 		activity5.setEvent(event1);
 		activities.add(activity5);	
 		
@@ -750,34 +863,34 @@ public class EventController {
 		activities.add(activity10);
 		
 		
-		event1.addActivity(activity1);
-		event1.addActivity(activity2);
-		event1.addActivity(activity3);
-		event1.addActivity(activity4);
-		event1.addActivity(activity5);
-		event1.addActivity(activity6);
-		event1.addActivity(activity7);
-		event1.addActivity(activity8);
-		event1.addActivity(activity9);
-		event1.addActivity(activity10);
 
 
 		for (int i = 0; i < associations.size(); i++) {
 			Association association = associations.get(i);
 			association.setPathFolder(associationService.createNewFolder(associations.get(i).getRna()));
+			
+			Document document = new Document();		
+			document.setPathFolder(documentService.createNewFolder(associations.get(i).getPathFolder(), "home"));
+			document.setPathFolderPhoto(documentService.createNewFolder(document.getPathFolder(), "photos"));
+			documentService.create(document);
+			associations.get(i).setDocument(document);
+			
+			Messaging messaging = new Messaging();
+			messaging.setPathFolder(messagingService.createNewFolder(associations.get(i).getPathFolder(), "messaging"));
+			messagingService.create(messaging);
+			associations.get(i).setMessaging(messaging);
 
-			if (i < events.size()) {
-				Event event = events.get(i);
-				event.setPathFolder(eventService.createNewFolder(associations.get(i).getPathFolder()));
-				eventService.create(event);
+			if (i < 8) {
+				events.get(i).setPathFolder(eventService.createNewFolder(associations.get(i).getPathFolder()));
+				eventService.create(events.get(i));
+				associations.get(i).setEvent(events.get(i));
+				associations.get(i).setEventInProgress(true);
 				
-				association.setEvent(event);
-				association.setEventInProgress(true);
-				
-				for (int j = 0; j < event.getActivities().size(); j++) {
-					Activity activity = event.getActivities().get(j);
-					activity.setPathPhoto(activityService.createNewFolder(events.get(i).getPathFolder(), Integer.toString(j+1)));
-					activityService.create(activity);
+				if (i == 1) {
+					for (Activity activity : activities) {
+						activity.setEvent(events.get(i));
+						activityService.create(activity);
+					}
 				}
 			}
 			

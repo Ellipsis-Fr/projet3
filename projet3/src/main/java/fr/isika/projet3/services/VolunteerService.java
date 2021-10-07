@@ -47,19 +47,16 @@ public class VolunteerService implements IVolunteerService {
 
 	@Override
 	public Volunteer update(Volunteer entity) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.update(entity);
 	}
 
 	@Override
 	public void delete(Volunteer entity) {
-		// TODO Auto-generated method stub
-		
+		dao.delete(entity);
 	}
 
 	@Override
 	public void deleteById(long entityId) {
-		// TODO Auto-generated method stub
-		
+		dao.deleteById(entityId);
 	}
 }
