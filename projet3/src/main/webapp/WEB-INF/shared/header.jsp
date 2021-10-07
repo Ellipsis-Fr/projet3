@@ -35,20 +35,13 @@
                         <nav class="site-navigation d-flex justify-content-end align-items-center">
                             <ul class="d-flex flex-column flex-lg-row justify-content-lg-end align-content-center">
                                 <li class="current-menu-item"><a href="index.html">Accueil</a></li>
-                                <li><a href="about.html">À propos de nous</a></li>
-                                <li><a href="causes.html">Causes</a></li>
-                                <li><a href="portfolio.html">Galerie</a></li>
-                                <li><a href="news.html">Nouvelles</a></li>
-                                <li><a href="contact.html">Contactez-nous</a></li>
+                                <li><a href="about.html">Comment ça marche?</a></li>
+                                <li><a href="causes.html">Reçu fiscal</a></li>
+                               
                             </ul>
                         </nav><!-- .site-navigation -->
 
-                        <div class="hamburger-menu d-lg-none">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div><!-- .hamburger-menu -->
+                   
                     </div><!-- .col -->
                 </div><!-- .row -->
             </div><!-- .container -->
