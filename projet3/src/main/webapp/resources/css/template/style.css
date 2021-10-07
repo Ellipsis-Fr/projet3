@@ -17,7 +17,7 @@ img.huechange { filter: hue-rotate(120deg); }
 # Links
 --------------------------------------------------------------*/
 a {
-    color: #262626;
+    color: rgb(255, 90, 0);
 }
 
 a:visited {
@@ -761,7 +761,7 @@ ul.tabs-nav .tab-nav.active {
 .home-page-welcome {
     position: relative;
     padding: 96px 0;
-    background: url("images/welcome-bg.jpg") no-repeat center;
+    background: url("../../images/template/welcome-bg.jpg") no-repeat center;
     background-size: cover;
     z-index: 99;
 }
@@ -992,9 +992,9 @@ ul.tabs-nav .tab-nav.active {
 # Home Causes
 --------------------------------*/
 .our-causes {
-    position: relative;
+/*     position: relative; */
     padding: 96px 0;
-    background: url("../../images/template/cause-bg.jpg") no-repeat center;
+    background-color: white;
     background-size: cover;
     z-index: 99;
 }
@@ -1138,7 +1138,11 @@ ul.tabs-nav .tab-nav.active {
 }
 
 #distances {
-	
+	color: white;
+}
+
+#distances a {
+	color: rgb(255, 90, 0);
 }
 
 /*--------------------------------------------------------------

@@ -11,14 +11,7 @@
 
                             <p>The Charity a à coeur d'aider le mieux possible tous type d'association en recherche d'aide pour mettre en avant leurs actions et permettre à ces associations de se faire connaître à un plus grand public.</p>
 
-                            <ul class="d-flex flex-wrap align-items-center">
-                                <li><a href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                                <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            </ul>
+                         
                         </div><!-- .foot-about -->
                     </div><!-- .col -->
 
@@ -64,9 +57,9 @@
                             <h2>Contactez-nous</h2>
 
                             <ul>
-                                <li><i class="fa fa-phone"></i><span>+33 1 24 86 92 45</span></li>
-                                <li><i class="fa fa-envelope"></i><span>contact@ourcharity.com</span></li>
-                                <li><i class="fa fa-map-marker"></i><span>7bis Rue Jacques Louvel-Tessier 75010 Paris</span></li>
+                                <li><span>+33 1 24 86 92 45</span></li>
+                                <li><span>contact@ourcharity.com</span></li>
+                                <li><span>7bis Rue Jacques Louvel-Tessier 75010 Paris</span></li>
                             </ul>
                         </div><!-- .foot-contact -->
 
