@@ -67,8 +67,9 @@ public class ActivityController {
 		
 		Activity activity = activityService.init(req);
 		
-		Statut statut = Statut.IN_PROGRESS;
-		activity.setStatut(statut);
+		if ((activity.getAllocatedFunding() == activity.getNecessaryFunding()) && (activity.getVolunteerAllocated() == activity.getVolunteerNeeded())) activity.setStatut(Statut.VALID);
+		else activity.setStatut(Statut.IN_PROGRESS);
+		
 		activity.setEvent(event);
 		activity.setPathPhoto(activityService.saveFile(photo, event.getPathFolder()));
 		activityService.create(activity);

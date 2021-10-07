@@ -8,19 +8,19 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	
 	    <!-- Bootstrap CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/bootstrap.min.css"/>'> --%>
+<%-- 	    <link rel="stylesheet" href='<c:url value="/resources/css/template/bootstrap.min.css"/>'> --%>
 	
 	    <!-- FontAwesome CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/font-awesome.min.css"/>'> --%>
+<%-- 	    <link rel="stylesheet" href='<c:url value="/resources/css/template/font-awesome.min.css"/>'> --%>
 	
 	    <!-- ElegantFonts CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/elegant-fonts.css"/>'> --%>
+<%-- 	    <link rel="stylesheet" href='<c:url value="/resources/css/template/elegant-fonts.css"/>'> --%>
 	
 	    <!-- themify-icons CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/themify-icons.css"/>'> --%>
+<%-- 	    <link rel="stylesheet" href='<c:url value="/resources/css/template/themify-icons.css"/>'> --%>
 	
 	    <!-- Swiper CSS -->
-<%-- 	    <link rel="stylesheet" href='<c:out value="resources/css/template/swiper.min.css"/>'> --%>
+	    <link rel="stylesheet" href='<c:url value="/resources/css/template/swiper.min.css"/>'>
 	
 	    <!-- Styles -->
 	    <link rel="stylesheet" href="<c:url value="/resources/css/template/style.css"/>">
@@ -32,20 +32,20 @@
         <link href="<c:url value="/resources/css/alert-nice-toast/dist/css/nice-toast-js.min.css"/>" rel="stylesheet" />
 
         
-        <!-- Bootstrap CSS -->
-	    <link rel="stylesheet" href='<c:url value="resources/css/template/bootstrap.min.css"/>'>
+<!--         Bootstrap CSS -->
+<%-- 	    <link rel="stylesheet" href='<c:url value="resources/css/template/bootstrap.min.css"/>'> --%>
 	
-		<!-- FontAwesome CSS -->
-	    <link rel="stylesheet" href='<c:url value="resources/css/template/font-awesome.min.css"/>'>
+		<!-- FontAwesome CSS --> 
+<%-- 	    <link rel="stylesheet" href='<c:url value="resources/css/template/font-awesome.min.css"/>'> --%>
 	
-		<!-- ElegantFonts CSS -->
-	    <link rel="stylesheet" href='<c:url value="resources/css/template/elegant-fonts.css"/>'>
+		<!-- ElegantFonts CSS --> 
+<%-- 	    <link rel="stylesheet" href='<c:url value="resources/css/template/elegant-fonts.css"/>'> --%>
 	
-		<!-- themify-icons CSS -->
-	    <link rel="stylesheet" href='<c:url value="resources/css/template/themify-icons.css"/>'>
+		<!-- themify-icons CSS--> 
+<%-- 	    <link rel="stylesheet" href='<c:url value="resources/css/template/themify-icons.css"/>'> --%>
 	
-		<!-- Swiper CSS -->
-	    <link rel="stylesheet" href='<c:url value="resources/css/template/swiper.min.css"/>'>
+ 		<!-- Swiper CSS --> 
+<%-- 	    <link rel="stylesheet" href='<c:url value="resources/css/template/swiper.min.css"/>'> --%>
 	
 		<!-- Styles -->
 		<link rel="stylesheet"
@@ -60,7 +60,7 @@
 		
 		<span id="userLogged" hidden='hidden'>${sessionScope.sessionUserLogged}</span> <!-- Use to know in scriptForms if an user is logged or not ...-->
 		<span id="roleUserLogged" hidden='hidden'>${sessionScope.sessionRoleLogged.role}</span> <!-- ... and what's his role -->
-		<span id="stateConnexionUser" hidden='hidden'>${connexionUser}</span> <!-- Use to lauch alert after a connexion -->
+		<span id="msg" hidden='hidden'>${requestScope.msg}</span> <!-- Use to lauch msg -->
 
 		<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
 			<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -68,7 +68,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="toast"	aria-label="Close"></button>
 				</div>
 				<div class="toast-body">
-					${connexionUser}
+					${requestScope.msg}
 				</div>
 			</div>
 		</div>
@@ -78,7 +78,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-6" align="left">
-						<img src="<c:out value="${sessionScope.sessionAssociationVisited.pathLogo}"/>" alt="logo">
+						<img src="<c:out value="${sessionScope.sessionAssociationVisited.pathLogo}"/>" alt="logo" style="max_height: 150px; max-width: 150px;">
 					</div><!-- .col -->
 					<div class="col-6" align="left">
 						<h1>${sessionScope.sessionAssociationVisited.name}</h1>
@@ -312,7 +312,7 @@
 								</div>
 								
 								<div class="col-12">	
-									<input type="submit" class="btn btn-primary" id="submitFormVolunteerRegistration" value="Valider" />
+									<input type="submit" class="btn gradient-bg mr-2" id="submitFormVolunteerRegistration" value="Valider" />
 								</div>
 							</form>
 						</div>
@@ -334,7 +334,7 @@
 								<input type="hidden" id="role" name="role" value="volunteer">
 								
 								<div class="col-12">
-									<input type="submit" class="btn btn-primary" id="submitFormVolunteerToLogin" />
+									<input type="submit" class="btn gradient-bg mr-2" id="submitFormVolunteerToLogin" value="Valider" />
 								</div>
 							</form>
 						</div>
@@ -370,7 +370,7 @@
 								</div>
 								
 								<div class="col-12">	
-									<input type="submit" class="btn btn-primary" id="submitFormParticipantRegistration" value="Valider" />
+									<input type="submit" class="btn gradient-bg mr-2" id="submitFormParticipantRegistration" value="Valider" />
 								</div>
 							</form>
 						</div>
@@ -392,7 +392,7 @@
 								<input type="hidden" id="role" name="role" value="participant">
 								
 								<div class="col-12">
-									<input type="submit" class="btn btn-primary" id="submitFormParticipantToLogin" />
+									<input type="submit" class="btn gradient-bg mr-2" id="submitFormParticipantToLogin" value="Valider" />
 								</div>
 							</form>
 						</div>
@@ -476,7 +476,7 @@
 								</c:choose>
 							</div>
 							<div class="col-12">
-								<input type="submit" class="btn btn-primary" id="submitFormDonation" value="Valider" />
+								<input type="submit" class="btn gradient-bg mr-2" id="submitFormDonation" value="Valider" />
 							</div>
 						</form>
 					</div>
@@ -510,7 +510,7 @@
 								</div>	
 								
 								<div class="col-12">
-									<input type="submit" class="btn btn-primary" id="submitPartnerRegistration" value="Valider"/>
+									<input type="submit" class="btn gradient-bg mr-2" id="submitPartnerRegistration" value="Valider"/>
 								</div>
 							</form>
 						</div>
@@ -532,7 +532,7 @@
 								<input type="hidden" id="role" name="role" value="partner">
 								
 								<div class="col-12">
-									<input type="submit" class="btn btn-primary" id="submitFormPartnerToLogin" value="Valider" />
+									<input type="submit" class="btn gradient-bg mr-2" id="submitFormPartnerToLogin" value="Valider" />
 								</div>
 							</form>
 						</div>
@@ -601,7 +601,7 @@
 								<input id="necessaryFunding" name="necessaryFunding" type="hidden" value="0"/>	
 								
 								<div class="col-12">
-									<input type="submit" class="btn btn-primary" id="submitPartnerRegistration" value="Valider"/>
+									<input type="submit" class="btn gradient-bg mr-2" id="submitPartnerRegistration" value="Valider"/>
 								</div>
 							</form>
 						</div>
@@ -609,292 +609,623 @@
 				</div>
 			</div>
 	
-			
-			
-			<c:choose>
-				<c:when test="${empty sessionScope.sessionEventVisited.activities}">
-				It's empty
-				</c:when>
-				<c:otherwise>
-					<div class="our-causes">
-						<div class="container">
-						
-		
-												
-							<div class="row">
+				
+				
+			<div class="our-causes">
+				<div class="container">					
+					<c:choose>
+						<c:when test="${empty requestScope.requestValidActivities}">
+							<div class="row">							
 								<div class="coL-12">
 									<div class="section-heading">
-										<h2 class="entry-title">Activités validées</h2>
+										<h2 class="entry-title">Aucune Activité Disponible</h2>
 									</div>
 									<!-- .section-heading -->
+								</div>	<!-- .col -->
+							</div> <!-- .row -->
+						</c:when>
+						<c:when test="${requestScope.requestValidActivities.size() == 1}">	
+							<div class="row">							
+								<div class="coL-12">
+									<div class="section-heading">
+										<h2 class="entry-title">Activité Disponible</h2>
+									</div>
+									<!-- .section-heading -->
+								</div>	<!-- .col -->
+							</div> <!-- .row -->
+							
+							<div class="row">
+								<div class="col-4"></div>
+								<div class="col-4">
+									<div class="cause-wrap">
+										<c:set var="activity" scope="page" value="${requestScope.requestValidActivities.get(0)}"/>
+										<figure class="m-0">
+											<img src='<c:url value="${activity.pathPhoto}"/>' style="height: 147.6px;">
+											<div class="figure-overlay d-flex justify-content-center align-items-center position-absolute w-100 h-100">
+												<c:choose>
+													<c:when test="${!empty sessionScope.sessionUserLogged && sessionScope.sessionRoleLogged.role == 'participant'}">
+														
+														<c:set var="isRegistered" scope="page" value="false"/>
+																		
+														<c:forEach items="${sessionScope.sessionRoleLogged.activities}" var="participantActivity">
+															<c:choose>
+																<c:when test="${participantActivity.id == activity.id}">
+																	<c:set var="isRegistered" value="true"/>
+																	<a class="btn gradient-bg mr-2" href='<c:url value="unsubscribeActivity?id=${activity.id}"/>' role="button"> Se Désinscrire </a>
+																</c:when>
+															</c:choose>
+														</c:forEach>
+														
+														<c:if test="${!isRegistered}">
+															<a class="btn gradient-bg mr-2" href='<c:url value="subscribeActivity?id=${activity.id}"/>' role="button"> Participer </a>
+														</c:if>
+
+													</c:when>
+													<c:when test="${empty sessionScope.sessionUserLogged}">
+														<a class="btn gradient-bg mr-2" data-bs-toggle="collapse"  href="#formParticipant" role="button" aria-expanded="false" aria-controls="formParticipant" onclick="apparitionForm(event);selectForm(event);"> Participer </a>
+													</c:when>
+													<c:otherwise>
+													</c:otherwise>
+												</c:choose>
+												
+											</div>
+											
+											<!-- .figure-overlay -->
+										</figure>
+
+										<div class="cause-content-wrap">
+											<header	class="entry-header d-flex flex-wrap align-items-center">
+												<h3 class="entry-title w-100 m-0"> <a>${activity.name}</a></h3>
+											</header>
+											<!-- .entry-header -->
+
+											<div class="entry-content"> <p class="m-0">${activity.description}</p></div>
+											<!-- .entry-content -->
+
+											
+
+												<div
+													class="fund-raised-details d-flex flex-wrap justify-content-between align-items-center">
+												<div class="fund-raised-total mt-4"> ${activity.startDate}</div>
+												<!-- .fund-raised-total -->
+
+												<div class="fund-raised-goal mt-4"> ${activity.endDate}</div>
+												<!-- .fund-raised-goal -->
+												</div>
+												<!-- .fund-raised-details -->
+											<!-- .fund-raised -->
+										</div>
+										<!-- .cause-content-wrap -->
+									</div>
+									<!-- .cause-wrap -->
 								</div>
-							<!-- .col -->
+							
 							</div>
-		
-		
-		
-							<!-- .row -->
+						</c:when>
+						
+						<c:when test="${requestScope.requestValidActivities.size() == 2}">	
+							<div class="row">							
+								<div class="coL-12">
+									<div class="section-heading">
+										<h2 class="entry-title">Activités Disponibles</h2>
+									</div> <!-- .section-heading -->
+								</div> <!-- .col -->
+							</div> <!-- .row -->
+							
+							<div class="row">
+								<div class="col-2"></div>
+								<c:forEach items="${requestScope.requestValidActivities}" var="activity">
+									<div class="col-4">
+										<div class="cause-wrap">
+											<figure class="m-0">
+												<img src='<c:url value="${activity.pathPhoto}"/>' style="height: 147.6px;">
+												<div class="figure-overlay d-flex justify-content-center align-items-center position-absolute w-100 h-100">
+													<c:choose>
+														<c:when test="${!empty sessionScope.sessionUserLogged && sessionScope.sessionRoleLogged.role == 'participant'}">
+															<c:set var="isRegistered" scope="page" value="false"/>
+																		
+															<c:forEach items="${sessionScope.sessionRoleLogged.activities}" var="participantActivity">
+																<c:choose>
+																	<c:when test="${participantActivity.id == activity.id}">
+																		<c:set var="isRegistered" value="true"/>
+																		<a class="btn gradient-bg mr-2" href='<c:url value="unsubscribeActivity?id=${activity.id}"/>' role="button"> Se Désinscrire </a>
+																	</c:when>
+																</c:choose>
+															</c:forEach>
+															
+															<c:if test="${!isRegistered}">
+																<a class="btn gradient-bg mr-2" href='<c:url value="subscribeActivity?id=${activity.id}"/>' role="button"> Participer </a>
+															</c:if>
+														</c:when>
+														<c:when test="${empty sessionScope.sessionUserLogged}">
+															<a class="btn gradient-bg mr-2" data-bs-toggle="collapse"  href="#formParticipant" role="button" aria-expanded="false" aria-controls="formParticipant" onclick="apparitionForm(event);selectForm(event);"> Participer </a>
+														</c:when>
+														<c:otherwise>
+														</c:otherwise>
+													</c:choose>
+													
+												</div>
+												
+												<!-- .figure-overlay -->
+											</figure>
+
+											<div class="cause-content-wrap">
+												<header	class="entry-header d-flex flex-wrap align-items-center">
+													<h3 class="entry-title w-100 m-0"> <a>${activity.name}</a></h3>
+												</header>
+												<!-- .entry-header -->
+
+												<div class="entry-content"> <p class="m-0">${activity.description}</p></div>
+												<!-- .entry-content -->
+
+												
+
+													<div class="fund-raised-details d-flex flex-wrap justify-content-between align-items-center">
+													<div class="fund-raised-total mt-4"> ${activity.startDate}</div>
+													<!-- .fund-raised-total -->
+
+													<div class="fund-raised-goal mt-4"> ${activity.endDate}</div>
+													<!-- .fund-raised-goal -->
+													</div>
+													<!-- .fund-raised-details -->
+												<!-- .fund-raised -->
+											</div> <!-- .cause-content-wrap -->
+										</div> <!-- .cause-wrap -->
+									</div>
+								</c:forEach>
+							</div>
+						</c:when>
+						
+						<c:otherwise>
+							<div class="row">							
+								<div class="coL-12">
+									<div class="section-heading">
+										<h2 class="entry-title">Activités Disponibles</h2>
+									</div> <!-- .section-heading -->
+								</div> <!-- .col -->
+							</div> <!-- .row -->
+							
 							<div class="row">
 								<div class="col-12">
 									<div class="swiper-container causes-slider">
 										<div class="swiper-wrapper">
-		
-											<c:forEach items="${sessionScope.sessionActiveActivities}" var="activity">
-		
-												<div class="swiper-slide" id="${activity.address}-${activity.name}-${activity.id}">
+											<c:forEach items="${requestScope.requestValidActivities}" var="activity">
+												<div class="swiper-slide">
 													<div class="cause-wrap">
 														<figure class="m-0">
 															<img src='<c:url value="${activity.pathPhoto}"/>' style="height: 147.6px;">
-
-															
-															<div
-															class="figure-overlay d-flex justify-content-center align-items-center position-absolute w-100 h-100">
-															<a href="#" class="btn gradient-bg mr-2">Participer</a>
-
+															<div class="figure-overlay d-flex justify-content-center align-items-center position-absolute w-100 h-100">
+																<c:choose>
+																	<c:when test="${!empty sessionScope.sessionUserLogged && sessionScope.sessionRoleLogged.role == 'participant'}">
+																		
+																		<c:set var="isRegistered" scope="page" value="false"/>
+																		
+																		<c:forEach items="${sessionScope.sessionRoleLogged.activities}" var="participantActivity">
+																			<c:choose>
+																				<c:when test="${participantActivity.id == activity.id}">
+																					<c:set var="isRegistered" value="true"/>
+																					<a class="btn gradient-bg mr-2" href='<c:url value="unsubscribeActivity?id=${activity.id}"/>' role="button"> Se Désinscrire </a>
+																				</c:when>
+																			</c:choose>
+																		</c:forEach>
+																		
+																		<c:if test="${!isRegistered}">
+																			<a class="btn gradient-bg mr-2" href='<c:url value="subscribeActivity?id=${activity.id}"/>' role="button"> Participer </a>
+																		</c:if>
+																	
+																	
+																	
+																	</c:when>
+																	<c:when test="${empty sessionScope.sessionUserLogged}">
+																		<a class="btn gradient-bg mr-2" data-bs-toggle="collapse"  href="#formParticipant" role="button" aria-expanded="false" aria-controls="formParticipant" onclick="apparitionForm(event);selectForm(event);"> Participer </a>
+																	</c:when>
+																	<c:otherwise>
+																	</c:otherwise>
+																</c:choose>
+																
 															</div>
 															
 															<!-- .figure-overlay -->
 														</figure>
-		
+			
 														<div class="cause-content-wrap">
-															<header
-																class="entry-header d-flex flex-wrap align-items-center">
-																<h3 class="entry-title w-100 m-0"> <a href='<c:url value="event?id=${activity.id}"/>'>${activity.name}</a></h3>
+															<header	class="entry-header d-flex flex-wrap align-items-center">
+																<h3 class="entry-title w-100 m-0"> <a>${activity.name}</a></h3>
 															</header>
 															<!-- .entry-header -->
-		
+			
 															<div class="entry-content"> <p class="m-0">${activity.description}</p></div>
 															<!-- .entry-content -->
-		
+			
 															
-		
-																<div
-																	class="fund-raised-details d-flex flex-wrap justify-content-between align-items-center">
+			
+																<div class="fund-raised-details d-flex flex-wrap justify-content-between align-items-center">
 																<div class="fund-raised-total mt-4"> ${activity.startDate}</div>
 																<!-- .fund-raised-total -->
-		
+			
 																<div class="fund-raised-goal mt-4"> ${activity.endDate}</div>
 																<!-- .fund-raised-goal -->
 																</div>
 																<!-- .fund-raised-details -->
 															<!-- .fund-raised -->
-														</div>
-														<!-- .cause-content-wrap -->
-													</div>
-													<!-- .cause-wrap -->
+														</div> <!-- .cause-content-wrap -->
+													</div> <!-- .cause-wrap -->
 												</div>
-												<!-- .swiper-slide -->
+											
 											</c:forEach>
-		
-										</div>
-										<!-- .swiper-wrapper -->
-									</div>
-									<!-- .swiper-container -->
-									
-									<!-- Add Arrows -->
-									<div
-										class="swiper-button-next flex justify-content-center align-items-center swiper-button" id="idswiper">
-										<span><svg viewBox="0 0 1792 1792"
-												xmlns="http://www.w3.org/2000/svg">
-												<path
-													d="M1171 960q0 13-10 23l-466 466q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l393-393-393-393q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l466 466q10 10 10 23z" /></svg></span>
-									</div>
-									<div
-										class="swiper-button-prev flex justify-content-center align-items-center swiper-button" id="idswiper">
-										<span><svg viewBox="0 0 1792 1792"
-												xmlns="http://www.w3.org/2000/svg">
-												<path
-													d="M1203 544q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z" /></svg></span>
-									</div>
-									
-									
-									
-															
-								</div>
-								<!-- .col -->
-							</div>
-							<!-- .row -->
-						</div>
-						<!-- .container -->
-					</div>
-					<!-- .our-causes -->
-				</c:otherwise>
-			</c:choose>
-			
-		<br />
-		<br />
-		<br />
-			
-			
-
-		<br />
-		<br />
-		<br />
-		<br />
-		<br />
-		<p>
-	
-	
-	
-	
-	
-		
-	<c:choose>
-		<c:when test="${empty sessionScope.sessionEventVisited.activities}">
-		It's empty
-		</c:when>
-		<c:otherwise>
-			<div class="our-causes">
-				<div class="container">
-				
-	
 										
-					<div class="row">
-						<div class="coL-12">
-							<div class="section-heading">
-								<h2 class="entry-title">Activités in progress</h2>
-							</div>
-							<!-- .section-heading -->
-						</div>
-					<!-- .col -->
-					</div>
-	
-	
-
-					<!-- .row -->
-					<div class="row">
-						<div class="col-12">
-							<div class="swiper-container causes-slider">
-								<div class="swiper-wrapper">
-	
-									<c:forEach items="${sessionScope.sessionInprogressActivities}" var="activity">
-	
-										<div class="swiper-slide" id="${activity.address}-${activity.name}-${activity.id}">
-											<div class="cause-wrap">
-												<figure class="m-0">
-													<img src='<c:url value="${activity.pathPhoto}"/>' style="height: 147.6px;">
-	
-													<div 
-														class="figure-overlay d-flex justify-content-center align-items-center position-absolute w-100 h-100">
-														<a class="btn gradient-bg mr-2" data-bs-toggle="collapse"  href="#formParticipant" role="button" aria-expanded="false" aria-controls="formParticipant" onclick="apparitionForm(event)"> Participer </a>
-													</div>
-													<!-- .figure-overlay -->
-												</figure>
-	
-												<div class="cause-content-wrap">
-													<header
-														class="entry-header d-flex flex-wrap align-items-center">
-														<h3 class="entry-title w-100 m-0"> <a href='<c:url value="event?id=${activity.id}"/>'>${activity.name}</a></h3>
-													</header>
-													<!-- .entry-header -->
-	
-													<div class="entry-content"> <p class="m-0">${activity.description}</p></div>
-													<!-- .entry-content -->
-	
-														<div
-															class="fund-raised-details d-flex flex-wrap justify-content-between align-items-center">
-															<div class="fund-raised-total mt-4"> ${activity.startDate}</div>
-															<!-- .fund-raised-total -->
-	
-															<div class="fund-raised-goal mt-4"> ${activity.endDate}</div>
-															<!-- .fund-raised-goal -->
-														</div>
-														<!-- .fund-raised-details -->
-													<!-- .fund-raised -->
-												</div>
-												<!-- .cause-content-wrap -->
-											</div>
-											<!-- .cause-wrap -->
-										</div>
-										<!-- .swiper-slide -->
-									</c:forEach>
-	
-								</div>
-								<!-- .swiper-wrapper -->
-							</div>
-							<!-- .swiper-container -->
-							<!-- Add Arrows -->
-							<div
-								class="swiper-button-next flex justify-content-center align-items-center swiper-button" id="idswiper">
-								<span><svg viewBox="0 0 1792 1792"
-										xmlns="http://www.w3.org/2000/svg">
-										<path
-											d="M1171 960q0 13-10 23l-466 466q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l393-393-393-393q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l466 466q10 10 10 23z" /></svg></span>
-							</div>
-							<div
-								class="swiper-button-prev flex justify-content-center align-items-center swiper-button" id="idswiper">
-								<span><svg viewBox="0 0 1792 1792"
-										xmlns="http://www.w3.org/2000/svg">
-										<path
-											d="M1203 544q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z" /></svg></span>
-							</div>
+										
+										</div> <!-- .swiper-wrapper -->
+									</div> <!-- .swiper-container -->
 							
-								
+									<!-- Add Arrows -->
+									<div class="swiper-button-next flex justify-content-center align-items-center swiper-button" id="idswiper">
+										<span>
+											<svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+												<path d="M1171 960q0 13-10 23l-466 466q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l393-393-393-393q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l466 466q10 10 10 23z" />
+											</svg>
+										</span>
+									</div>
+									<div class="swiper-button-prev flex justify-content-center align-items-center swiper-button" id="idswiper">
+										<span>
+											<svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+												<path d="M1203 544q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z" />
+											</svg>
+										</span>
+									</div>				
+							</div> <!-- .col -->
+						</div> <!-- .row -->
+							
+						
+						</c:otherwise>
+
+					</c:choose>
+ 				</div>	<!-- .container -->
+			</div> <!-- .our-causes -->
+
+			
+		<br />
+		<br />
+		<br />
+			
+			
+
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		
+		<div class="our-causes">
+				<div class="container">					
+					<c:choose>
+						<c:when test="${empty requestScope.requestInprogressActivities}">
+							<div class="row">							
+								<div class="coL-12">
+									<div class="section-heading">
+										<h2 class="entry-title">Ici sont présentées les activités en attente de soutien</h2>
+									</div>
+									<!-- .section-heading -->
+								</div>	<!-- .col -->
+							</div> <!-- .row -->
+						</c:when>
+						<c:when test="${requestScope.requestInprogressActivities.size() == 1}">	
+							<div class="row">							
+								<div class="coL-12">
+									<div class="section-heading">
+										<h2 class="entry-title">Activité en Attente de soutien</h2>
+									</div>
+									<!-- .section-heading -->
+								</div>	<!-- .col -->
+							</div> <!-- .row -->
+							
+							<div class="row">
+								<div class="col-4"></div>
+								<div class="col-4">
+									<div class="cause-wrap">
+										<figure class="m-0">
+											<img src='<c:url value="${requestScope.requestInprogressActivities.get(0).pathPhoto}"/>' style="height: 147.6px;">
+											<div class="figure-overlay d-flex justify-content-center align-items-center position-absolute w-100 h-100">
+												<c:choose>
+													<c:when test="${!empty sessionScope.sessionUserLogged && sessionScope.sessionRoleLogged.role == 'volunteer'}">
+														
+														<c:set var="isRegistered" scope="page" value="false"/>
+																		
+														<c:forEach items="${sessionScope.sessionRoleLogged.activities}" var="volunteerActivity">
+															<c:choose>
+																<c:when test="${volunteerActivity.id == requestScope.requestInprogressActivities.get(0).id}">
+																	<c:set var="isRegistered" value="true"/>
+																	<a class="btn gradient-bg mr-2" href='<c:url value="unsubscribeActivity?id=${requestScope.requestInprogressActivities.get(0).id}"/>' role="button"> Se Désinscrire </a>
+																</c:when>
+															</c:choose>
+														</c:forEach>
+														
+														<c:if test="${!isRegistered}">
+															<a class="btn gradient-bg mr-2" href='<c:url value="subscribeActivity?id=${requestScope.requestInprogressActivities.get(0).id}"/>' role="button"> Aider </a>
+														</c:if>
+
+													</c:when>
 													
-						</div>
-						<!-- .col -->
-					</div>
-					<!-- .row -->
-				</div>
-				<!-- .container -->
-			</div>
-			<!-- .our-causes -->
-		</c:otherwise>
-	</c:choose>
+													<c:when test="${!empty sessionScope.sessionUserLogged && sessionScope.sessionRoleLogged.role == 'partner'}">
+														<a class="btn gradient-bg mr-2" href='#' role="button"> Financer </a>
+													</c:when>
+													<c:otherwise>
+														<p style="text-align:center">
+															<span style="color:rgba(255,54,0,1)">Dévenez Bénévole ou Partenaire et aidez-nous à concrétiser ce projet !</span>
+														</p>
+													</c:otherwise>
+												</c:choose>
+												
+											</div>
+											
+											<!-- .figure-overlay -->
+										</figure>
+
+										<div class="cause-content-wrap">
+											<header	class="entry-header d-flex flex-wrap align-items-center">
+												<h3 class="entry-title w-100 m-0"> <a>${requestScope.requestInprogressActivities.get(0).name}</a></h3>
+											</header>
+											<!-- .entry-header -->
+
+											<div class="entry-content"> <p class="m-0">${requestScope.requestInprogressActivities.get(0).description}</p></div>
+											<!-- .entry-content -->
+
+											
+
+												<div
+													class="fund-raised-details d-flex flex-wrap justify-content-between align-items-center">
+												<div class="fund-raised-total mt-4"> ${requestScope.requestInprogressActivities.get(0).startDate}</div>
+												<!-- .fund-raised-total -->
+
+												<div class="fund-raised-goal mt-4"> ${requestScope.requestInprogressActivities.get(0).endDate}</div>
+												<!-- .fund-raised-goal -->
+												</div>
+												<!-- .fund-raised-details -->
+											<!-- .fund-raised -->
+										</div>
+										<!-- .cause-content-wrap -->
+									</div>
+									<!-- .cause-wrap -->
+								</div>
+							
+							</div>
+						</c:when>
+						
+						<c:when test="${requestScope.requestInprogressActivities.size() == 2}">	
+							<div class="row">							
+								<div class="coL-12">
+									<div class="section-heading">
+										<h2 class="entry-title">Activités en Attente de soutien</h2>
+									</div> <!-- .section-heading -->
+								</div> <!-- .col -->
+							</div> <!-- .row -->
+							
+							<div class="row">
+								<div class="col-2"></div>
+								<c:forEach items="${requestScope.requestInprogressActivities}" var="activity">
+									<div class="col-4">
+										<div class="cause-wrap">
+											<figure class="m-0">
+												<img src='<c:url value="${activity.pathPhoto}"/>' style="height: 147.6px;">
+												<div class="figure-overlay d-flex justify-content-center align-items-center position-absolute w-100 h-100">
+													<c:choose>
+														<c:when test="${!empty sessionScope.sessionUserLogged && sessionScope.sessionRoleLogged.role == 'volunteer'}">
+														
+														<c:set var="isRegistered" scope="page" value="false"/>
+																		
+														<c:forEach items="${sessionScope.sessionRoleLogged.activities}" var="volunteerActivity">
+															<c:choose>
+																<c:when test="${volunteerActivity.id == activity.id}">
+																	<c:set var="isRegistered" value="true"/>
+																	<a class="btn gradient-bg mr-2" href='<c:url value="unsubscribeActivity?id=${activity.id}"/>' role="button"> Se Désinscrire </a>
+																</c:when>
+															</c:choose>
+														</c:forEach>
+														
+														<c:if test="${!isRegistered}">
+															<a class="btn gradient-bg mr-2" href='<c:url value="subscribeActivity?id=${activity.id}"/>' role="button"> Aider </a>
+														</c:if>
+
+														</c:when>
+														
+														<c:when test="${!empty sessionScope.sessionUserLogged && sessionScope.sessionRoleLogged.role == 'partner'}">
+															<a class="btn gradient-bg mr-2" href='#' role="button"> Financer </a>
+														</c:when>
+														<c:otherwise>
+															<p style="text-align:center">
+																<span style="color:rgba(255,54,0,1)">Dévenez Bénévole ou Partenaire et aidez-nous à concrétiser ce projet !</span>
+															</p>
+														</c:otherwise>
+													</c:choose>
+													
+												</div>
+												
+												<!-- .figure-overlay -->
+											</figure>
+
+											<div class="cause-content-wrap">
+												<header	class="entry-header d-flex flex-wrap align-items-center">
+													<h3 class="entry-title w-100 m-0"> <a>${activity.name}</a></h3>
+												</header>
+												<!-- .entry-header -->
+
+												<div class="entry-content"> <p class="m-0">${activity.description}</p></div>
+												<!-- .entry-content -->
+
+												
+
+													<div class="fund-raised-details d-flex flex-wrap justify-content-between align-items-center">
+													<div class="fund-raised-total mt-4"> ${activity.startDate}</div>
+													<!-- .fund-raised-total -->
+
+													<div class="fund-raised-goal mt-4"> ${activity.endDate}</div>
+													<!-- .fund-raised-goal -->
+													</div>
+													<!-- .fund-raised-details -->
+												<!-- .fund-raised -->
+											</div> <!-- .cause-content-wrap -->
+										</div> <!-- .cause-wrap -->
+									</div>
+								</c:forEach>
+							</div>
+						</c:when>
+						
+						<c:otherwise>
+							<div class="row">							
+								<div class="coL-12">
+									<div class="section-heading">
+										<h2 class="entry-title">Activité en Attente de soutien</h2>
+									</div> <!-- .section-heading -->
+								</div> <!-- .col -->
+							</div> <!-- .row -->
+							
+							<div class="row">
+								<div class="col-12">
+									<div class="swiper-container causes-slider">
+										<div class="swiper-wrapper">
+											<c:forEach items="${requestScope.requestInprogressActivities}" var="activity">
+												<div class="swiper-slide">
+													<div class="cause-wrap">
+														<figure class="m-0">
+															<img src='<c:url value="${activity.pathPhoto}"/>' style="height: 147.6px;">
+															<div class="figure-overlay d-flex justify-content-center align-items-center position-absolute w-100 h-100">
+																<c:choose>
+																	
+																	<c:when test="${!empty sessionScope.sessionUserLogged && sessionScope.sessionRoleLogged.role == 'volunteer'}">
+														
+																		<c:set var="isRegistered" scope="page" value="false"/>
+																						
+																		<c:forEach items="${sessionScope.sessionRoleLogged.activities}" var="volunteerActivity">
+																			<c:choose>
+																				<c:when test="${volunteerActivity.id == activity.id}">
+																					<c:set var="isRegistered" value="true"/>
+																					<a class="btn gradient-bg mr-2" href='<c:url value="unsubscribeActivity?id=${activity.id}"/>' role="button"> Se Désinscrire </a>
+																				</c:when>
+																			</c:choose>
+																		</c:forEach>
+																		
+																		<c:if test="${!isRegistered}">
+																			<a class="btn gradient-bg mr-2" href='<c:url value="subscribeActivity?id=${activity.id}"/>' role="button"> Aider </a>
+																		</c:if>
+			
+																	</c:when>
+																	
+																	<c:when test="${!empty sessionScope.sessionUserLogged && sessionScope.sessionRoleLogged.role == 'partner'}">
+																		<a class="btn gradient-bg mr-2" href='#' role="button"> Financer </a>
+																	</c:when>
+																	<c:otherwise>
+																		<p style="text-align:center">
+																			<span style="color:rgba(255,54,0,1)">Dévenez Bénévole ou Partenaire et aidez-nous à concrétiser ce projet !</span>
+																		</p>
+																	</c:otherwise>
+																	
+																</c:choose>
+																
+															</div>
+															
+															<!-- .figure-overlay -->
+														</figure>
+			
+														<div class="cause-content-wrap">
+															<header	class="entry-header d-flex flex-wrap align-items-center">
+																<h3 class="entry-title w-100 m-0"> <a>${activity.name}</a></h3>
+															</header>
+															<!-- .entry-header -->
+			
+															<div class="entry-content"> <p class="m-0">${activity.description}</p></div>
+															<!-- .entry-content -->
+			
+															
+			
+																<div class="fund-raised-details d-flex flex-wrap justify-content-between align-items-center">
+																<div class="fund-raised-total mt-4"> ${activity.startDate}</div>
+																<!-- .fund-raised-total -->
+			
+																<div class="fund-raised-goal mt-4"> ${activity.endDate}</div>
+																<!-- .fund-raised-goal -->
+																</div>
+																<!-- .fund-raised-details -->
+															<!-- .fund-raised -->
+														</div> <!-- .cause-content-wrap -->
+													</div> <!-- .cause-wrap -->
+												</div>
+											
+											</c:forEach>
+										
+										
+										</div> <!-- .swiper-wrapper -->
+									</div> <!-- .swiper-container -->
+							
+									<!-- Add Arrows -->
+									<div class="swiper-button-next flex justify-content-center align-items-center swiper-button" id="idswiper">
+										<span>
+											<svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+												<path d="M1171 960q0 13-10 23l-466 466q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l393-393-393-393q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l466 466q10 10 10 23z" />
+											</svg>
+										</span>
+									</div>
+									<div class="swiper-button-prev flex justify-content-center align-items-center swiper-button" id="idswiper">
+										<span>
+											<svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+												<path d="M1203 544q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z" />
+											</svg>
+										</span>
+									</div>				
+							</div> <!-- .col -->
+						</div> <!-- .row -->
+							
+						
+						</c:otherwise>
+
+					</c:choose>
+ 				</div>	<!-- .container -->
+			</div> <!-- .our-causes -->
+
+		
+	
+	
+
 	
 	<br />
 	<br />
 	
 	
-
-	
-	
-	
-	
-			
-			<div class="container">
-				<div class="row mb-3">
-					<div class="col-12">
-						<p>
-							Formulaire de contact
-						</p>
-					</div><!-- .col -->
-				</div><!-- .row -->
-			</div><!-- .container -->
-			
-			
-			
-		</div>
+		<div class="contact-page-wrap">
+		        <div class="container">
+		            <div class="row">
+		                <div class="col-12 col-lg-5">
+		                    <div class="entry-content">
+		                        <h2>Contactez-nous</h2>
 		
+		                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris. Lorem ipsum dolor sit amet, conse ctetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. Integer accu msan sodales odio, id tempus velit ullamc.</p>
 		
+		                        <ul class="contact-info p-0">
+		                            <li><i class="fa fa-phone"></i><span>+45 677 8993000 223</span></li>
+		                            <li><i class="fa fa-envelope"></i><span>office@template.com</span></li>
+		                            <li><i class="fa fa-map-marker"></i><span>Main Str. no 45-46, b3, 56832, Los Angeles, CA</span></li>
+		                        </ul>
+		                    </div>
+		                </div><!-- .col -->
 		
-
-	
-	
-	
-		<br />
-		<br />
+		                <div class="col-12 col-lg-7">
+		                    <form class="contact-form" name="formContact">
+		                        <input type="email" placeholder="Email" name="email">
+		                        <textarea rows="15" cols="6" placeholder="Message" name="content" maxlength="500"></textarea>
+								<input type="hidden" name="typeMessage" value="received">
+		                        <span>
+		                            <input class="btn gradient-bg" type="submit" value="Envoyez">
+		                        </span>
+		                    </form><!-- .contact-form -->
 		
+		                </div><!-- .col -->
+		            </div><!-- .row -->
+		        </div><!-- .container -->
+		    </div>
 	
-	
-	
-	
-		
-		
-		
-		
-		
-		
-		
-	
-	
-	
-	
-	
+ 
 	    
 	    
-	    
-	    		<!-- footer -->
+   		<!-- footer -->
 		<c:import url="/WEB-INF/shared/footer.jsp"></c:import>
 		
 		<!-- Lien Jquery et js bootstrap -->
@@ -906,8 +1237,9 @@
 	    <script type='text/javascript' src='<c:url value="/resources/js/template/jquery.countdown.min.js"/>'></script>
 	    <script type='text/javascript' src='<c:url value="/resources/js/template/circle-progress.min.js"/>'></script>
 	    <script type='text/javascript' src='<c:url value="/resources/js/template/jquery.countTo.min.js"/>'></script>
-	    <script type='text/javascript' src='<c:url value="/resources/js/template/jquery.barfiller.js"/>'></script>
-	    <script type='text/javascript' src='<c:url value="/resources/js/template/jquery.custom.js"/>'></script>
+	    <script type='text/javascript' src='<c:url value="/resources/js/template/jquery.barfiller.js"/>'></script>	    
+	    
+	    <script type='text/javascript' src='<c:url value="/resources/js/template/custom.js"/>'></script>
 	    
 	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 	    <script type="text/javascript" src="<c:url value="/resources/js/scriptAjax.js"/>"></script>
