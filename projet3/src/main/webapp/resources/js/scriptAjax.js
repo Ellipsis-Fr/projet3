@@ -524,6 +524,13 @@ function returnForm(result) {
 	}
 	
 	if (result == "Message envoyé.") {
+		if($("#outBox").length > 1) {
+			$("#outBox").load(window.location + " #outBox");
+			var myModal = document.getElementById('newMessage');
+			myModal.dispose();
+			myModal.toggle()		
+		}
+		
 		success = true;
 		text = result;
 	}
@@ -900,10 +907,11 @@ function openMail(result) {
 	let modalContent = readMessageModal.querySelector(".modal-body textarea[name='content']")
 	let modalReplyButton = readMessageModal.querySelector(".modal-footer button[name='reply']");
 	let modalDeleteButton = readMessageModal.querySelector(".modal-footer button[name='delete']");
-
+	
+	console.log(contentMail[0])
 	
 	modalTitle.textContent = contentMail[1];
-	modalSubject.textContent = contentMail[2] != null ? contentMail[2] : "";
+	modalSubject.textContent = contentMail[2] != 'null' ? contentMail[2] : "";
 	modalContent.textContent = contentMail[3];
 	
 	modalReplyButton.setAttribute("data-bs-whatever", contentMail[1])

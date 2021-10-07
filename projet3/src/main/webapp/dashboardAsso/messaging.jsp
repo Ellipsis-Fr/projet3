@@ -9,7 +9,8 @@
 		<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
 		<link rel="stylesheet"  href="<c:url value="/resources/css/dashboard2/css/styles.css" />">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
-	
+		<!-- Include Plugin CSS file -->
+        <link href="<c:url value="/resources/css/alert-nice-toast/dist/css/nice-toast-js.min.css"/>" rel="stylesheet" />  
 			<!-- bootstrap CSS -->
 <!-- 			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous"> -->
 	</head>
@@ -111,7 +112,7 @@
                 <main>
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Messagerie</h1>
-	                    <div class="container">
+	                    <div class="container mt-5">
 	                    	<div class="row mb-5" align="center">
 	                    		<div class="col-2 px-2">
 	                    			<ul id="buttons">
@@ -130,34 +131,67 @@
 											</div>
 	                    				</li>
 	                    				<li>
-	                    					<button type="button" class="btn btn-primary" style="width:189px;">Boite de réception</button>
+	                    					<button type="button" class="btn btn-primary" style="width:189px;" onclick="switchBox(event)" id="btnMailBox" >Boite de réception</button>
 	                    				</li>
 	                    				<li>
-	                    					<button type="button" class="btn btn-primary" style="width:189px;">Boite d'envoi</button>
+	                    					<button type="button" class="btn btn-primary" style="width:189px;" onclick="switchBox(event)" id="btnOutBox">Boite d'envoi</button>
 	                    				</li>
 	                    			</ul>
 	                    		
-	                    		</div>
+	                    		</div>	                    		
+	                    		
 	                    		<div class="col-10 px-2">
 	                    		
-	                    			<table class="table">
+	                    			<table class="table" id="mailBox">
 										<thead>
 											<tr>
-												<th scope="col">De</th>
+												<th scope="col">Boite de réception</th>
+												<th scope="col"></th>
+												<th scope="col"></th>
 												<th scope="col"></th>
 												<th scope="col"></th>
 											</tr>
 										</thead>
 										<tbody>
 										
-											<c:forEach var="mail" items="${sessionAssociation.messaging.mails}">
-												<tr>
-													<td>${mail.sender}</td>
-													<td><a role="button" data-bs-toggle="modal" data-bs-target="#readMessage" data-message="${mail.id}">${mail.previewContent}</a></td>
-													<td>${mail.date}</td>
-													<td><a role="button" class="deleteMail" id="${mail.id}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
-													
-												</tr>
+											<c:forEach var="mail" items="${requestScope.requestMails}">
+
+												<c:if test="${mail.messageType == 'received'}">
+													<tr>
+														<td><a role="button" data-bs-toggle="modal" data-bs-target="#readMessage" data-message="${mail.id}">${mail.sender}</a></td>
+														<td><a role="button" data-bs-toggle="modal" data-bs-target="#readMessage" data-message="${mail.id}">${mail.previewContent}</a></td>
+														<td><a role="button" data-bs-toggle="modal" data-bs-target="#readMessage" data-message="${mail.id}">${mail.date}</a></td>
+														<td><a role="button" data-bs-toggle="modal" data-bs-target="#newMessage" data-bs-whatever="${mail.sender}"><i class="fa fa-reply" aria-hidden="true"></i></a></td>
+														<td><a role="button" class="deleteMail" id="${mail.id}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+														
+													</tr>
+												</c:if>
+											</c:forEach>
+										</tbody>
+									</table>
+									
+									<table class="table" id="outBox" style="display: none;">
+										<thead>
+											<tr>
+												<th scope="col">Boite d'envoi</th>
+												<th scope="col"></th>
+												<th scope="col"></th>
+												<th scope="col"></th>
+											</tr>
+										</thead>
+										<tbody>
+										
+											<c:forEach var="mail" items="${requestScope.requestMails}">
+
+												<c:if test="${mail.messageType == 'sent'}">
+													<tr>
+														<td><a role="button" data-bs-toggle="modal" data-bs-target="#readMessage" data-message="${mail.id}">${mail.recipient}</a></td>
+														<td><a role="button" data-bs-toggle="modal" data-bs-target="#readMessage" data-message="${mail.id}">${mail.previewContent}</a></td>
+														<td>${mail.date}</td>
+														<td><a role="button" class="deleteMail" id="${mail.id}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+														
+													</tr>
+												</c:if>
 											</c:forEach>
 										</tbody>
 									</table>
@@ -167,13 +201,13 @@
 								
 							</div>
 							
-							<!-- Modal newMessag-->
+							<!-- Modal newMessage-->
 							<div class="modal fade" id="newMessage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<h5 class="modal-title" id="staticBackdropLabel">Nouveau Message</h5>
-											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="resetMail(event)"></button>
 										</div>
 										<div class="modal-body">
 											<form name="sendMessage" enctype="multipart/form-data">
@@ -222,7 +256,7 @@
 												<textarea class="form-control" name="content" rows="10" maxlength="500" readonly></textarea>
 											</div>
 											<div class="modal-footer">
-												<button type="button" name="reply" class="btn btn-primary">Répondre</button>
+												<button type="button" name="reply" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#newMessage">Répondre</button>
 												<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deleteMail(event)">Supprimer</button>
 											</div>
 										</div>
@@ -262,5 +296,6 @@
 		<script type="text/javascript" src="<c:url value="/resources/js/scriptForms.js"/>"></script>
 		<script src="<c:url value="/resources/js/dashboard2/js/scripts.js"/>"></script>
         <script src="<c:url value="/resources/js/dashboard2/js/datatables-simple-demo.js"/>"></script>
+        <script src="<c:url value="/resources/css/alert-nice-toast/dist/js/nice-toast-js.min.js"/>"></script>
 	</body>
 </html>

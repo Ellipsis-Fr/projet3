@@ -32,7 +32,7 @@ public class Mail {
 	private String content;
 	
 	@Transient
-	private String previewContent = "essai";
+	private String previewContent;
 	
 	private String attachment;
 	
@@ -120,7 +120,7 @@ public class Mail {
 	}
 	
 	public String getPreviewContent() {
-		if (content.length() > 30) return content.substring(0, 30) + " ...";
+		if (content.length() > 70) return content.substring(0, 70) + " ...";
 		else return content;
 	}
 	

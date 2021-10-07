@@ -138,11 +138,13 @@
 													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 												</div>
 												<div class="modal-body">
+
 												<c:if test="${sessionScope.sessionAssociation.document.statut == 'PENDING'}">
 													<p style="color: red; font-weight: bold;">
 														Attention vous n'avez pas paramétré votre page de présentation d'événement. Cela se passe <a href="<c:url value="editDocument"/>">ici</a>
 													</p>
 												</c:if>											
+
 													<c:import url="/dashboardAsso/createEvent.jsp"></c:import>					
 												</div>
 											</div>
