@@ -190,4 +190,29 @@ public class Activity {
 	public void setVolunteers(List<Volunteer> volunteers) {
 		this.volunteers = volunteers;
 	}
+	
+	public double getProgression()
+    {
+    			
+        double prog = 0;
+        if (necessaryFunding == 0 && volunteerNeeded == 0)
+        {
+            return 0;
+        }
+        else if (volunteerNeeded == 0)
+        {
+            prog = (allocatedFunding * 1.0 / necessaryFunding) * 100;
+            return prog;
+        }
+        else if (necessaryFunding == 0)
+        {
+            prog = (volunteerAllocated * 1.0 / volunteerNeeded) * 100;
+            return prog;
+        }
+        else
+        {
+            prog = ((allocatedFunding * 1.0 / necessaryFunding) + (volunteerAllocated * 1.0 / volunteerNeeded)) * 50;
+            return prog;
+        }
+    }
 }

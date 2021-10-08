@@ -17,12 +17,9 @@
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
-            </form>
+            <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">   
+            </div>
+            	<a class="nav-link" href="messaging" role="button" style="text-decoration: none; color: rgba(255, 255, 255, 0.6);"><i class="fa fa-envelope"></i></a>
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
@@ -65,39 +62,10 @@
                             </a>
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                        Dons
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                             <a class="nav-link" href='<c:url value="listDonations"/>'>Liste des dons</a>
-                                            <a class="nav-link" href="register.html">Register</a>
-                                            <a class="nav-link" href="password.html">Forgot Password</a>
-                                        </nav>
-                                    </div>
-                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                        Error
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                    </a>
-                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="401.html">401 Page</a>
-                                            <a class="nav-link" href="404.html">404 Page</a>
-                                            <a class="nav-link" href="500.html">500 Page</a>
-                                        </nav>
-                                    </div>
+                                    <a class="nav-link" href='<c:url value="listDonations"/>'>Liste des dons</a>
                                 </nav>
                             </div>
-                            <div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="charts.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
-                            </a>
-                            <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
-                            </a>
+                           
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
@@ -107,50 +75,88 @@
                 </nav>
             </div>
             <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4">
-                        <h1 class="mt-4">Activités</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Activités en cours</li>
-                            <li class="breadcrumb-item active">Activités en attente</li>
-                            <li class="breadcrumb-item active">Activités refusées</li>
-                        </ol>
-                	
-					</div>
-				
-						<table class="table table-bordered">
-						<thead>
-							<tr>
-								<th>Nom de l'activité</th>
-								<th>Adresse</th>
-								<th>Description</th>
-								<th>Statut</th>
-								<th>Détails</th>
-								<th>Edit</th>
-								<th>Delete</th>
-							</tr>
-						</thead>
-				
-						<tbody>
-							<c:forEach var="activity" items="${listActivities}">
-								<tr>
-									<td>${activity.name}</td>
-									<td>${activity.address}</td>
-									<td>${activity.description}</td>
-									<td>${activity.statut}</td>
-									<td><a href="<c:url value="/dashboardAsso/editStatutActivity?id=${activity.id}"/>" target="_blank"><i class="fa fa-search" aria-hidden="true"></i></a></td>
-									<td><a
-										href="${pageContext.request.contextPath}/dashboardAsso/editActivity?id=${activity.id}">Edit</a></td>
-									<td><a 
-										href="${pageContext.request.contextPath}/dashboardAsso/deleteActivityById?id=${activity.id}">Delete</a></td>
-								</tr>
-							</c:forEach>
-						</tbody>
-				
-				
-					</table>
-					
-				</main>
+		        <main>
+		            <div class="container-fluid px-4">
+		                <form action="">
+		                    <div class="row" width=500px">
+		          
+		                        <div class="col">
+		                            <div class="custom-column">
+		                                <div class="custom-column-header" width=500px; style="display: flex; justify-content: center; margin-top: 10px;">Activités en attente</div>
+		                                <div class="custom-column-content">
+		                                    <div class="list-group" style="margin-top: 10px">
+		                                        <c:forEach items="${listActivities}" var="activity">
+		                                            <c:if test="${activity.statut == 'PENDING'}">
+		                                                <div class="list-group-item; p-3 mb-2 bg-warning text-dark" style="height:130px; margin-top: 10px">
+		                                                    <div style="display: flex; justify-content: center;">${activity.name}</div>
+		                                                    
+		
+		                                        			
+		                                        			<div style="display: flex; justify-content: center">
+			                                        			<a class="btn btn-light" style="margin-top:37.25px;" href='<c:url value="/dashboardAsso/editStatutActivity?id=${activity.id}"/>'
+																role="button">Gérer</a>
+		                                        			</div>
+		                                        			
+		                                        			
+		                                        		
+		                                                </div>
+		                                            </c:if>
+		                                        </c:forEach>
+		                                    </div>
+		                                </div>
+		                            </div>
+		                        </div>
+		                        
+		                          <div class="col">
+		                            <div class="custom-column"> 
+		                                <div class="custom-column-header"  style="display: flex; justify-content: center; width=500px; margin-top: 10px;">Activites in progress</div>
+		                                <div class="custom-column-content">
+		                                    <div class="list-group"  style="margin-top: 10px">
+		                                        <c:forEach items="${listActivities}" var="activity">
+		                                            <c:if test="${activity.statut == 'IN_PROGRESS'}">
+		                                                <div class="list-group-item ,p-3 mb-2 bg-primary text-dark" style="height:130px; margin-top: 10px">
+		                                                    <div style="display: flex; justify-content: center;">${activity.name}</div>
+		
+		                                                    <div class="progress" style="height:13px; margin-top: 10px;">
+		                                            			<div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width:${activity.progression}%" aria-valuenow="${activity.progression}" aria-valuemin= "0" aria-valuemax="100"></div>
+		                                        			</div>
+		                                        			<div style="display: flex; justify-content: center">
+			                                        			<a class="btn btn-light" style="margin-top:20px;" href='<c:url value="/dashboardAsso/editActivity?id=${activity.id}"/>'
+																role="button">Gérer</a>
+		                                        			</div>
+															
+		                                                </div>
+		                                            </c:if>
+		                                        </c:forEach>
+		                                    </div>
+		                                </div>
+		                            </div>
+		                        </div>
+		                        
+		                        <div class="col">
+		                            <div class="custom-column">
+		                                <div class="custom-column-header" style="margin-top: 15px;">Activitées Valides</div>
+		                                <div class="custom-column-content">
+		                                    <ul class="list-group">
+		                                        <c:forEach items="${listActivities}" var="activity">
+		                                            <c:if test="${activity.statut == 'VALID'}">
+		                                            
+		                                                <li class="list-group-item ,p-3 mb-2 bg-success text-dark" style="height:130px; margin-top: 15px">
+		                                                    <div style="display: flex; justify-content: center;">${activity.name}</div>
+		                                                    
+		                                        			
+		                                                </li>
+		                                            </c:if>
+		                                        </c:forEach>
+		                                    </ul>
+		                                </div>
+		
+		                            </div>
+		                        </div>
+		                    </div>
+		                </form>
+		            </div>
+		        </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
