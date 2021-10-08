@@ -42,6 +42,7 @@ import fr.isika.projet3.services.IMailService;
 import fr.isika.projet3.services.IMessagingService;
 import fr.isika.projet3.services.IPhotoService;
 import fr.isika.projet3.services.ISendMailService;
+import fr.isika.projet3.services.IUserService;
 
 @Controller
 @Transactional
@@ -74,13 +75,15 @@ public class AssociationController {
 	@Autowired
 	IMailService mailService;
 	
+	@Autowired
+	IUserService userService;
+	
 	@RequestMapping("/connexionAssociation")
 	public String associationForm(HttpServletRequest req, Model model) {
 		HttpSession session = req.getSession();
 		if (session.getAttribute(ATT_SESSION_ASSOCIATION) != null || session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED) != null) {
 			session.invalidate();
 		}
-		
 		
 		model.addAttribute("association", new Association());
 		return "connexionAssociation";
@@ -237,12 +240,54 @@ public class AssociationController {
 		Association association = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION);
 		
 		association = associationService.findOne(association.getId());
+		
+		deleteDocument(association);
+		deleteMessaging(association);
+		deleteUsers(association);
+		
 		associationService.deleteFolder(association.getPathFolder());
 		associationService.delete(association);
 		
 		session.invalidate();
 		
 		return "redirect: ../index";
+	}
+	
+	private void deleteDocument(Association association) {
+		Document document = association.getDocument();
+		document = documentService.findOne(document.getId());
+		
+		List<Photo> photos = document.getPhotos();
+		
+		for (Photo photo : new ArrayList<Photo>(photos)) {
+			photoService.delete(photoService.findOne(photo.getId()));
+			photos.remove(photo);
+		}
+		
+		documentService.delete(document);
+	}
+	
+	private void deleteMessaging(Association association) {
+		Messaging messaging = association.getMessaging();
+		messaging = messagingService.findOne(messaging.getId());
+		
+		List<Mail> mails = messaging.getMails();
+		
+		for (Mail mail : new ArrayList<Mail>(mails)) {
+			mailService.delete(mailService.findOne(mail.getId()));
+			mails.remove(mail);
+		}
+		
+		messagingService.delete(messaging);
+	}
+	
+	private void deleteUsers(Association association) {
+		List<User> users = association.getUsers();
+
+		for (User user : new ArrayList<User>(users)) {
+			userService.delete(userService.findOne(user.getId()));
+			users.remove(user);
+		}
 	}
 	
 	@GetMapping("dashboardAsso/editDocument")

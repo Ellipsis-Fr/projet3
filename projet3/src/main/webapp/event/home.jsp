@@ -130,7 +130,7 @@
 						<c:choose>
 							<c:when test="${sessionScope.sessionAssociationVisited.document.photos.size() == 1}">
 							
-								<img src="<c:out value="${sessionScope.sessionAssociationVisited.document.photos.get(0).pathPhoto}"/>" class="d-block w-100" alt="${sessionScope.sessionAssociationVisited.document.photos.get(0).name}">
+								<img src="<c:out value="${sessionScope.sessionAssociationVisited.document.photos.get(0).pathPhoto}"/>" class="d-block w-100" alt="${sessionScope.sessionAssociationVisited.document.photos.get(0).name}" height="500px">
 							
 							</c:when>
 							<c:when test="${sessionScope.sessionAssociationVisited.document.photos.size() > 1}">
@@ -141,12 +141,12 @@
 											<c:choose>
 												<c:when test="${status.index == 0}">
 													<div class="carousel-item active">
-														<img src="<c:out value="${photo.pathPhoto}"/>" class="d-block w-100" alt="${photo.name}">
+														<img src="<c:out value="${photo.pathPhoto}"/>" class="d-block w-100" alt="${photo.name}" height="500px">
 													</div>
 												</c:when>
 												<c:otherwise>
 													<div class="carousel-item">
-														<img src="<c:out value="${photo.pathPhoto}"/>" class="d-block w-100" alt="${photo.name}">
+														<img src="<c:out value="${photo.pathPhoto}"/>" class="d-block w-100" alt="${photo.name}" height="500px">
 													</div>
 												</c:otherwise>
 											</c:choose>											
@@ -543,7 +543,7 @@
 															
 								<div class="col-md-6">
 									<label for="name" class="form-label">Nom de l'Activité :<span style="color: red">*</span> </label>
-									<input type="text" class="form-control" id="name" name="name" pattern="[a-zA-Z-\\s]{3,15}" maxlength="15" required />
+									<input type="text" class="form-control" id="name" name="name" pattern="[a-zA-Z-\\s]{3,40}" maxlength="40" required />
 									<span class="error"></span>
 								</div>
 							
@@ -969,6 +969,40 @@
 
 											<div class="entry-content"> <p class="m-0">${requestScope.requestInprogressActivities.get(0).description}</p></div>
 											<!-- .entry-content -->
+											
+												<div class="d-flex flex-row" style="justify-content: space-between;">
+													<!-- .entry-content -->
+	
+														<p class="entry-content">Volontaires: </p>
+													
+														<div class="entry-content" style="flex-direction: row"> <p class="m-0" style="padding-left: 5px;">${activity.volunteerAllocated} </p> </div>
+														<!-- .entry-content -->
+														
+														 <p class="entry-content"> / </p>
+														
+																													
+														<div class="entry-content"> <p class="m-0">${activity.volunteerNeeded}</p></div>
+														<!-- .entry-content -->
+														
+												
+														<!-- Compteur-Volontaires -->
+																						
+														
+														<p class="entry-content" style="padding-left: 73px;"> Fonds : </p>
+														
+														<div class="entry-content" style="flex-direction: row"> <p class="m-0" style="padding-left: 5px;">${activity.allocatedFunding} </p> </div>
+														<!-- .entry-content -->
+														
+														 <p class="entry-content"> / </p>
+														
+																													
+														<div class="entry-content"> <p class="m-0">${activity.necessaryFunding}</p></div>
+														<!-- .entry-content -->
+														
+												
+														<!-- Compteur-Fonds -->
+	
+													</div>
 
 											
 
@@ -1051,6 +1085,39 @@
 
 												<div class="entry-content"> <p class="m-0">${activity.description}</p></div>
 												<!-- .entry-content -->
+												<div class="d-flex flex-row" style="justify-content: space-between;">
+																<!-- .entry-content -->
+				
+																	<p class="entry-content">Volontaires: </p>
+																
+																	<div class="entry-content" style="flex-direction: row"> <p class="m-0" style="padding-left: 5px;">${activity.volunteerAllocated} </p> </div>
+																	<!-- .entry-content -->
+																	
+																	 <p class="entry-content"> / </p>
+																	
+																																
+																	<div class="entry-content"> <p class="m-0">${activity.volunteerNeeded}</p></div>
+																	<!-- .entry-content -->
+																	
+															
+																	<!-- Compteur-Volontaires -->
+																									
+																	
+																	<p class="entry-content" style="padding-left: 73px;"> Fonds : </p>
+																	
+																	<div class="entry-content" style="flex-direction: row"> <p class="m-0" style="padding-left: 5px;">${activity.allocatedFunding} </p> </div>
+																	<!-- .entry-content -->
+																	
+																	 <p class="entry-content"> / </p>
+																	
+																																
+																	<div class="entry-content"> <p class="m-0">${activity.necessaryFunding}</p></div>
+																	<!-- .entry-content -->
+																	
+															
+																	<!-- Compteur-Fonds -->
+				
+																</div>
 
 												
 
@@ -1074,7 +1141,7 @@
 							<div class="row">							
 								<div class="coL-12">
 									<div class="section-heading">
-										<h2 class="entry-title">Activité en Attente de soutien</h2>
+										<h2 class="entry-title">Activités en Attente de soutien</h2>
 									</div> <!-- .section-heading -->
 								</div> <!-- .col -->
 							</div> <!-- .row -->
@@ -1111,7 +1178,7 @@
 																	</c:when>
 																	
 																	<c:when test="${!empty sessionScope.sessionUserLogged && sessionScope.sessionRoleLogged.role == 'partner'}">
-																		<a class="btn gradient-bg mr-2" href='#' role="button"> Financer </a>
+																		<a class="btn gradient-bg mr-2" role="button" data-bs-toggle="modal" data-bs-target="#newFinance" data-bs-whatever="${activity.id}">Financer</a>
 																	</c:when>
 																	<c:otherwise>
 																		<p style="text-align:center">
@@ -1131,19 +1198,47 @@
 																<h3 class="entry-title w-100 m-0"> <a>${activity.name}</a></h3>
 															</header>
 															<!-- .entry-header -->
-			
 															<div class="entry-content"> <p class="m-0">${activity.description}</p></div>
-															<!-- .entry-content -->
-			
+															<div class="d-flex flex-row" style="justify-content: space-between;">
+																<!-- .entry-content -->
+				
+																	<p class="entry-content">Volontaires: </p>
+																
+																	<div class="entry-content" style="flex-direction: row"> <p class="m-0" style="padding-left: 5px;">${activity.volunteerAllocated} </p> </div>
+																	<!-- .entry-content -->
+																	
+																	 <p class="entry-content"> / </p>
+																	
+																																
+																	<div class="entry-content"> <p class="m-0">${activity.volunteerNeeded}</p></div>
+																	<!-- .entry-content -->
+																	
 															
-			
-																<div class="fund-raised-details d-flex flex-wrap justify-content-between align-items-center">
-																<div class="fund-raised-total mt-4"> ${activity.startDate}</div>
-																<!-- .fund-raised-total -->
-			
-																<div class="fund-raised-goal mt-4"> ${activity.endDate}</div>
-																<!-- .fund-raised-goal -->
+																	<!-- Compteur-Volontaires -->
+																									
+																	
+																	<p class="entry-content" style="padding-left: 73px;"> Fonds : </p>
+																	
+																	<div class="entry-content" style="flex-direction: row"> <p class="m-0" style="padding-left: 5px;">${activity.allocatedFunding} </p> </div>
+																	<!-- .entry-content -->
+																	
+																	 <p class="entry-content"> / </p>
+																	
+																																
+																	<div class="entry-content"> <p class="m-0">${activity.necessaryFunding}</p></div>
+																	<!-- .entry-content -->
+																	
+															
+																	<!-- Compteur-Fonds -->
+				
 																</div>
+																	<div class="fund-raised-details d-flex flex-wrap justify-content-between align-items-center">
+																	<div class="fund-raised-total mt-4"> ${activity.startDate}</div>
+																	<!-- .fund-raised-total -->
+				
+																	<div class="fund-raised-goal mt-4"> ${activity.endDate}</div>
+																	<!-- .fund-raised-goal -->
+																	</div>
 																<!-- .fund-raised-details -->
 															<!-- .fund-raised -->
 														</div> <!-- .cause-content-wrap -->
@@ -1175,12 +1270,38 @@
 						</div> <!-- .row -->
 							
 						
-						</c:otherwise>
+					</c:otherwise>
 
-					</c:choose>
- 				</div>	<!-- .container -->
-			</div> <!-- .our-causes -->
-
+				</c:choose>
+				</div>	<!-- .container -->
+		</div> <!-- .our-causes -->
+			
+			
+		<!-- Modal newFinancement-->
+		<div class="modal fade" id="newFinance" tabindex="-1" aria-labelledby="newFinanceLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="staticBackdropLabel"></h5>
+						 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form  method="post" action="createFinanceActivity">
+							<div class="form-row">
+								<div class="form-group">
+									<label for="funding">Montant</label>
+									<input type="number" name="funding" class="form-control" id="funding" required>
+								</div>
+							</div>
+	
+							<!--  <button type="submit" class="btn btn-primary">Valider</button>-->
+							<input type="hidden" id="activityId" name="activityId">
+							<button type="submit" class="btn gradient-bg mr-2" >Valider</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 		
 	
 	
@@ -1191,37 +1312,35 @@
 	
 	
 		<div class="contact-page-wrap">
-		        <div class="container">
-		            <div class="row">
-		                <div class="col-12 col-lg-5">
-		                    <div class="entry-content">
-		                        <h2>Contactez-nous</h2>
-		
-		                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris. Lorem ipsum dolor sit amet, conse ctetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. Integer accu msan sodales odio, id tempus velit ullamc.</p>
-		
-		                        <ul class="contact-info p-0">
-		                            <li><i class="fa fa-phone"></i><span>+45 677 8993000 223</span></li>
-		                            <li><i class="fa fa-envelope"></i><span>office@template.com</span></li>
-		                            <li><i class="fa fa-map-marker"></i><span>Main Str. no 45-46, b3, 56832, Los Angeles, CA</span></li>
-		                        </ul>
-		                    </div>
-		                </div><!-- .col -->
-		
-		                <div class="col-12 col-lg-7">
-		                    <form class="contact-form" name="formContact">
-		                        <input type="email" placeholder="Email" name="email">
-		                        <textarea rows="15" cols="6" placeholder="Message" name="content" maxlength="500"></textarea>
-								<input type="hidden" name="typeMessage" value="received">
-		                        <span>
-		                            <input class="btn gradient-bg" type="submit" value="Envoyez">
-		                        </span>
-		                    </form><!-- .contact-form -->
-		
-		                </div><!-- .col -->
-		            </div><!-- .row -->
-		        </div><!-- .container -->
-		    </div>
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-12 col-lg-5">
+	                    <div class="entry-content">
+	                        <h2>Contactez-nous</h2>
 	
+	                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris. Lorem ipsum dolor sit amet, conse ctetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. Integer accu msan sodales odio, id tempus velit ullamc.</p>
+	
+	                        <ul class="contact-info p-0">
+	                            <li><i class="fa fa-envelope"></i><span>${sessionScope.sessionAssociationVisited.email}</span></li>
+	                            <li><i class="fa fa-map-marker"></i><span>${sessionScope.sessionAssociationVisited.address}</span></li>
+	                        </ul>
+	                    </div>
+	                </div><!-- .col -->
+	
+	                <div class="col-12 col-lg-7">
+	                    <form class="contact-form" name="formContact">
+	                        <input type="email" placeholder="Email" name="email">
+	                        <textarea rows="15" cols="6" placeholder="Message" name="content" maxlength="500"></textarea>
+							<input type="hidden" name="typeMessage" value="received">
+	                        <span>
+	                            <input class="btn gradient-bg" type="submit" value="Envoyez">
+	                        </span>
+	                    </form><!-- .contact-form -->
+	
+	                </div><!-- .col -->
+	            </div><!-- .row -->
+	        </div><!-- .container -->
+	    </div>
  
 	    
 	    

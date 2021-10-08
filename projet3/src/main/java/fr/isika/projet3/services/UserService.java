@@ -73,14 +73,12 @@ public class UserService implements IUserService {
 
 	@Override
 	public void delete(User entity) {
-		// TODO Auto-generated method stub
-		
+		dao.delete(entity);		
 	}
 
 	@Override
 	public void deleteById(long entityId) {
-		// TODO Auto-generated method stub
-		
+		dao.deleteById(entityId);
 	}
 
 }

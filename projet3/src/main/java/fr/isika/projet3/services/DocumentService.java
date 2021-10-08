@@ -52,8 +52,7 @@ public class DocumentService implements IDocumentService {
 
 	@Override
 	public void delete(Document entity) {
-		// TODO Auto-generated method stub
-		
+		dao.delete(entity);
 	}
 
 	@Override

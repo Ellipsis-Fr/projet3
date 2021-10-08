@@ -589,7 +589,7 @@ function start() {
 	  // Optional parameters
 	  direction: 'horizontal',
 	  autoplay: true,
-	  speed: 4000,
+	  speed: 8000,
 	  longSwipesMs: 500,
 	  slidesPerView: 3,
 	  width: 1300,
@@ -940,4 +940,68 @@ function deleteMail(e) {
 			console.log("raté");
 		}
 	})
+}
+
+// ======== FUNDING : GETACTIVITY ========
+
+var newFinanceModal = document.getElementById('newFinance')
+newFinanceModal.addEventListener('show.bs.modal', function (event) {
+	
+	console.log(event);
+	// Button that triggered the modal
+	let button = event.relatedTarget
+	// Extract info from data-bs-* attributes
+	let activityToFinance = button.getAttribute('data-bs-whatever');
+	console.log(activityToFinance);
+	
+	getActivitiy(activityToFinance)
+
+//	let modalTitle = newMessageModal.querySelector('.modal-title')
+//	let modalRecipientInput = newMessageModal.querySelector('.modal-body #recipient')
+//	
+//	if (recipient == "new") {
+//		modalRecipientInput.setAttribute("type", "email");
+//		modalRecipientInput.removeAttribute("readonly");
+//		modalRecipientInput.value = "";
+//		return;
+//	}
+//	
+//	modalRecipientInput.setAttribute("type", "text");
+//	modalRecipientInput.setAttribute("readonly", true);
+//	
+//		
+//	modalTitle.textContent = 'Nouveau Message à tous les ' + recipient
+//	modalRecipientInput.value = recipient
+})
+
+function getActivity(activityToFinance) {
+	$.ajax({
+		url: "getActivityToFinance",
+		type: "POST",
+		data: {"id": activityToFinance},
+		success: openActivity,
+		error: () => {
+			console.log("raté");
+		}
+	})
+}
+
+function openActivity(result) {
+	//Utiliser un split '%-%'
+	console.log(result);
+	let contentActivity = result.split("%-%");
+	
+	
+	let modalTitle = newFinanceModal.querySelector(".modal-title")
+	let modalInputFunding = newFinanceModal.querySelector("#funding")
+	let modalInputActivityId = newFinanceModal.querySelector(".modal-body textarea[name='content']")
+	
+	console.log(contentMail[0])
+	
+	modalTitle.textContent = "Financement Activité : " + contentMail[1];
+	
+	
+	modalInputFunding.setAttribute("max", contentMail[2]);
+	modalInputFunding.setAttribute("placeholder", "Max : " + contentMail[2]);
+	modalInputActivityId.setAttribute("value", contentMail[0]);
 }
