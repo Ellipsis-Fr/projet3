@@ -2,7 +2,7 @@
 
 <div class="col-md-6">
 	<form:label for="name" path="name" class="form-label">Nom de l'Activité :<span style="color: red">*</span></form:label>
-	<form:input type="text" path="name" class="form-control" id="name" name="name" pattern="[a-zA-Z-\\s]{3,15}" maxlength="15" required="required"/>
+	<form:input type="text" path="name" class="form-control" id="name" name="name" maxlength="40" required="required"/>
 	<span class="error"></span>
 </div>
 
