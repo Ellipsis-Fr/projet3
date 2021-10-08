@@ -141,7 +141,14 @@ public class EventController {
 		Event event = (Event) session.getAttribute(ATT_SESSION_EVENT);
 		Association association = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION);
 		
+		association = associationService.findOne(association.getId());
 		event = eventService.findOne(event.getId());
+		
+		deleteActivities(event);
+		deleteRoles(association);
+		deleteDonations(event);
+		deleteUsersNotRecontactable(association);
+		
 		eventService.deleteFolder(event.getPathFolder());
 		eventService.delete(event);
 		association.setEvent(null);
@@ -152,6 +159,59 @@ public class EventController {
 		session.removeAttribute(ATT_SESSION_EVENT);
 		
 		return "redirect: home";
+	}
+	
+	private void deleteActivities(Event event) {
+		List<Activity> activities = event.getActivities();
+		
+		for (Activity activity : activities) {
+			activityService.delete(activityService.findOne(activity.getId()));
+		}
+	}
+	
+	private void deleteRoles(Association association) {
+		for (User user : association.getUsers()) {
+			
+			if (user instanceof UserSociety) {
+				UserSociety userSociety = (UserSociety) user;
+				
+				if (userSociety.getPartner() != null) {
+					partnerService.delete(partnerService.findOne(userSociety.getPartner().getId()));
+					userSociety.setPartner(null);
+					userSocietyService.update(userSociety);
+				}
+
+			} else if (user.getParticipant() != null) {
+				participantService.delete(participantService.findOne(user.getParticipant().getId()));
+				user.setParticipant(null);
+				userService.update(user);
+			}
+			else if (user.getVolunteer() != null) {
+				volunteerService.delete(volunteerService.findOne(user.getVolunteer().getId()));
+				user.setVolunteer(null);
+				userService.update(user);
+			}
+		}
+	}
+	
+	private void deleteDonations(Event event) {
+		List<Donation> donations = event.getDonations();
+		
+		for (Donation donation : donations) {
+			donationService.delete(donationService.findOne(donation.getId()));
+		}
+	}
+	
+	private void deleteUsersNotRecontactable(Association association) {
+		List<User> users = association.getUsers();
+		
+		
+		for (User user : new ArrayList<User>(users)) {
+			if (!user.isRecontactable()) {
+				userService.delete(userService.findOne(user.getId()));
+				users.remove(user);
+			}
+		}
 	}
 	
 	@GetMapping("event")
@@ -630,6 +690,31 @@ public class EventController {
 		
 		mv.addObject(ATT_EVENT_VISITED_MSG, "Désinscription enregistrée.");
 				
+		return mv;
+	}
+	
+	@PostMapping("getActivityToFinance")
+	public @ResponseBody String getActivityToFinance(@RequestParam("id") String id) {
+		Activity activity = activityService.findOne(Long.parseLong("id"));
+		
+		String informations = activity.getId()  + "%-%" + activity.getName()  + "%-%" + (activity.getNecessaryFunding() - activity.getAllocatedFunding());
+		
+		return informations;
+	}
+	
+	@PostMapping("createFinanceActivity")
+	public ModelAndView createFinance(@RequestParam("activityId") String activityId, @RequestParam("funding") int funding, HttpServletRequest req, Model model) {
+		HttpSession session = req.getSession();
+		Association associationEventVisited = (Association) session.getAttribute(ATT_SESSION_ASSOCIATION_EVENT_VISITED);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect: event?id=" + associationEventVisited.getId());
+		
+		Activity activity = activityService.findOne(Long.parseLong(activityId));
+		activity.setAllocatedFunding(activity.getAllocatedFunding() + funding);
+		activityService.update(activity);
+		
+		mv.addObject(ATT_EVENT_VISITED_MSG, "Financement enregistré. Merci pour votre soutien");
 		return mv;
 	}
 	

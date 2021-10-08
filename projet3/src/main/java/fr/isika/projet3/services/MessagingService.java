@@ -41,8 +41,7 @@ public class MessagingService implements IMessagingService {
 
 	@Override
 	public Messaging update(Messaging entity) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.update(entity);
 	}
 
 	@Override
@@ -53,14 +52,12 @@ public class MessagingService implements IMessagingService {
 
 	@Override
 	public void delete(Messaging entity) {
-		// TODO Auto-generated method stub
-		
+		dao.delete(entity);
 	}
 
 	@Override
 	public void deleteById(long entityId) {
-		// TODO Auto-generated method stub
-		
+		dao.deleteById(entityId);
 	}
 
 	@Override

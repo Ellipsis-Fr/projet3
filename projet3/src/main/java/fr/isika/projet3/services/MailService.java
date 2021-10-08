@@ -80,8 +80,7 @@ public class MailService implements IMailService {
 
 	@Override
 	public Mail update(Mail entity) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.update(entity);
 	}
 
 	@Override
@@ -97,8 +96,7 @@ public class MailService implements IMailService {
 
 	@Override
 	public void deleteById(long entityId) {
-		// TODO Auto-generated method stub
-		
+		dao.deleteById(entityId);
 	}
 
 	@Override

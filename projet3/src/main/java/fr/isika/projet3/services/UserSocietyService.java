@@ -29,8 +29,7 @@ public class UserSocietyService implements IUserSocietyService {
 
 	@Override
 	public UserSociety findOne(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findOne(id);
 	}
 
 	@Override
@@ -81,14 +80,12 @@ public class UserSocietyService implements IUserSocietyService {
 
 	@Override
 	public void delete(UserSociety entity) {
-		// TODO Auto-generated method stub
-		
+		dao.delete(entity);
 	}
 
 	@Override
 	public void deleteById(long entityId) {
-		// TODO Auto-generated method stub
-		
+		dao.deleteById(entityId);
 	}
 
 	

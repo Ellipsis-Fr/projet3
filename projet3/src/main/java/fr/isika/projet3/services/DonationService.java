@@ -26,7 +26,7 @@ public class DonationService implements IDonationService {
 	
 	@Override
 	public Donation findOne(long id) {	
-		return null;
+		return dao.findOne(id);
 	}
 
 	@Override
@@ -62,20 +62,17 @@ public class DonationService implements IDonationService {
 
 	@Override
 	public Donation update(Donation entity) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.update(entity);
 	}
 
 	@Override
 	public void delete(Donation entity) {
-		// TODO Auto-generated method stub
-		
+		dao.delete(entity);
 	}
 
 	@Override
 	public void deleteById(long entityId) {
-		// TODO Auto-generated method stub
-		
+		dao.deleteById(entityId);
 	}
 
 }
